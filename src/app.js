@@ -15,4 +15,11 @@ app.use(express.urlencoded({extended: true,limit: '16kb'}))//for the url as when
 app.use(express.static("public"))//name of the folder that will be used to store some data like pdf files photos or jpeg
 app.use(cookieParser())//can add secure cookies only in the server and only read secure cookies
 
+
+//routes import
+import userRouter from './routes/user.routes.js'
+
+//routes declaration 
+app.use('/api/v1/users', userRouter)//this '/users' is url like https:localhost:3000/api/v1/users/register and call went to register after users
+
 export {app}
