@@ -1,11 +1,12 @@
 import { Router } from 'express';
 import { loginUser, logoutUser, registerUser } from '../controllers/user.controller.js';
-import { upload } from '../middlewares/multer.middlewares.js';
+import { upload } from '../middlewares/multer.middleware.js';
+import {verifyJWT} from '../middlewares/auth.middleware.js'
 
-const router = Router();
+const router = Router()
 
 router.route('/register').post(
-    upload.single('cover_image'), //now can send image
+    upload.single('coverImage'), //now can send image
     registerUser
 );
 

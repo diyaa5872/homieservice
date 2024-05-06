@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
-import jwt from 'jsonwenytoken'
-import bcrypt from 'bcrtpt'
+import jwt from 'jsonwebtoken'
+import bcrypt from 'bcrypt'
 
 const addressSchema = new mongoose.Schema({
     street: {
@@ -21,7 +21,7 @@ const addressSchema = new mongoose.Schema({
     }
 });
 
-const userSchema=new Schema({
+const userSchema=new mongoose.Schema({
     username: {
         type: String,
         required: true,
@@ -29,6 +29,12 @@ const userSchema=new Schema({
         lowercase: true,
         trim: true,
         index: true//will be easy to locate any user
+    },
+    fullName: {
+        type: String,
+        required: true,
+        trim:  true,
+        index:  true
     },
     email: {
         type: String,
@@ -41,7 +47,7 @@ const userSchema=new Schema({
         type: String,
         required: [true,"passowrd is required"]
     },
-    cover_image: {
+    coverImage: {
         type: String, //cloudinary url
     },
     address_user: [addressSchema],
@@ -58,40 +64,42 @@ const userSchema=new Schema({
     }
 },{timestamps: true})
 
-userSchema.pre('save',async function(next){//here ,next means that after all the above happened then next runs and other thing is,make it like when we are sending password then only save it otherwise not when we are changing some other thing in schema
-    if(!this.isModified('password')) return next();
+userSchema.pre("save", async function (next) {
+    if(!this.isModified("password")) return next();
 
-    this.password=await bcrypt.hash(this.password,10)
+    this.password = await bcrypt.hash(this.password, 10)
     next()
 })
 
-userSchema.methods.isPasswordCorrect=async function(password){
-    return await bcrypt.compare(password,this.password)
+userSchema.methods.isPasswordCorrect = async function(password){
+    return await bcrypt.compare(password, this.password)
 }
 
-userSchema.methods.generateRefreshToken=function(){
-    return jwt.sign({
-        _id: this._id,
-        email: this.email,
-        username:this.username
-    },
-    process.env.ACCESS_TOKEN_SECRET,
-    {
-        expiresIn: process.env.ACCESS_TOKEN_EXPIRY
-    }
-)
+userSchema.methods.generateAccessToken = function(){
+    return jwt.sign(
+        {
+            _id: this._id,
+            email: this.email,
+            username: this.username,
+            fullName: this.fullName
+        },
+        process.env.ACCESS_TOKEN_SECRET,
+        {
+            expiresIn: process.env.ACCESS_TOKEN_EXPIRY
+        }
+    )
 }
-userSchema.methods.generateAccessToken=function(){
-    return jwt.sign({
-        _id: this._id,
-        email: this.email,
-        username:this.username
-    },
-    process.env.ACCESS_TOKEN_SECRET,
-    {
-        expiresIn: process.env.ACCESS_TOKEN_EXPIRY
-    }
-)
+userSchema.methods.generateRefreshToken = function(){
+    return jwt.sign(
+        {
+            _id: this._id,
+            
+        },
+        process.env.REFRESH_TOKEN_SECRET,
+        {
+            expiresIn: process.env.REFRESH_TOKEN_EXPIRY
+        }
+    )
 }
 
-export const User=mongoose.model("User",userSchema)
+export const User = mongoose.model("User", userSchema)
