@@ -7,7 +7,7 @@ const otpSchema=new Schema({
         required:  true
     },
     otp_code: {
-        type: String,
+        type: Number,
         required: true
     },
     is_Verified: {
