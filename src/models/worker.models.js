@@ -1,4 +1,6 @@
 import mongoose from 'mongoose'
+import jwt from 'jsonwebtoken'
+import bcrypt from 'bcrypt'
 
 const addressSchema = new mongoose.Schema({
     street: {
@@ -8,8 +10,8 @@ const addressSchema = new mongoose.Schema({
         type: String, required: true 
     },
     state: 
-    { type: String, required: true 
-
+    { 
+        type: String, required: true 
     },
     country: {
          type: String, required: true 
@@ -19,14 +21,20 @@ const addressSchema = new mongoose.Schema({
     }
 });
 
-const workerSchema=new Schema({
-    worker_name: {
+const workerSchema=new mongoose.Schema({
+    username: {
         type: String,
         required: true,
         unique: true,
         lowercase: true,
         trim: true,
         index: true//will be easy to locate any user
+    },
+    fullName:{
+        type: String,
+        required: true,
+        trim:  true,
+        index:  true
     },
     email: {
         type: String,
@@ -35,26 +43,31 @@ const workerSchema=new Schema({
         lowercase: true,
         trim: true
     },
-    cover_image: {
+    password: {
+        type: String,
+        required: [true,"password is required"]
+    },
+    coverImage: {
         type: String, //cloudinary url
     },
     occupation: {
-
+        type: [String],
+        enum: ['plumber', 'carpenter', 'home maker', 'contractor','painter','wall putty'],
     },
-    address_user: [addressSchema],
+    address_worker: [addressSchema],
     age: {
         type: Number
     },
-    experience_years: {
+    experienceYears: {
         type: Number,
         required: true,
         default: 0
     },
-    shop_pictures: {
-        type: String,
+    shopPictures: {
+        type: [String]
         // required: true
     },
-    home_visit_fee: {
+    homeVisitFee: {
         type: Number,
         required: true,
         default: 0
@@ -64,16 +77,57 @@ const workerSchema=new Schema({
         ref:  "Otp"
     },
     contact_no: {
-        type: String,
+        type: [String],
         required: true
     },
     description: {
         type: String
     },
-    user_id: {
+    user_id: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Worker"
+        ref: "User"
+    }],
+    refreshToken: {
+        type: String
     }
 },{timestamps: true})
 
-export const User=mongoose.model("User",userSchema)
+workerSchema.pre("save", async function (next) {
+    if(!this.isModified("password")) return next();
+
+    this.password = await bcrypt.hash(this.password, 10)
+    next()
+})
+
+workerSchema.methods.isPasswordCorrect = async function(password){
+    return await bcrypt.compare(password, this.password)
+}
+
+workerSchema.methods.generateAccessToken = function(){
+    return jwt.sign(
+        {
+            _id: this._id,
+            email: this.email,
+            username: this.username,
+            fullName: this.fullName
+        },
+        process.env.ACCESS_TOKEN_SECRET,
+        {
+            expiresIn: process.env.ACCESS_TOKEN_EXPIRY
+        }
+    )
+}
+workerSchema.methods.generateRefreshToken = function(){
+    return jwt.sign(
+        {
+            _id: this._id,
+
+        },
+        process.env.REFRESH_TOKEN_SECRET,
+        {
+            expiresIn: process.env.REFRESH_TOKEN_EXPIRY
+        }
+    )
+}
+
+export const Worker=mongoose.model("Worker",workerSchema)

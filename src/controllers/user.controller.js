@@ -57,10 +57,9 @@ const registerUser = asyncHandler( async (req, res) => {
         coverImageLocalPath = req.files.coverImage[0].path
     }
     
+    const coverImage= await uploadOnCloudinary(coverImageLocalPath)//issue
 
     
-    const coverImage = await uploadOnCloudinary(coverImageLocalPath)
-   
 
     const user = await User.create({
         fullName,
@@ -226,7 +225,7 @@ const refreshAccessToken= asyncHandler(async (req,res)=>{
     }}
 )
 
-const changeCurrentPassowrd = asyncHandler(async(req,res)=>{
+const changeCurrentPassword = asyncHandler(async(req,res)=>{
     const {oldPassword,newPassword} =req.body
     
     const user=await User.findById(req.user?._id)
@@ -254,9 +253,9 @@ const getCurrentUser=asyncHandler(async(req,res)=>{
 })
 
 const updateAccountDetails=asyncHandler(async(req,res)=>{//this is for the updation of text based data
-    const {fullName,email,address_user}= req.body
+    const {fullName,email}= req.body
 
-    if(!fullName || !email || !address_user){
+    if(!fullName || !email){
         throw new ApiError(400,"All fields are required")
     }
 
@@ -340,5 +339,6 @@ export {
     getCurrentUser,
     updateAccountDetails,
     addAddress,
-    updateUserCoverImage
+    updateUserCoverImage,
+    changeCurrentPassword
 }
