@@ -21,17 +21,12 @@ router.route('/getCurrentUser').post(
 router.route('/updateAccountDetails').post(
     updateAccountDetails
 )
-router.route('/changeCurrentPassword').post(
-    changeCurrentPassword
-)
-router.route('/addAddress').post(
-    addAddress
-)
-router.route('/updateUserCoverImage').post(
-    upload.single('coverImage'),
-    updateUserCoverImage
-)
 
+router.route("/change-password").post(verifyJWT, changeCurrentPassword)
+
+router.route("/current-user").get(verifyJWT, getCurrentUser)
+
+router.route("/update-account").patch(verifyJWT, updateAccountDetails)
 
 //secured routes
 router.route('/logout').post(verifyJWT , logoutUser)
