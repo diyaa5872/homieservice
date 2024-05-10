@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 
-const reviewSchema=new Schema({
+const reviewSchema=mongoose.Schema({
     worker_id:  {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'worker',
@@ -17,7 +17,7 @@ const reviewSchema=new Schema({
     },
     client_feedback: {
         type: String
-    }   
+    }
 })
 
 export const Review=mongoose.model("Review",reviewSchema);
