@@ -1,18 +1,18 @@
 import mongoose from 'mongoose'
 
 const reviewSchema=mongoose.Schema({
-    worker_id:  {
+    workerId:  {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'worker',
+        ref: 'Worker',
         required: true
     },
-    client_id:{
+    userId:{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'user',
+        ref: 'User',
         required: true
     },
     rating: {
-        type: Number,
+        type: String,
         required: true
     },
     client_feedback: {

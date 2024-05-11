@@ -1,21 +1,19 @@
-import mongoose from 'mongoose'
+import mongoose from 'mongoose';
 
-const otpSchema=new Schema({
-    user_Id: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
-        required:  true
-    },
-    otp_code: {
-        type: Number,
+const otpSchema = new mongoose.Schema({
+    email: {
+        type: String,
         required: true
     },
-    is_Verified: {
+    otp: { // Changed field name to match the controller
+        type: Number
+    },
+    isVerified: { // Changed field name to follow camelCase convention
         type: Boolean,
         default: false
     },
     createdAt: { type: Date, default: Date.now },
     expiresAt: { type: Date, default: () => new Date(+new Date() + 5 * 60 * 1000) } 
-})
+});
 
-export const Otp=mongoose.model("Otp",otpSchema)
+export const Otp = mongoose.model("Otp", otpSchema);
