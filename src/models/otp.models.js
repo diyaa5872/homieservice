@@ -1,14 +1,16 @@
 import mongoose from 'mongoose';
 
-const otpSchema = new mongoose.Schema({
-    email: {
-        type: String,
+const otpSchema=new Schema({
+    user_Id: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required:  true
+    },
+    otp_code: {
+        type: Number,
         required: true
     },
-    otp: { // Changed field name to match the controller
-        type: Number
-    },
-    isVerified: { // Changed field name to follow camelCase convention
+    is_Verified: {
         type: Boolean,
         default: false
     },
