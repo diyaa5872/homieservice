@@ -41,7 +41,7 @@ const userOtp = asyncHandler(async (req, res) => {
                     from: process.env.EMAIL,
                     to: email,
                     subject: "Sending email for otp validation",
-                    text: `This is the required OTP:- ${OTP}, if not required then please ignore`
+                    text: `To complete your registration process, please use the following OTP (One-Time Password):- ${OTP}. If you didn't request this OTP,please ignore`
                 };
 
                 transporter.sendMail(mailOptions, (error, info) => {
@@ -86,6 +86,45 @@ const userOtp = asyncHandler(async (req, res) => {
     }
 });
 
+const verifyOTP = asyncHandler(async (req, res) => {
+    const { email, otp } = req.body;
+    console.log(email);
+    console.log(otp);
+
+    if (!email) {
+        throw new ApiError(400, "This user does not exist in our database");
+    }
+    if (!otp) {
+        throw new ApiError(400, "Please enter OTP for further processing");
+    }
+
+    try {
+        const otpRecord = await Otp.findOne({ email: email });
+        if (!otpRecord) {
+            throw new ApiError(400, "No OTP is sent to this email");
+        }
+
+        if (otpRecord.otp !== parseInt(otp)) {
+            throw new ApiError(400, "Invalid OTP");
+        }
+
+        // Update is_Verified to true
+        otpRecord.isVerified = true;
+        await otpRecord.save();
+
+        // Additional code can be added here if needed
+
+        res.status(200).json({ message: "OTP verified successfully" });
+    } catch (error) {
+        console.error("Error:", error);
+        res.status(400).json({ error: "Invalid details", message: error.message || "An unexpected error occurred" });
+    }
+});
+
+
+
+
 export {
-    userOtp
+    userOtp,
+    verifyOTP
 };

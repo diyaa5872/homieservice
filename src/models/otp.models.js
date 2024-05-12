@@ -1,16 +1,15 @@
 import mongoose from 'mongoose';
 
-const otpSchema=new Schema({
-    user_Id: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
-        required:  true
+const otpSchema=new mongoose.Schema({
+    email: {
+        type: String,
+        required: true
     },
-    otp_code: {
+    otp: {
         type: Number,
         required: true
     },
-    is_Verified: {
+    isVerified: {
         type: Boolean,
         default: false
     },
