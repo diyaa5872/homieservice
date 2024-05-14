@@ -56,7 +56,8 @@ const workerSchema=new mongoose.Schema({
     },
     address_worker: [addressSchema],
     age: {
-        type: Number
+        type: Number,
+        default: 0
     },
     experienceYears: {
         type: Number,
