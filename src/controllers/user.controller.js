@@ -288,7 +288,7 @@ const addAddress = asyncHandler(async (req, res) => {
     }
 
     const user = await User.findByIdAndUpdate(
-        req.user._id,
+        req.user?._id,
         {
             $push: {
                 address_user: {
