@@ -1,12 +1,18 @@
 import React from 'react';
+import "./App.css";
 import Login from './components/Login';
 import Frontpage from './components/Frontpage';
-import Register from './components/Register';
+import SignUp from "./components/Register"
+import SignUpWorker from './components/Registerworker';
+import Navbar from "./components/Navbar"
+import Sidebar from "./components/Sidebar"
+import Mainuser from './components/Mainuser';
+import UserCard from './components/Card';
 
 function App(){
   return (
-    <div className='w-full h-screen bg-zinc-800 text-white'>
-      <Register />
+    <div>
+      <UserCard />
     </div>
   )
 }

@@ -1,8 +1,7 @@
-
 import React, { useState, useEffect } from 'react';
 import "../stylesheets/Frontpage.css"
 
-const Showcase = () => {
+const Frontpage = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const handleToggle = () => {
@@ -160,4 +159,4 @@ const Showcase = () => {
   );
 };
 
-export default Showcase;
+export default Frontpage;

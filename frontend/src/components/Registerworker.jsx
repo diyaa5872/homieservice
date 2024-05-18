@@ -11,13 +11,17 @@ import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
+import MenuItem from '@mui/material/MenuItem';
+import Select from '@mui/material/Select';
+import InputLabel from '@mui/material/InputLabel';
+import FormControl from '@mui/material/FormControl';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 function Copyright(props) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
       {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">  
+      <Link color="inherit" href="https://mui.com/">
         Your Website
       </Link>{' '}
       {new Date().getFullYear()}
@@ -26,18 +30,17 @@ function Copyright(props) {
   );
 }
 
-// TODO remove, this demo shouldn't need to reset the theme.
-
 const defaultTheme = createTheme();
 
-export default function SignUp() {
+export default function SignUpWorker() {
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     console.log({
-      fullName:data.get('fullName'),
+    fullname: data.get('fullName'),
       email: data.get('email'),
       password: data.get('password'),
+      profession: data.get('profession'),
     });
   };
 
@@ -92,6 +95,23 @@ export default function SignUp() {
                   id="password"
                   autoComplete="new-password"
                 />
+              </Grid>
+              <Grid item xs={12}>
+                <FormControl fullWidth required>
+                  <InputLabel id="profession-label">Select your profession</InputLabel>
+                  <Select
+                    labelId="profession-label"
+                    id="profession"
+                    name="profession"
+                    label="Select your profession"
+                    defaultValue=""
+                  >
+                    <MenuItem value="Plumber">Plumber</MenuItem>
+                    <MenuItem value="Electrician">Electrician</MenuItem>
+                    <MenuItem value="Contractor">Contractor</MenuItem>
+                    <MenuItem value="Painter">Painter</MenuItem>
+                  </Select>
+                </FormControl>
               </Grid>
               <Grid item xs={12}>
                 <FormControlLabel
