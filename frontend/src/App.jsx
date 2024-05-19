@@ -11,6 +11,10 @@ import Perperson from './components/Perperson';
 import UserCard from './components/Card';
 import Plumberpages from './components/Plumberpages';
 import MediaCover from './components/Image';
+import Bookingcomponents from './components/Bookingcomponents';
+import Updatepage from './components/Profilepage';
+import Account from './components/Accountdetails';
+import Updatedetails from './components/Updatedetails';
 
 function App(){
   return (
