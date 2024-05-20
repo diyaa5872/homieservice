@@ -14,19 +14,17 @@ import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import Stack from '@mui/material/Stack';
 import { purple } from '@mui/material/colors';
-import Button from '@mui/joy/Button';
+import Button from '@mui/material/Button';
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
 import { styled } from '@mui/material/styles';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
-import ButtonBase from '@mui/material/ButtonBase';
-import Fab from '@mui/material/Fab';
-import AddIcon from '@mui/icons-material/Add';
-import EditIcon from '@mui/icons-material/Edit';
-import UpIcon from '@mui/icons-material/KeyboardArrowUp';
 import { green } from '@mui/material/colors';
 import Box from '@mui/material/Box';
 import UserCard from './Card';
 import Navbar from './Navbar';
+
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -74,6 +72,19 @@ const fabGreenStyle = {
 export default function FloatingActionButtonZoom() {
   const theme = useTheme();
   const [value, setValue] = React.useState(0);
+  const [open, setOpen] = React.useState(false);
+
+  const handleClick = () => {
+    setOpen(true);
+  };
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpen(false);
+  };
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -187,7 +198,20 @@ export default function FloatingActionButtonZoom() {
       alignItems="center" // centers the Stack content vertically
        // optional, to take full viewport height
     >
-      <ColorButton variant="contained">Book Now</ColorButton>
+      <div>
+      <Button onClick={handleClick}>Send Booking Request</Button>
+      <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+        <Alert
+          onClose={handleClose}
+          severity="success"
+          variant="filled"
+          sx={{ width: '100%' }}
+        >
+          successfully sent a request to the Worker !
+        </Alert>
+      </Snackbar>
+    </div>
+
     </Stack>
     </div>
   );

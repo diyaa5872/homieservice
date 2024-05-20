@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import "../stylesheets/Frontpage.css"
-import Navbar from './Navbar';
 import BasicModalDialog from './BasicModalDialog';
 import BaseModalDialog from './BaseModalDialog';
 
@@ -22,7 +21,6 @@ const Frontpage = () => {
 
   return (
     <div>
-      <Navbar />
       <section className="home">
         <div className="description">
           <h1 className="title">

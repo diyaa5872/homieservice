@@ -6,8 +6,15 @@ import Card from '@mui/joy/Card';
 import CardContent from '@mui/joy/CardContent';
 import Typography from '@mui/joy/Typography';
 import Sheet from '@mui/joy/Sheet';
+import { useNavigate } from 'react-router-dom';
 
 export default function UserCard() {
+  const navigate = useNavigate();
+
+  const handleRequestClick = () => {
+    navigate('/request');
+  };
+
   return (
     <Box
       sx={{
@@ -111,7 +118,7 @@ export default function UserCard() {
             <Button variant="outlined" color="neutral">
               Chat
             </Button>
-            <Button variant="solid" color="primary">
+            <Button variant="solid" color="primary" onClick={handleRequestClick}>
               Request
             </Button>
           </Box>

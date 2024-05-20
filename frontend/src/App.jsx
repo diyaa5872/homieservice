@@ -1,4 +1,5 @@
 import React from 'react';
+import {Routes,Route} from 'react-router-dom'
 import "./App.css";
 import Login from './components/Login';
 import Frontpage from './components/Frontpage';
@@ -29,11 +30,31 @@ import Workerdetailsupdate from './components/Workerdetailsupdate';
 import Accountdetails from './components/Accountdetails';
 import MediaCard from './components/PumberCard';
 import BaseModalDialog from './components/BaseModalDialog';
+import Unavailablepage from './components/Unavailablepage'
+import Sidebarworker from './components/Sidebarworker';
 
 function App(){
   return (
     <div>
-      <BaseModalDialog />
+      <Routes>
+        {/* user routes */}
+        <Route path='/' element={<Frontpage />} />
+        <Route  path='/mainpage' element={<Mainuser />} />
+        <Route path='/categories/:profession' element={<Plumberpages />} />
+        <Route path='/request' element={<Perperson />} />
+        <Route path='/requesting' element={<Jobdetail />} />
+        <Route path='/unavailable' element={<Unavailablepage />} />
+        <Route path='/profileuser' element={<Account />} />
+        <Route path='/updateuserprofile' element={<Updatepage />} />
+
+        {/* worker routes */}
+        <Route path='/otpworker' element={<Otp />} />
+        <Route path='/otherdetails' element={<Otherdetailsworker />} />
+        <Route path='/mainworkerpage' element={<Workerrequested />} />
+        <Route path='/viewingrequest' element={<Jobdetail />} />
+        <Route path='/workerprofile' element={<Profileworker />} />
+        <Route path='/updateworkerprofile' element={<Workerdetailsupdate />} />
+      </Routes>
     </div>
   )
 }

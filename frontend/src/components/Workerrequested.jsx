@@ -13,8 +13,9 @@ import EditIcon from '@mui/icons-material/Edit';
 import UpIcon from '@mui/icons-material/KeyboardArrowUp';
 import { green } from '@mui/material/colors';
 import Box from '@mui/material/Box';
-import Navbar from './Navbar';
+import Navbarworker from './Navbarworker';
 import WorkerCard from './UserCard'
+import {useNavigate} from 'react-router-dom'
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -80,7 +81,7 @@ export default function FloatingActionButtonZoom() {
 
   return (
     <div>
-        <Navbar />
+        <Navbarworker />
     <Box
       sx={{
         bgcolor: 'background.paper',

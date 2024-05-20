@@ -16,9 +16,9 @@ import EditIcon from '@mui/icons-material/Edit';
 import InputAdornment from '@mui/material/InputAdornment';
 import FormControl from '@mui/material/FormControl';
 import TextField from '@mui/material/TextField';
-
 import { green } from '@mui/material/colors';
 import Box from '@mui/material/Box';
+import {useNavigate} from 'react-router-dom'
 
 const bull = (
     <Box
@@ -134,8 +134,14 @@ const fabGreenStyle = {
 };
 
 export default function Accountdetails() {
+  
   const theme = useTheme();
   const [value, setValue] = React.useState(0);
+  const navigate=useNavigate();
+
+  const handleEditDetails = () => {
+    navigate('/updateuserprofile');
+  };
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -244,7 +250,7 @@ export default function Accountdetails() {
         />
       </div>
       <div>
-        <button>Edit Details</button>
+        <button onClick={handleEditDetails}>Edit Details</button>
       </div>
     </Box>
         </TabPanel>

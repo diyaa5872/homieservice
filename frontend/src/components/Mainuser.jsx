@@ -11,6 +11,8 @@ import CardContent from '@mui/joy/CardContent';
 import Typography from '@mui/joy/Typography';
 import FormControl from '@mui/joy/FormControl';
 import Autocomplete, { createFilterOptions } from '@mui/joy/Autocomplete';
+import {useNavigate}  from  'react-router-dom';
+import {useParams} from 'react-router-dom';
 
 const professions = [
     { title: 'Plumber', src:'https://i.pinimg.com/236x/6b/d4/b0/6bd4b0add6ef695e958f156a2601749f.jpg' },
@@ -37,6 +39,14 @@ const filterOptions = createFilterOptions({
 });
 
 const Mainuser = () => {
+    const { profession }=useParams();
+    const navigate=useNavigate();
+
+    const handleCardClick = (route) => {
+        // Navigate to the desired route when the card is clicked
+        navigate(route);
+      };
+
     return (
         <div>
             <Navbar />
@@ -74,7 +84,7 @@ const Mainuser = () => {
                 <Grid container spacing={2}>
                     {professions.map((profession, index) => (
                         <Grid item xs={12} sm={6} md={4} key={index}>
-                            <Card sx={{ minHeight: '300px', width: '100%' }}>
+                            <Card sx={{ minHeight: '300px', width: '100%',cursor: 'pointer' }} onClick={() => handleCardClick(`/categories/${profession.title.toLowerCase()}`)}>
                                 <CardCover>
                                     <img
                                         src={profession.src}
@@ -110,30 +120,3 @@ const Mainuser = () => {
 export default Mainuser;
 
 
-//  <Card sx={{ minHeight: '250px', width: '100%' }}>
-// <CardCover>
-//   <img
-//     src="https://th.bing.com/th/id/OIP.ZUrZyE7KaA23hrc5ZVsSpwHaE8?w=291&h=195&c=7&r=0&o=5&pid=1.7"
-//     srcSet="https://th.bing.com/th/id/OIP.ZUrZyE7KaA23hrc5ZVsSpwHaE8?w=291&h=195&c=7&r=0&o=5&pid=1.7"
-//     loading="lazy"
-//     alt=""
-//   />
-// </CardCover>
-// <CardCover
-//   sx={{
-//     background:
-//       'linear-gradient(to top, rgba(0,0,0,0.4), rgba(0,0,0,0) 200px), linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0) 300px)',
-//   }}
-// />
-// <CardContent sx={{ justifyContent: 'flex-end' }}>
-//   <Typography level="title-lg" textColor="#fff">
-//     Plumber
-//   </Typography>
-//   <Typography
-//     startDecorator={<LocationOnRoundedIcon />}
-//     textColor="neutral.300"
-//   >
-//     Our experienced people
-//   </Typography>
-// </CardContent>
-// </Card> 

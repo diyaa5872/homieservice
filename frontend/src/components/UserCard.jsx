@@ -8,6 +8,7 @@ import Card from '@mui/joy/Card';
 import CardContent from '@mui/joy/CardContent';
 import Typography from '@mui/joy/Typography';
 import Sheet from '@mui/joy/Sheet';
+import {useNavigate} from 'react-router-dom';
 
 function stringToColor(string) {
     let hash = 0;
@@ -39,6 +40,12 @@ function stringToColor(string) {
   }
 
 export default function UserCard() {
+  const navigate=useNavigate();
+
+  const viewHandler=()=>{
+    navigate('/viewingrequest')
+  }
+
   return (
     <Box
       sx={{
@@ -124,7 +131,7 @@ export default function UserCard() {
             </div>
           </Sheet>
           <Box sx={{ display: 'flex', gap: 1.5, '& > button': { flex: 1 } }}>
-            <Button variant="solid" color="primary">
+            <Button variant="solid" color="primary" onClick={viewHandler}>
               View Order
             </Button>
           </Box>

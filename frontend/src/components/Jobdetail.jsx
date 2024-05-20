@@ -10,7 +10,7 @@ import Typography from '@mui/material/Typography';
 import JobCard from './CardForJobDetail';  // Update this import to match your file structure
 import Alert from '@mui/material/Alert';
 import Button from '@mui/material/Button';
-import Navbar from './Navbar';
+import Navbarworker from './Navbarworker';
 
 const initialSteps = [
   {
@@ -56,7 +56,7 @@ export default function VerticalLinearStepper() {
 
   return (
     <>
-    <Navbar />
+    <Navbarworker />
       <JobCard 
         onAcceptJob={handleAcceptJob} 
         onGoToJob={handleGoToJob} 

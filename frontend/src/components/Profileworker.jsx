@@ -16,6 +16,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import InputAdornment from '@mui/material/InputAdornment';
 import FormControl from '@mui/material/FormControl';
 import TextField from '@mui/material/TextField';
+import {useNavigate} from 'react-router-dom';
 
 import { green } from '@mui/material/colors';
 import Box from '@mui/material/Box';
@@ -136,6 +137,11 @@ const fabGreenStyle = {
 export default function Accountworker() {
   const theme = useTheme();
   const [value, setValue] = React.useState(0);
+  const navigate=useNavigate();
+
+  const editHandler=()=>{
+    navigate('/updateworkerprofile')
+  }
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -275,7 +281,7 @@ export default function Accountworker() {
         />
       </div>
       <div>
-        <button>Edit Details</button>
+        <button onClick={editHandler}>Edit Details</button>
       </div>
     </Box>
         </TabPanel>

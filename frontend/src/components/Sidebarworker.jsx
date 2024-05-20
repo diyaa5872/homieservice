@@ -19,29 +19,29 @@ import WarningRoundedIcon from '@mui/icons-material/WarningRounded';
 import Button from '@mui/joy/Button';
 import { useNavigate } from 'react-router-dom';
 
-export default function DrawerMobileNavigation() {
+export default function Sidebarworker() {
   const [openi, setOpeni] = React.useState(false);
   const [open, setOpen] = React.useState(false);
   const navigate = useNavigate();
 
   
   const handleNavigateProfile = () => {
-    navigate('/profileuser');
+    navigate('/workerprofile');
     setOpeni(false); // Close the drawer after navigating
   };
 
   const handleNavigateHome = () => {
-    navigate('/mainpage');
+    navigate('/mainworkerpage');
     setOpeni(false); // Close the drawer after navigating
   };
 
   const handleLogout = () => {
-    navigate('/');
+    navigate('/mainworkerpage');
     setOpen(false); // Close the modal after navigating
   };
 
   const handleCancel = () => {
-    navigate('/mainpage');
+    navigate('/mainworkerpage');
     setOpen(false); // Close the modal after navigating
   };
 
@@ -124,7 +124,6 @@ export default function DrawerMobileNavigation() {
             <ListItemButton onClick={handleNavigateProfile}>Your Profile</ListItemButton>
             <ListItemButton onClick={handleNavigateUnavailable}>About us</ListItemButton>
             <ListItemButton onClick={handleNavigateUnavailable}>Your Chats</ListItemButton>
-            <ListItemButton onClick={handleNavigateUnavailable}>About workers</ListItemButton>
             <ListItemButton onClick={handleNavigateUnavailable}>Mail us</ListItemButton>
             <ListItemButton onClick={() => setOpen(true)}>Logout</ListItemButton>
           </List>

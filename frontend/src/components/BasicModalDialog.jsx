@@ -10,10 +10,12 @@ import DialogContent from '@mui/joy/DialogContent';
 import Stack from '@mui/joy/Stack';
 import Add from '@mui/icons-material/Add';
 import Link from '@mui/material/Link';
+import {useNavigate} from 'react-router-dom'
 
 export default function BasicModalDialog() {
   const [open, setOpen] = React.useState(false);
   const [isLogin, setIsLogin] = React.useState(true);
+  const navigate=useNavigate();
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -26,6 +28,8 @@ export default function BasicModalDialog() {
       fullname: data.get('fullname')
     });
     setOpen(false); // Close the modal after form submission
+
+    navigate('/mainpage')
   };
 
   const handleToggle = () => {
@@ -80,3 +84,5 @@ export default function BasicModalDialog() {
     </React.Fragment>
   );
 }
+
+

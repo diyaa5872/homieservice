@@ -7,10 +7,11 @@ import StepContent from '@mui/material/StepContent';
 import Button from '@mui/material/Button';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
-import Navbar from './Navbar';
+import Navbarworker from './Navbarworker';
 import Addressworker from './Addressworker';
 import Uploadfilesworker from './Uploadfilesworker';
 import Extradetailsform from './Extradetailsform'; // Make sure to update this import path
+import {useNavigate}  from 'react-router-dom';
 
 const steps = [
   {
@@ -32,6 +33,11 @@ const steps = [
 
 export default function VerticalLinearStepper() {
   const [activeStep, setActiveStep] = React.useState(0);
+  const navigate=useNavigate();
+
+  const submitHandle=()=>{
+    navigate('/mainworkerpage');
+  }
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -47,7 +53,7 @@ export default function VerticalLinearStepper() {
 
   return (
     <>
-      <Navbar />
+      <Navbarworker />
       <Box sx={{ maxWidth: 400 }}>
         <Stepper activeStep={activeStep} orientation="vertical">
           {steps.map((step, index) => (
@@ -88,8 +94,8 @@ export default function VerticalLinearStepper() {
         {activeStep === steps.length && (
           <Paper square elevation={0} sx={{ p: 3 }}>
             <Typography>All steps completed - you&apos;re finished</Typography>
-            <Button onClick={handleReset} sx={{ mt: 1, mr: 1 }}>
-              Reset
+            <Button onClick={submitHandle} sx={{ mt: 1, mr: 1 }}>
+              Completed Registration
             </Button>
           </Paper>
         )}
