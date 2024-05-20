@@ -30,15 +30,18 @@ function Copyright(props) {
 
 const defaultTheme = createTheme();
 
-export default function SignUp() {
+export default function Extradetailsform() {
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     console.log({
-      fullName:data.get('fullName'),
-      email: data.get('email'),
-      password: data.get('password'),
+      contact:data.get('contact'),
+      experienceYears: data.get('experienceYears'),
+      age: data.get('age'),
+      homeVisitFee: data.get('homeVisitFee'),
+      description: data.get('description'),
     });
+    onNext();
   };
 
   return (
@@ -57,18 +60,19 @@ export default function SignUp() {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign up
+            Extra Details
           </Typography>
           <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <TextField
                   autoComplete="given-name"
-                  name="fullName"
+                  name="contact"
                   required
                   fullWidth
-                  id="fullName"
-                  label="Full Name"
+                  id="contact"
+                  type="Number"
+                  label="Contact Number"
                   autoFocus
                 />
               </Grid>
@@ -76,56 +80,55 @@ export default function SignUp() {
                 <TextField
                   required
                   fullWidth
-                  id="email"
-                  label="Email Address"
-                  name="email"
-                  autoComplete="email"
+                  id="experienceYears"
+                  label="No. of Years of Experience"
+                  name="experienceYears"
+                  type="Number"
+                  autoComplete="experienceYears"
                 />
               </Grid>
               <Grid item xs={12}>
                 <TextField
                   required
                   fullWidth
-                  name="username"
-                  label="username"
-                  type="username"
-                  id="username"
-                  autoComplete="username"
+                  name="age"
+                  label="Enter Your Age"
+                  type="Number"
+                  id="age"
+                  autoComplete="age"
                 />
               </Grid>
               <Grid item xs={12}>
                 <TextField
                   required
                   fullWidth
-                  name="password"
-                  label="Password"
-                  type="password"
-                  id="password"
-                  autoComplete="new-password"
+                  name="homeVisitFee"
+                  label="Enter your required fee for the home visit"
+                  type="Number"
+                  id="homeVisitFee"
+                  autoComplete="homeVisitFee"
                 />
               </Grid>
               <Grid item xs={12}>
-                <FormControlLabel
-                  control={<Checkbox value="allowExtraEmails" color="primary" />}
-                  label="I want to receive inspiration, marketing promotions and updates via email."
+                <TextField
+                  required
+                  fullWidth
+                  name="description"
+                  label="About your work"
+                  id="description"
+                  autoComplete="description"
                 />
               </Grid>
             </Grid>
             <Button
+            onSubmit={handleSubmit}
               type="submit"
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-              Sign Up
+            Next
             </Button>
-            <Grid container justifyContent="flex-end">
-              <Grid item>
-                <Link href="#" variant="body2">
-                  Already have an account? Sign in
-                </Link>
-              </Grid>
-            </Grid>
           </Box>
         </Box>
         <Copyright sx={{ mt: 5 }} />

@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import "../stylesheets/Frontpage.css"
+import Navbar from './Navbar';
+import BasicModalDialog from './BasicModalDialog';
+import BaseModalDialog from './BaseModalDialog';
 
 const Frontpage = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [loginModalOpen, setLoginModalOpen] = useState(false);
 
   const handleToggle = () => {
     setSidebarOpen(!sidebarOpen);
@@ -18,21 +22,7 @@ const Frontpage = () => {
 
   return (
     <div>
-      <section>
-      <div class="navbar-area">
-    <div class="container">
-      <nav class="site-navbar">
-        <a href="#home" class="site-logo"><img class="logo" src='https://th.bing.com/th/id/OIP.WxoLwC-UeHOJ1Cfwf8ZZ6wHaHa?w=176&h=180&c=7&r=0&o=5&pid=1.7'></img></a>
-        <button onClick={handleToggle}>
-          <img src='https://www.bing.com/th?id=OIP.egW1bdz_4GBP4IL1B5eQ0AHaHa&w=150&h=150&c=8&rs=1&qlt=90&o=6&pid=3.1&rm=2' class="menuicon" onClick={handleToggle}></img>
-        </button>
-        {/* <button class="nav-toggler">
-          <span></span>
-        </button> */}
-      </nav>
-    </div>
-  </div>
-      </section>
+      <Navbar />
       <section className="home">
         <div className="description">
           <h1 className="title">
@@ -42,16 +32,12 @@ const Frontpage = () => {
           Choose ___ for reliable, efficient, and high-quality home services. Our experienced professionals are here to provide comprehensive solutions that keep your home in top condition. We are dedicated to exceeding your expectations and delivering peace of mind.
           </p>
           <form id="form" autoComplete="off">
-            <input
-              type="email"
-              id="email-id"
-              name="email_address"
-              aria-label="email address"
-              placeholder=""
-              required
-            />
             <button type="submit" className="btn" aria-label="submit">
-              <span>Login</span>
+              <span><BasicModalDialog open={loginModalOpen} /></span>
+              <ion-icon name="arrow-forward-outline"></ion-icon>
+            </button>
+            <button type="submit" className="btn" aria-label="submit">
+              <span><BaseModalDialog open={loginModalOpen} /></span>
               <ion-icon name="arrow-forward-outline"></ion-icon>
             </button>
           </form>
@@ -131,29 +117,6 @@ const Frontpage = () => {
           </li>
         </ul>
       </section>
-
-<section>
-  <div className={sidebarOpen ? "sidebar open" : "sidebar"}>
-      <div class="sidebar">
-			<div class="sidebar-overlay"></div>
-			<div class="sidebar-content">
-				<div class="top-head">
-					<div class="name">Diya Dhankhar</div>
-					<div class="email">contact@dhankhardiya.8</div>
-				</div>
-				<div class="nav-left">
-					<a href="#home"><span class="ion-ios-home-outline"></span> Home</a>
-					<a href="#alarm"><span class="ion-ios-list-outline"></span> profile</a>
-					<a href="#compose"><span class="ion-ios-compose-outline"></span> About Us</a>
-					<a href="#chats"><span class="ion-ios-chatboxes-outline"></span> Chats</a>
-					<a href="#profile"><span class="ion-ios-person-outline"></span> </a>
-					<a href="#settings"><span class="ion-ios-gear-outline"></span> Login</a>
-					<a href="#credits"><span class="ion-ios-information-outline"></span>Register</a>
-				</div>
-			</div>
-		</div>
-    </div>
-    </section>
 
     </div>
   );

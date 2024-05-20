@@ -133,7 +133,7 @@ const fabGreenStyle = {
   },
 };
 
-export default function Accountdetails() {
+export default function Accountworker() {
   const theme = useTheme();
   const [value, setValue] = React.useState(0);
 
@@ -180,8 +180,10 @@ export default function Accountdetails() {
           aria-label="action tabs example"
         >
           <Tab label="Account info" {...a11yProps(0)} />
-          <Tab label="Security" {...a11yProps(1)} />
-          <Tab label="Privacy and Data" {...a11yProps(2)} />
+          <Tab label="SUPPORT" {...a11yProps(1)} />
+          <Tab label="About US" {...a11yProps(2)} />
+          <Tab label="Privacy pOLICY" {...a11yProps(3)} />
+          <Tab label="FAQs" {...a11yProps(4)} />
         </Tabs>
       </AppBar>
       <SwipeableViews
@@ -193,9 +195,6 @@ export default function Accountdetails() {
           <div>
             <Typography><h1></h1>Account Info</Typography>
           </div>
-          <Stack direction="row" spacing={2}>
-      <Avatar {...stringAvatar('Kent Dodds')} sx={{ width: 56, height: 56 }} />
-    </Stack>
     <Box
       component="form"
       sx={{
@@ -234,10 +233,42 @@ export default function Accountdetails() {
             readOnly: true,
           }}
         />
+      </div>
+      <div>
       <TextField
           id="filled-read-only-input"
-          label="contact number"
-          defaultValue="90506464547"
+          label="password"
+          defaultValue="1537135173"
+          InputProps={{
+            readOnly: true,
+          }}
+        />
+      </div>
+      <div>
+      <TextField
+          id="filled-read-only-input"
+          label="experienceYears"
+          defaultValue="0"
+          InputProps={{
+            readOnly: true,
+          }}
+        />
+      </div>
+      <div>
+      <TextField
+          id="filled-read-only-input"
+          label="Contact number"
+          defaultValue="xxx"
+          InputProps={{
+            readOnly: true,
+          }}
+        />
+      </div>
+      <div>
+      <TextField
+          id="filled-read-only-input"
+          label="Age"
+          defaultValue="0"
           InputProps={{
             readOnly: true,
           }}
@@ -249,28 +280,10 @@ export default function Accountdetails() {
     </Box>
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
-          <div><h1>Security</h1></div>
-          <div><h3>Logging in to HomeyService:</h3></div>
-          <div>
-          <Box component="section" sx={{ p: 2, border: '1px dashed grey' }}>
-            Passkeys:
-            <TextField
-          label="With normal TextField"
-          id="outlined-start-adornment"
-          sx={{ m: 1, width: '25ch' }}
-          InputProps={{
-            startAdornment: <InputAdornment position="start">password: </InputAdornment>,
-          }}
-        />
-            </Box>
-          </div>
+          
         </TabPanel>
         <TabPanel value={value} index={2} dir={theme.direction}>
-          <div>
-          <Box sx={{ minWidth: 275 }}>
-            <Card variant="outlined">{card}</Card>
-            </Box>
-          </div>
+    
         </TabPanel>
       </SwipeableViews>
       {/* {fabs.map((fab, index) => (

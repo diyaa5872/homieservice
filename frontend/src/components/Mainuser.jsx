@@ -1,5 +1,4 @@
-
-import Navbar from './Navbar'
+import Navbar from './Navbar';
 import * as React from 'react';
 import { Box } from '@mui/material';
 import { styled } from '@mui/joy/styles';
@@ -13,451 +12,128 @@ import Typography from '@mui/joy/Typography';
 import FormControl from '@mui/joy/FormControl';
 import Autocomplete, { createFilterOptions } from '@mui/joy/Autocomplete';
 
-// Top 100 films as rated by IMDb users. http://www.imdb.com/chart/top
 const professions = [
-    { title: 'Plumber' },
-    { title: 'Carpenter'},
-    { title: 'Painter'},
-    { title: 'Contarctor'}
-  ];
+    { title: 'Plumber', src:'https://i.pinimg.com/236x/6b/d4/b0/6bd4b0add6ef695e958f156a2601749f.jpg' },
+    { title: 'Carpenter',src:'https://i.pinimg.com/236x/dc/05/f0/dc05f08a847bf23bf58d7bccaa20b2ba.jpg' },
+    { title: 'Painter',src:'https://i.pinimg.com/236x/15/34/50/153450821fe99a39b4280b7e5528b491.jpg' },
+    { title: 'Contractor',src:'https://i.pinimg.com/236x/2f/56/0e/2f560e502cfde55734f4dc8465ea376b.jpg' },
+    {title: 'Electrician',src:'https://i.pinimg.com/236x/7b/19/e6/7b19e6c0b293a5e99d7d4f7bf7516250.jpg'},
+    {title:'Home helper',src:'https://i.pinimg.com/236x/d5/83/53/d583531dbe3383834e3d0e9e23653adc.jpg'},
+    {title: 'labours',src:'https://i.pinimg.com/236x/bc/f3/46/bcf346bd20854f1e65c45d8cdd461b56.jpg'}
+];
 
 const Item = styled(Sheet)(({ theme }) => ({
-    backgroundColor:
-      theme.palette.mode === 'dark' ? theme.palette.background.level1 : '#fff',
+    backgroundColor: theme.palette.mode === 'dark' ? theme.palette.background.level1 : '#fff',
     ...theme.typography['body-sm'],
     padding: theme.spacing(1),
     textAlign: 'center',
     borderRadius: 4,
     color: theme.vars.palette.text.secondary,
-  }));
+}));
 
 const filterOptions = createFilterOptions({
     matchFrom: 'start',
     stringify: (option) => option.title,
-  });
+});
 
 const Mainuser = () => {
-  return (
-    <div>
-      <Navbar />
-      <Box sx={{
-        backgroundColor:'primary.main',
-        color: "white",
-        height: "200px",
-        width: "100%",
-        padding:"16px",
-        '&:hover':{
-            backgroundColor:"primary.light",
-        },
-      }}>
-        <h2>how can we help </h2>
-        <h1>you today?</h1>
-        <FormControl id="filter-demo">
-      <Autocomplete
-        placeholder="Search "
-        options={professions}
-        getOptionLabel={(option) => option.title}
-        filterOptions={filterOptions}
-        sx={{ width: 300 }}
-      />
-    </FormControl>
-      </Box>
-      <Grid
-      container
-      rowSpacing={5}
-      columnSpacing={{ xs: 1, sm: 2, md: 3 }}
-      sx={{ width: '100%' }}
-    >
-    <Grid xs={6} container
-      direction="row"
-      justifyContent="space-evenly"
-      alignItems="flex-start">
-     <Card sx={{ minHeight: '280px', width: 420 }}>
-      <CardCover>
-        <img
-          src="https://th.bing.com/th/id/OIP.ZUrZyE7KaA23hrc5ZVsSpwHaE8?w=291&h=195&c=7&r=0&o=5&pid=1.7"
-          srcSet="https://th.bing.com/th/id/OIP.ZUrZyE7KaA23hrc5ZVsSpwHaE8?w=291&h=195&c=7&r=0&o=5&pid=1.7"
-          loading="lazy"
-          alt=""
-        />
-      </CardCover>
-      <CardCover
-        sx={{
-          background:
-            'linear-gradient(to top, rgba(0,0,0,0.4), rgba(0,0,0,0) 200px), linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0) 300px)',
-        }}
-      />
-      <CardContent sx={{ justifyContent: 'flex-end' }}>
-        <Typography level="title-lg" textColor="#fff">
-          Plumber
-        </Typography>
-        <Typography
-          startDecorator={<LocationOnRoundedIcon />}
-          textColor="neutral.300"
-        >
-          Our experienced people
-        </Typography>
-      </CardContent>
-    </Card>
-     <Card sx={{ minHeight: '280px', width: 420 }}>
-      <CardCover>
-        <img
-          src="https://th.bing.com/th/id/OIP.ZUrZyE7KaA23hrc5ZVsSpwHaE8?w=291&h=195&c=7&r=0&o=5&pid=1.7"
-          srcSet="https://th.bing.com/th/id/OIP.ZUrZyE7KaA23hrc5ZVsSpwHaE8?w=291&h=195&c=7&r=0&o=5&pid=1.7"
-          loading="lazy"
-          alt=""
-        />
-      </CardCover>
-      <CardCover
-        sx={{
-          background:
-            'linear-gradient(to top, rgba(0,0,0,0.4), rgba(0,0,0,0) 200px), linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0) 300px)',
-        }}
-      />
-      <CardContent sx={{ justifyContent: 'flex-end' }}>
-        <Typography level="title-lg" textColor="#fff">
-          Plumber
-        </Typography>
-        <Typography
-          startDecorator={<LocationOnRoundedIcon />}
-          textColor="neutral.300"
-        >
-          Our experienced people
-        </Typography>
-      </CardContent>
-    </Card>
-     <Card sx={{ minHeight: '280px', width: 420 }}>
-      <CardCover>
-        <img
-          src="https://th.bing.com/th/id/OIP.ZUrZyE7KaA23hrc5ZVsSpwHaE8?w=291&h=195&c=7&r=0&o=5&pid=1.7"
-          srcSet="https://th.bing.com/th/id/OIP.ZUrZyE7KaA23hrc5ZVsSpwHaE8?w=291&h=195&c=7&r=0&o=5&pid=1.7"
-          loading="lazy"
-          alt=""
-        />
-      </CardCover>
-      <CardCover
-        sx={{
-          background:
-            'linear-gradient(to top, rgba(0,0,0,0.4), rgba(0,0,0,0) 200px), linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0) 300px)',
-        }}
-      />
-      <CardContent sx={{ justifyContent: 'flex-end' }}>
-        <Typography level="title-lg" textColor="#fff">
-          Plumber
-        </Typography>
-        <Typography
-          startDecorator={<LocationOnRoundedIcon />}
-          textColor="neutral.300"
-        >
-          Our experienced people
-        </Typography>
-      </CardContent>
-    </Card>
-     <Card sx={{ minHeight: '280px', width: 420 }}>
-      <CardCover>
-        <img
-          src="https://th.bing.com/th/id/OIP.ZUrZyE7KaA23hrc5ZVsSpwHaE8?w=291&h=195&c=7&r=0&o=5&pid=1.7"
-          srcSet="https://th.bing.com/th/id/OIP.ZUrZyE7KaA23hrc5ZVsSpwHaE8?w=291&h=195&c=7&r=0&o=5&pid=1.7"
-          loading="lazy"
-          alt=""
-        />
-      </CardCover>
-      <CardCover
-        sx={{
-          background:
-            'linear-gradient(to top, rgba(0,0,0,0.4), rgba(0,0,0,0) 200px), linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0) 300px)',
-        }}
-      />
-      <CardContent sx={{ justifyContent: 'flex-end' }}>
-        <Typography level="title-lg" textColor="#fff">
-          Plumber
-        </Typography>
-        <Typography
-          startDecorator={<LocationOnRoundedIcon />}
-          textColor="neutral.300"
-        >
-          Our experienced people
-        </Typography>
-      </CardContent>
-    </Card>
-     <Card sx={{ minHeight: '280px', width: 420 }}>
-      <CardCover>
-        <img
-          src="https://th.bing.com/th/id/OIP.ZUrZyE7KaA23hrc5ZVsSpwHaE8?w=291&h=195&c=7&r=0&o=5&pid=1.7"
-          srcSet="https://th.bing.com/th/id/OIP.ZUrZyE7KaA23hrc5ZVsSpwHaE8?w=291&h=195&c=7&r=0&o=5&pid=1.7"
-          loading="lazy"
-          alt=""
-        />
-      </CardCover>
-      <CardCover
-        sx={{
-          background:
-            'linear-gradient(to top, rgba(0,0,0,0.4), rgba(0,0,0,0) 200px), linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0) 300px)',
-        }}
-      />
-      <CardContent sx={{ justifyContent: 'flex-end' }}>
-        <Typography level="title-lg" textColor="#fff">
-          Plumber
-        </Typography>
-        <Typography
-          startDecorator={<LocationOnRoundedIcon />}
-          textColor="neutral.300"
-        >
-          Our experienced people
-        </Typography>
-      </CardContent>
-    </Card>
-     <Card sx={{ minHeight: '280px', width: 420 }}>
-      <CardCover>
-        <img
-          src="https://th.bing.com/th/id/OIP.ZUrZyE7KaA23hrc5ZVsSpwHaE8?w=291&h=195&c=7&r=0&o=5&pid=1.7"
-          srcSet="https://th.bing.com/th/id/OIP.ZUrZyE7KaA23hrc5ZVsSpwHaE8?w=291&h=195&c=7&r=0&o=5&pid=1.7"
-          loading="lazy"
-          alt=""
-        />
-      </CardCover>
-      <CardCover
-        sx={{
-          background:
-            'linear-gradient(to top, rgba(0,0,0,0.4), rgba(0,0,0,0) 200px), linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0) 300px)',
-        }}
-      />
-      <CardContent sx={{ justifyContent: 'flex-end' }}>
-        <Typography level="title-lg" textColor="#fff">
-          Plumber
-        </Typography>
-        <Typography
-          startDecorator={<LocationOnRoundedIcon />}
-          textColor="neutral.300"
-        >
-          Our experienced people
-        </Typography>
-      </CardContent>
-    </Card>
-     <Card sx={{ minHeight: '280px', width: 420 }}>
-      <CardCover>
-        <img
-          src="https://th.bing.com/th/id/OIP.ZUrZyE7KaA23hrc5ZVsSpwHaE8?w=291&h=195&c=7&r=0&o=5&pid=1.7"
-          srcSet="https://th.bing.com/th/id/OIP.ZUrZyE7KaA23hrc5ZVsSpwHaE8?w=291&h=195&c=7&r=0&o=5&pid=1.7"
-          loading="lazy"
-          alt=""
-        />
-      </CardCover>
-      <CardCover
-        sx={{
-          background:
-            'linear-gradient(to top, rgba(0,0,0,0.4), rgba(0,0,0,0) 200px), linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0) 300px)',
-        }}
-      />
-      <CardContent sx={{ justifyContent: 'flex-end' }}>
-        <Typography level="title-lg" textColor="#fff">
-          Plumber
-        </Typography>
-        <Typography
-          startDecorator={<LocationOnRoundedIcon />}
-          textColor="neutral.300"
-        >
-          Our experienced people
-        </Typography>
-      </CardContent>
-    </Card>
-    </Grid>
-    {/* <Grid xs={6} container
-      direction="row"
-      justifyContent="space-evenly"
-      alignItems="flex-start">
-    <Card sx={{ minHeight: '280px', width: 320 }}>
-      <CardCover>
-        <img
-          src="https://th.bing.com/th/id/OIP.B3lPxf_fH4DTrUPCCddpTAHaE8?w=291&h=194&c=7&r=0&o=5&pid=1.7"
-          srcSet="https://th.bing.com/th/id/OIP.B3lPxf_fH4DTrUPCCddpTAHaE8?w=291&h=194&c=7&r=0&o=5&pid=1.7"
-          loading="lazy"
-          alt=""
-        />
-      </CardCover>
-      <CardCover
-        sx={{
-          background:
-            'linear-gradient(to top, rgba(0,0,0,0.4), rgba(0,0,0,0) 200px), linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0) 300px)',
-        }}
-      />
-      <CardContent sx={{ justifyContent: 'flex-end' }}>
-        <Typography level="title-lg" textColor="#fff">
-          Electrician
-        </Typography>
-        <Typography
-          startDecorator={<LocationOnRoundedIcon />}
-          textColor="neutral.300"
-        >
-          Our experienced elctricians
-        </Typography>
-      </CardContent>
-    </Card>
-    </Grid>
-    <Grid xs={6} container
-      direction="row"
-      justifyContent="space-evenly"
-      alignItems="flex-start">
-     <Card sx={{ minHeight: '280px', width: 320 }}>
-      <CardCover>
-        <img
-          src="https://th.bing.com/th/id/OIP.FAdiGOmaoK8IgV2sHcEODAHaFb?w=267&h=196&c=7&r=0&o=5&pid=1.7"
-          srcSet="https://th.bing.com/th/id/OIP.FAdiGOmaoK8IgV2sHcEODAHaFb?w=267&h=196&c=7&r=0&o=5&pid=1.7"
-          loading="lazy"
-          alt=""
-        />
-      </CardCover>
-      <CardCover
-        sx={{
-          background:
-            'linear-gradient(to top, rgba(0,0,0,0.4), rgba(0,0,0,0) 200px), linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0) 300px)',
-        }}
-      />
-      <CardContent sx={{ justifyContent: 'flex-end' }}>
-        <Typography level="title-lg" textColor="#fff">
-          Carpenter
-        </Typography>
-        <Typography
-          startDecorator={<LocationOnRoundedIcon />}
-          textColor="neutral.300"
-        >
-          Our experienced carpenters
-        </Typography>
-      </CardContent>
-    </Card>
-    </Grid>
-    <Grid xs={6} container
-      direction="row"
-      justifyContent="space-evenly"
-      alignItems="flex-start">
-         <Card sx={{ minHeight: '280px', width: 320 }}>
-      <CardCover>
-        <img
-          src="https://th.bing.com/th/id/OIP.FAdiGOmaoK8IgV2sHcEODAHaFb?w=267&h=196&c=7&r=0&o=5&pid=1.7"
-          srcSet="https://th.bing.com/th/id/OIP.FAdiGOmaoK8IgV2sHcEODAHaFb?w=267&h=196&c=7&r=0&o=5&pid=1.7"
-          loading="lazy"
-          alt=""
-        />
-      </CardCover>
-      <CardCover
-        sx={{
-          background:
-            'linear-gradient(to top, rgba(0,0,0,0.4), rgba(0,0,0,0) 200px), linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0) 300px)',
-        }}
-      />
-      <CardContent sx={{ justifyContent: 'flex-end' }}>
-        <Typography level="title-lg" textColor="#fff">
-          Carpenter
-        </Typography>
-        <Typography
-          startDecorator={<LocationOnRoundedIcon />}
-          textColor="neutral.300"
-        >
-          Our experienced carpenters
-        </Typography>
-      </CardContent>
-    </Card>
-    </Grid>
-    <Grid xs={6} container
-      direction="row"
-      justifyContent="space-evenly"
-      alignItems="flex-start">
-         <Card sx={{ minHeight: '280px', width: 320 }}>
-      <CardCover>
-        <img
-          src="https://th.bing.com/th/id/OIP.FAdiGOmaoK8IgV2sHcEODAHaFb?w=267&h=196&c=7&r=0&o=5&pid=1.7"
-          srcSet="https://th.bing.com/th/id/OIP.FAdiGOmaoK8IgV2sHcEODAHaFb?w=267&h=196&c=7&r=0&o=5&pid=1.7"
-          loading="lazy"
-          alt=""
-        />
-      </CardCover>
-      <CardCover
-        sx={{
-          background:
-            'linear-gradient(to top, rgba(0,0,0,0.4), rgba(0,0,0,0) 200px), linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0) 300px)',
-        }}
-      />
-      <CardContent sx={{ justifyContent: 'flex-end' }}>
-        <Typography level="title-lg" textColor="#fff">
-          Carpenter
-        </Typography>
-        <Typography
-          startDecorator={<LocationOnRoundedIcon />}
-          textColor="neutral.300"
-        >
-          Our experienced carpenters
-        </Typography>
-      </CardContent>
-    </Card>
-    </Grid>
-    <Grid xs={6} container
-      direction="row"
-      justifyContent="space-evenly"
-      alignItems="flex-start">
-         <Card sx={{ minHeight: '280px', width: 320 }}>
-      <CardCover>
-        <img
-          src="https://th.bing.com/th/id/OIP.FAdiGOmaoK8IgV2sHcEODAHaFb?w=267&h=196&c=7&r=0&o=5&pid=1.7"
-          srcSet="https://th.bing.com/th/id/OIP.FAdiGOmaoK8IgV2sHcEODAHaFb?w=267&h=196&c=7&r=0&o=5&pid=1.7"
-          loading="lazy"
-          alt=""
-        />
-      </CardCover>
-      <CardCover
-        sx={{
-          background:
-            'linear-gradient(to top, rgba(0,0,0,0.4), rgba(0,0,0,0) 200px), linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0) 300px)',
-        }}
-      />
-      <CardContent sx={{ justifyContent: 'flex-end' }}>
-        <Typography level="title-lg" textColor="#fff">
-          Carpenter
-        </Typography>
-        <Typography
-          startDecorator={<LocationOnRoundedIcon />}
-          textColor="neutral.300"
-        >
-          Our experienced carpenters
-        </Typography>
-      </CardContent>
-    </Card>
-    </Grid>
-    <Grid xs={6} container
-      direction="row"
-      justifyContent="space-evenly"
-      alignItems="flex-start">
-         <Card sx={{ minHeight: '280px', width: 320 }}>
-      <CardCover>
-        <img
-          src="https://th.bing.com/th/id/OIP.FAdiGOmaoK8IgV2sHcEODAHaFb?w=267&h=196&c=7&r=0&o=5&pid=1.7"
-          srcSet="https://th.bing.com/th/id/OIP.FAdiGOmaoK8IgV2sHcEODAHaFb?w=267&h=196&c=7&r=0&o=5&pid=1.7"
-          loading="lazy"
-          alt=""
-        />
-      </CardCover>
-      <CardCover
-        sx={{
-          background:
-            'linear-gradient(to top, rgba(0,0,0,0.4), rgba(0,0,0,0) 200px), linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0) 300px)',
-        }}
-      />
-      <CardContent sx={{ justifyContent: 'flex-end' }}>
-        <Typography level="title-lg" textColor="#fff">
-          Carpenter
-        </Typography>
-        <Typography
-          startDecorator={<LocationOnRoundedIcon />}
-          textColor="neutral.300"
-        >
-          Our experienced carpenters
-        </Typography>
-      </CardContent>
-    </Card>
-    </Grid> */}
-      
-    </Grid>
-    </div>
-  )
-}
+    return (
+        <div>
+            <Navbar />
+            <Box sx={{
+                backgroundColor: 'primary.main',
+                color: "white",
+                height: "200px",
+                width: "100%",
+                padding: "16px",
+                '&:hover': {
+                    backgroundColor: "primary.light",
+                },
+            }}>
+                <h2>How can we help</h2>
+                <h1>you today?</h1>
+                <FormControl id="filter-demo">
+                    <Autocomplete
+                        placeholder="Search"
+                        options={professions}
+                        getOptionLabel={(option) => option.title}
+                        filterOptions={filterOptions}
+                        sx={{ width: '30%' }}
+                    />
+                </FormControl>
+            </Box>
+            <Sheet
+                sx={{
+                    bgcolor: 'background.level1',
+                    borderRadius: 'sm',
+                    p: 1.5,
+                    width: '100%',
+                    my: 1.5,
+                }}
+            >
+                <Grid container spacing={2}>
+                    {professions.map((profession, index) => (
+                        <Grid item xs={12} sm={6} md={4} key={index}>
+                            <Card sx={{ minHeight: '300px', width: '100%' }}>
+                                <CardCover>
+                                    <img
+                                        src={profession.src}
+                                        loading="lazy"
+                                        alt={profession.title}
+                                    />
+                                </CardCover>
+                                <CardCover
+                                    sx={{
+                                        background: 'linear-gradient(to top, rgba(0,0,0,0.4), rgba(0,0,0,0) 200px), linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0) 300px)',
+                                    }}
+                                />
+                                <CardContent sx={{ justifyContent: 'flex-end' }}>
+                                    <Typography level="title-lg" textColor="#fff">
+                                        {profession.title}
+                                    </Typography>
+                                    <Typography
+                                        startDecorator={<LocationOnRoundedIcon />}
+                                        textColor="neutral.300"
+                                    >
+                                       Our experienced {profession.title.toLowerCase()}
+                                    </Typography>
+                                </CardContent>
+                            </Card>
+                        </Grid>
+                    ))}
+                </Grid>
+            </Sheet>
+        </div>
+    );
+};
 
-export default Mainuser
+export default Mainuser;
+
+
+//  <Card sx={{ minHeight: '250px', width: '100%' }}>
+// <CardCover>
+//   <img
+//     src="https://th.bing.com/th/id/OIP.ZUrZyE7KaA23hrc5ZVsSpwHaE8?w=291&h=195&c=7&r=0&o=5&pid=1.7"
+//     srcSet="https://th.bing.com/th/id/OIP.ZUrZyE7KaA23hrc5ZVsSpwHaE8?w=291&h=195&c=7&r=0&o=5&pid=1.7"
+//     loading="lazy"
+//     alt=""
+//   />
+// </CardCover>
+// <CardCover
+//   sx={{
+//     background:
+//       'linear-gradient(to top, rgba(0,0,0,0.4), rgba(0,0,0,0) 200px), linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0) 300px)',
+//   }}
+// />
+// <CardContent sx={{ justifyContent: 'flex-end' }}>
+//   <Typography level="title-lg" textColor="#fff">
+//     Plumber
+//   </Typography>
+//   <Typography
+//     startDecorator={<LocationOnRoundedIcon />}
+//     textColor="neutral.300"
+//   >
+//     Our experienced people
+//   </Typography>
+// </CardContent>
+// </Card> 

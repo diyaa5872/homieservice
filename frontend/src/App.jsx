@@ -15,11 +15,25 @@ import Bookingcomponents from './components/Bookingcomponents';
 import Updatepage from './components/Profilepage';
 import Account from './components/Accountdetails';
 import Updatedetails from './components/Updatedetails';
+import Workerrequested from './components/Workerrequested';
+import WorkerCard from './components/UserCard';
+import Otp from './components/Otp';
+import JobCard from './components/CardForJobDetail';
+import Jobdetail from './components/Jobdetail';
+import Otherdetailsworker from './components/Otherdetailsworker';
+import Extradetailsform from './components/Extradetailsform';
+import Addressworker from './components/Addressworker';
+import Uploadfilesworker from './components/Uploadfilesworker';
+import Profileworker from './components/Profileworker';
+import Workerdetailsupdate from './components/Workerdetailsupdate';
+import Accountdetails from './components/Accountdetails';
+import MediaCard from './components/PumberCard';
+import BaseModalDialog from './components/BaseModalDialog';
 
 function App(){
   return (
     <div>
-      <Perperson />
+      <BaseModalDialog />
     </div>
   )
 }

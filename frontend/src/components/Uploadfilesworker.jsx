@@ -26,19 +26,19 @@ function Copyright(props) {
   );
 }
 
-// TODO remove, this demo shouldn't need to reset the theme.
-
 const defaultTheme = createTheme();
 
-export default function SignUp() {
+export default function Uploadfilesworker() {
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
+    const file1 = data.get('file1');
+    const file2 = data.getAll('file2');
     console.log({
-      fullName:data.get('fullName'),
-      email: data.get('email'),
-      password: data.get('password'),
+      file1,
+      file2,
     });
+    onNext();
   };
 
   return (
@@ -57,75 +57,48 @@ export default function SignUp() {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign up
+            Files
           </Typography>
           <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
               <Grid item xs={12}>
-                <TextField
-                  autoComplete="given-name"
-                  name="fullName"
-                  required
-                  fullWidth
-                  id="fullName"
-                  label="Full Name"
-                  autoFocus
+                <input
+                  accept="image/*"
+                  id="file1"
+                  type="file"
+                  name="file1"
+                  multiple={false}
                 />
+                <label htmlFor="file1">
+                  <Button variant="contained" component="span">
+                    Upload your image
+                  </Button>
+                </label>
               </Grid>
               <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  id="email"
-                  label="Email Address"
-                  name="email"
-                  autoComplete="email"
+                <input
+                  accept="image/*"
+                  id="file2"
+                  type="file"
+                  name="file2"
+                  multiple
                 />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  name="username"
-                  label="username"
-                  type="username"
-                  id="username"
-                  autoComplete="username"
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  name="password"
-                  label="Password"
-                  type="password"
-                  id="password"
-                  autoComplete="new-password"
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <FormControlLabel
-                  control={<Checkbox value="allowExtraEmails" color="primary" />}
-                  label="I want to receive inspiration, marketing promotions and updates via email."
-                />
+                <label htmlFor="file2">
+                  <Button variant="contained" component="span">
+                    Upload Your shop images 
+                  </Button>
+                </label>
               </Grid>
             </Grid>
             <Button
+            onSubmit={handleSubmit}
               type="submit"
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-              Sign Up
+              Next
             </Button>
-            <Grid container justifyContent="flex-end">
-              <Grid item>
-                <Link href="#" variant="body2">
-                  Already have an account? Sign in
-                </Link>
-              </Grid>
-            </Grid>
           </Box>
         </Box>
         <Copyright sx={{ mt: 5 }} />

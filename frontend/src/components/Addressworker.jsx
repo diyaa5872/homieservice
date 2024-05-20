@@ -30,15 +30,17 @@ function Copyright(props) {
 
 const defaultTheme = createTheme();
 
-export default function SignUp() {
+export default function Addressworker() {
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     console.log({
-      fullName:data.get('fullName'),
-      email: data.get('email'),
-      password: data.get('password'),
+      street:data.get('street'),
+      city: data.get('city'),
+      state: data.get('state'),
+      country: data.get('country'),
     });
+    onNext();
   };
 
   return (
@@ -57,18 +59,18 @@ export default function SignUp() {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign up
+            Add Work Address
           </Typography>
           <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <TextField
                   autoComplete="given-name"
-                  name="fullName"
+                  name="street"
                   required
                   fullWidth
-                  id="fullName"
-                  label="Full Name"
+                  id="street"
+                  label="enter your local address"
                   autoFocus
                 />
               </Grid>
@@ -76,56 +78,43 @@ export default function SignUp() {
                 <TextField
                   required
                   fullWidth
-                  id="email"
-                  label="Email Address"
-                  name="email"
-                  autoComplete="email"
+                  id="city"
+                  label="Your City"
+                  name="city"
+                  autoComplete="city"
                 />
               </Grid>
               <Grid item xs={12}>
                 <TextField
                   required
                   fullWidth
-                  name="username"
-                  label="username"
-                  type="username"
-                  id="username"
-                  autoComplete="username"
+                  name="State"
+                  label="State"
+                  id="State"
+                  autoComplete="State"
                 />
               </Grid>
               <Grid item xs={12}>
                 <TextField
                   required
                   fullWidth
-                  name="password"
-                  label="Password"
-                  type="password"
-                  id="password"
-                  autoComplete="new-password"
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <FormControlLabel
-                  control={<Checkbox value="allowExtraEmails" color="primary" />}
-                  label="I want to receive inspiration, marketing promotions and updates via email."
+                  name="country"
+                  label="Enter your Country"
+                  id="country"
+                  autoComplete="country"
+                  default="India"
                 />
               </Grid>
             </Grid>
             <Button
+            onSubmit={handleSubmit}
               type="submit"
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-              Sign Up
+            Next
             </Button>
-            <Grid container justifyContent="flex-end">
-              <Grid item>
-                <Link href="#" variant="body2">
-                  Already have an account? Sign in
-                </Link>
-              </Grid>
-            </Grid>
           </Box>
         </Box>
         <Copyright sx={{ mt: 5 }} />
