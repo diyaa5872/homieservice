@@ -30,6 +30,7 @@ export default function Otp() {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     console.log({
+      email:data.get('email'),
       otp: data.get('Otp')
     });
   };
@@ -51,6 +52,16 @@ export default function Otp() {
           </Typography>
           <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
             <Typography>Please enter your password sent on your registered Email</Typography>
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              name="email"
+              label="enter your registered email"
+              type="email"
+              id="email"
+              autoComplete="email"
+            />
             <TextField
               margin="normal"
               required
