@@ -38,7 +38,6 @@ export default function Uploadfilesworker() {
       file1,
       file2,
     });
-    onNext();
   };
 
   return (

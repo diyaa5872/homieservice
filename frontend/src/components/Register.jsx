@@ -12,12 +12,14 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 function Copyright(props) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
       {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">  
+      <Link color="inherit" href="https://mui.com/">
         Your Website
       </Link>{' '}
       {new Date().getFullYear()}
@@ -26,19 +28,38 @@ function Copyright(props) {
   );
 }
 
-// TODO remove, this demo shouldn't need to reset the theme.
-
 const defaultTheme = createTheme();
 
 export default function SignUp() {
-  const handleSubmit = (event) => {
+  const navigate = useNavigate();
+
+  const handleSignInClick = () => {
+    navigate('/Loginuser');
+  };
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      fullName:data.get('fullName'),
+    const user = {
+      fullName: data.get('fullName'),
       email: data.get('email'),
       password: data.get('password'),
-    });
+      username: data.get('username')
+    };
+    console.log(user.fullName,user.email,user.username,user.password);
+
+    try {
+      // Send a POST request to the backend
+      const response = await axios.post('http://localhost:8000/api/v1/users/register', user);
+      console.log('Registration successful', response.data);
+
+      const userId = response.data.data._id;
+      console.log(userId)
+      
+      navigate(`/addressuser/${userId}`);
+    } catch (error) {
+      console.error('There was an error registering the user!', error);
+    }
   };
 
   return (
@@ -87,8 +108,8 @@ export default function SignUp() {
                   required
                   fullWidth
                   name="username"
-                  label="username"
-                  type="username"
+                  label="Username"
+                  type="text"
                   id="username"
                   autoComplete="username"
                 />
@@ -121,9 +142,9 @@ export default function SignUp() {
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <Link href="#" variant="body2">
-                  Already have an account? Sign in
-                </Link>
+                <p>
+                  Already have an account? <span onClick={handleSignInClick} style={{ color: 'blue', cursor: 'pointer' }}>Login</span>
+                </p>
               </Grid>
             </Grid>
           </Box>

@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import {  getCurrentUser, loginUser, logoutUser, registerUser,updateAccountDetails,changeCurrentPassword,addAddress,updateUserCoverImage } from '../controllers/user.controller.js';
+import {addressUser,getCurrentUser, loginUser, logoutUser, registerUser,updateAccountDetails,changeCurrentPassword,addAddress,updateUserCoverImage } from '../controllers/user.controller.js';
 import { upload } from '../middlewares/multer.middleware.js';
 import {verifyJWT} from '../middlewares/auth.middleware.js';
 import { refreshAccessToken } from '../controllers/user.controller.js';
@@ -7,17 +7,20 @@ import { refreshAccessToken } from '../controllers/user.controller.js';
 const router = Router()
 
 router.route('/register').post(
-    upload.single('coverImage'), //now can send image
     registerUser
 );
+router.route('/addressUser/:userId').post(
+    addressUser
+);
 
-router.route('/login').post(//post as we are taking info
+router.route('/login').post(//chnaged post to get
     loginUser
 )
 
 router.route('/getCurrentUser').post(
     getCurrentUser
 )
+
 router.route('/updateAccountDetails').post(
     updateAccountDetails
 )

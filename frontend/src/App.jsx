@@ -32,6 +32,7 @@ import MediaCard from './components/PumberCard';
 import BaseModalDialog from './components/BaseModalDialog';
 import Unavailablepage from './components/Unavailablepage'
 import Sidebarworker from './components/Sidebarworker';
+import Otpuser from './components/Otpuser';
 
 function App(){
   return (
@@ -39,7 +40,12 @@ function App(){
       <Routes>
         {/* user routes */}
         <Route path='/' element={<Frontpage />} />
-        <Route  path='/mainpage' element={<Mainuser />} />
+        <Route path='/loginuser' element={<Login />} />
+        <Route path='/Registeruser' element={<SignUp />} />
+        <Route path='/addressuser/:userId' element={<Addressworker />} />
+        <Route path='/otpuser' element={<Otpuser />} />
+        <Route path='/registerworker' element={<SignUpWorker />} />
+        <Route path='/mainpage' element={<Mainuser />} />
         <Route path='/categories/:profession' element={<Plumberpages />} />
         <Route path='/request' element={<Perperson />} />
         <Route path='/requesting' element={<Jobdetail />} />
@@ -60,3 +66,4 @@ function App(){
 }
 
 export default App;
+

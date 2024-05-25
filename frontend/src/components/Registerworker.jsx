@@ -16,6 +16,7 @@ import Select from '@mui/material/Select';
 import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { useNavigate } from 'react-router-dom';
 
 function Copyright(props) {
   return (
@@ -33,15 +34,20 @@ function Copyright(props) {
 const defaultTheme = createTheme();
 
 export default function SignUpWorker() {
+  const navigate = useNavigate();
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     console.log({
-    fullname: data.get('fullName'),
+      fullName: data.get('fullName'),
       email: data.get('email'),
       password: data.get('password'),
       profession: data.get('profession'),
     });
+
+    // Navigate to OTP page after form submission
+    navigate('/otpworker');
   };
 
   return (

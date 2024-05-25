@@ -12,6 +12,8 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 function Copyright(props) {
   return (
@@ -31,14 +33,34 @@ function Copyright(props) {
 const defaultTheme = createTheme();
 
 export default function SignIn() {
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+  const navigate = useNavigate();
+
+  const handleSignUpClick = () => {
+    navigate('/Registeruser');
   };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    const email = formData.get('email');
+    const password = formData.get('password');
+
+    console.log(email,password);
+  
+    try {
+      const response = await axios.post('http://localhost:8000/api/v1/users/login', {
+        email,
+        password
+      });
+  
+      console.log(response.data); // Handle the response data as needed
+
+      navigate('/mainpage')
+    } catch (error) {
+      console.error('Error signing in:', error);
+    }
+  };
+  
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -98,9 +120,9 @@ export default function SignIn() {
                 </Link>
               </Grid>
               <Grid item>
-                <Link href="#" variant="body2">
-                  {"Don't have an account? Sign Up"}
-                </Link>
+                <p>
+                Don't have an account? <span onClick={handleSignUpClick} style={{ color: 'blue', cursor: 'pointer' }}>Sign Up</span>
+                </p>
               </Grid>
             </Grid>
           </Box>

@@ -1,10 +1,9 @@
+
 import * as React from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
@@ -12,6 +11,9 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import axios from  'axios';
+import {useNavigate} from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 function Copyright(props) {
   return (
@@ -31,16 +33,32 @@ function Copyright(props) {
 const defaultTheme = createTheme();
 
 export default function Addressworker() {
-  const handleSubmit = (event) => {
+  const { userId } = useParams();
+  console.log(userId);
+  
+  const navigate=useNavigate();
+
+  const handleSubmit =async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      street:data.get('street'),
-      city: data.get('city'),
-      state: data.get('state'),
-      country: data.get('country'),
+    const address=({
+      street:data.get('street') || "",
+      city: data.get('city') || "",
+      state: data.get('state') || "",
+      country: data.get('country') || "",
+      postalcode: data.get('postalcode')  || ""
     });
-    onNext();
+
+    console.log(address);
+
+    try {
+      const response = await axios.post(`http://localhost:8000/api/v1/users/addressUser/${userId}`, address);
+      console.log('Address added successfully', response.data);
+
+      navigate('/otpuser')
+    } catch (error) {
+      console.error('There was an error adding the address!', error);
+    }
   };
 
   return (
@@ -88,10 +106,10 @@ export default function Addressworker() {
                 <TextField
                   required
                   fullWidth
-                  name="State"
-                  label="State"
-                  id="State"
-                  autoComplete="State"
+                  name="state"
+                  label="state"
+                  id="state"
+                  autoComplete="state"
                 />
               </Grid>
               <Grid item xs={12}>
@@ -102,6 +120,17 @@ export default function Addressworker() {
                   label="Enter your Country"
                   id="country"
                   autoComplete="country"
+                  default="India"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  name="postalcode"
+                  label="Postal Code"
+                  id="postalcode"
+                  autoComplete="postalcode"
                   default="India"
                 />
               </Grid>

@@ -41,7 +41,6 @@ export default function Extradetailsform() {
       homeVisitFee: data.get('homeVisitFee'),
       description: data.get('description'),
     });
-    onNext();
   };
 
   return (

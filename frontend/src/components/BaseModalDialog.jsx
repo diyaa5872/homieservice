@@ -10,7 +10,6 @@ import DialogContent from '@mui/joy/DialogContent';
 import Stack from '@mui/joy/Stack';
 import Add from '@mui/icons-material/Add';
 import Link from '@mui/material/Link';
-import {useNavigate} from 'react-router-dom';
 
 export default function BasicModalDialog() {
   const [open, setOpen] = React.useState(false);
@@ -78,7 +77,7 @@ export default function BasicModalDialog() {
                   <Input id="password" name='password' required />
                 </FormControl>
                 <Button type="submit">{isLogin ? 'Login' : 'Register'}</Button>
-                <Link href="#" variant="body2" onClick={handleToggle}>
+                <Link href="#" variant="body2">
                   {isLogin ? "Don't have an account? Register" : "Already have an account? Login"}
                 </Link>
               </Stack>

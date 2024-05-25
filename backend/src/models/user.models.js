@@ -46,9 +46,6 @@ const userSchema=new mongoose.Schema({
         type: String,
         required: [true,"passowrd is required"]
     },
-    coverImage: {
-        type: String, //cloudinary url
-    },
     address_user: [addressSchema],
     otp_code: {
         type: mongoose.Schema.Types.ObjectId,

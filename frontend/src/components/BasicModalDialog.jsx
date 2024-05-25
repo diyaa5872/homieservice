@@ -10,7 +10,6 @@ import DialogContent from '@mui/joy/DialogContent';
 import Stack from '@mui/joy/Stack';
 import Add from '@mui/icons-material/Add';
 import Link from '@mui/material/Link';
-import {useNavigate} from 'react-router-dom'
 
 export default function BasicModalDialog() {
   const [open, setOpen] = React.useState(false);
@@ -50,7 +49,7 @@ export default function BasicModalDialog() {
         <ModalDialog>
           <DialogTitle>{isLogin ? 'Login' : 'Register'}</DialogTitle>
           <DialogContent>
-            <form onSubmit={handleSubmit}>
+            <form>
               <Stack spacing={2}>
                 {!isLogin && (
                   <FormControl>
