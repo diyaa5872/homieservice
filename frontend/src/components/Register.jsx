@@ -56,7 +56,7 @@ export default function SignUp() {
       const userId = response.data.data._id;
       console.log(userId)
       
-      navigate(`/addressuser/${userId}`);
+      navigate('/otpuser');
     } catch (error) {
       console.error('There was an error registering the user!', error);
     }

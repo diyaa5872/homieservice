@@ -3,7 +3,7 @@ import {ApiError} from "../utils/ApiError.js"
 import { User} from "../models/user.models.js"
 import {uploadOnCloudinary} from "../utils/cloudinary.js"
 import { ApiResponse } from "../utils/ApiResponse.js";
-import jwt from "jsonwebtoken"
+import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
 import { useParams } from "react-router-dom";
 
@@ -62,42 +62,42 @@ const registerUser = asyncHandler( async (req, res) => {
     
 } )
 
-const addressUser = asyncHandler(async (req, res) => {
-    const { street, city, state, country, postalcode } = req.body;
-    const userId = req.params.userId; 
+// const addressUser = asyncHandler(async (req, res) => {
+//     const { street, city, state, country, postalcode } = req.body;
+//     const userId = req.params.userId; 
 
-    if ([street, city, state, country, postalcode].some((field) => field?.trim() === "")) {
-        throw new ApiError(400, "All fields are required for address");
-    }
+//     if ([street, city, state, country, postalcode].some((field) => field?.trim() === "")) {
+//         throw new ApiError(400, "All fields are required for address");
+//     }
 
-    // Assuming you have the `userId`, you can use it to find the user
-    const existedUser = await User.findById(userId);
+//     // Assuming you have the `userId`, you can use it to find the user
+//     const existedUser = await User.findById(userId);
 
-    if (!existedUser) {
-        throw new ApiError(404, "User not found");
-    }
+//     if (!existedUser) {
+//         throw new ApiError(404, "User not found");
+//     }
 
-    existedUser.address_user.push({
-        street,
-        city,
-        state,
-        country,
-        postalcode
-    });
+//     existedUser.address_user.push({
+//         street,
+//         city,
+//         state,
+//         country,
+//         postalcode
+//     });
 
-    // Save the user
-    await existedUser.save();
+//     // Save the user
+//     await existedUser.save();
 
-    const updatedUser = await User.findById(userId).select("-password -refreshToken");
+//     const updatedUser = await User.findById(userId).select("-password -refreshToken");
 
-    if (!updatedUser) {
-        throw new ApiError(500, "Something went wrong while entering the address");
-    }
+//     if (!updatedUser) {
+//         throw new ApiError(500, "Something went wrong while entering the address");
+//     }
 
-    return res.status(201).json(
-        new ApiResponse(200, updatedUser, "Address entered Successfully")
-    );
-});
+//     return res.status(201).json(
+//         new ApiResponse(200, updatedUser, "Address entered Successfully")
+//     );
+// });
 
 const loginUser = asyncHandler(async (req, res) => {
     // req body -> data
@@ -348,6 +348,5 @@ export {
     updateAccountDetails,
     addAddress,
     updateUserCoverImage,
-    changeCurrentPassword,
-    addressUser
+    changeCurrentPassword
 }

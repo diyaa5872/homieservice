@@ -51,14 +51,14 @@ export default function Addressworker() {
 
     console.log(address);
 
-    try {
-      const response = await axios.post(`http://localhost:8000/api/v1/users/addressUser/${userId}`, address);
-      console.log('Address added successfully', response.data);
+    // try {
+    //   const response = await axios.post(`http://localhost:8000/api/v1/users/addressUser/${userId}`, address);
+    //   console.log('Address added successfully', response.data);
 
-      navigate('/otpuser')
-    } catch (error) {
-      console.error('There was an error adding the address!', error);
-    }
+    //   navigate('/otpuser')
+    // } catch (error) {
+    //   console.error('There was an error adding the address!', error);
+    // }
   };
 
   return (

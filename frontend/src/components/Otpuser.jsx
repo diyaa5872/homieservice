@@ -59,6 +59,14 @@ export default function Otpuser() {
               id="email"
               autoComplete="email"
             />
+            <Button
+              type="submit"
+              fullWidth
+              sx={{ mt: 3, mb: 2 }}
+              onClick={otpHandler}
+            >
+              Send Otp
+            </Button>
             <TextField
               margin="normal"
               required

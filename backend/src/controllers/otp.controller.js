@@ -121,9 +121,6 @@ const verifyOTP = asyncHandler(async (req, res) => {
     }
 });
 
-
-
-
 export {
     userOtp,
     verifyOTP
