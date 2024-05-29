@@ -387,7 +387,20 @@ const getAllWorkers=asyncHandler(async (req,res)=>{
         } catch (error) {
             res.status(500).json({ error: error.message });
         }
-    });
+});
+
+const getThatWorker=asyncHandler(async (req,res)=>{
+        try {
+            const { id } = req.query; // Change to req.query to get query parameters
+            const workers = await Worker.findOne({ _id: id });
+            if (!workers) {
+                return res.status(404).json({ message: "Worker not found" });
+            }
+            res.json(workers);
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
+});
 
 
 export {
@@ -401,5 +414,6 @@ export {
     updateUserCoverImage,
     updateUserShopPictures,
     deleteShopPictures,
-    getAllWorkers
+    getAllWorkers,
+    getThatWorker
 };

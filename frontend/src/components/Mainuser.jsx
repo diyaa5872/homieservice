@@ -44,9 +44,9 @@ const Mainuser = () => {
     const navigate=useNavigate();
     const { profession } = useParams();
 
-    const handleclick=()=>{
-        navigate('/categories/:profession');
-    }
+    const handleclick = (profession) => {
+        navigate(`/categories/${profession}`);
+    };
 
     return (
         <div>
@@ -85,7 +85,7 @@ const Mainuser = () => {
                 <Grid container spacing={2}>
                     {professions.map((profession, index) => (
                         <Grid item xs={12} sm={6} md={4} key={index}>
-                            <Card sx={{ minHeight: '300px', width: '100%',cursor: 'pointer' }} onClick={handleclick}>
+                            <Card sx={{ minHeight: '300px', width: '100%',cursor: 'pointer' }} onClick={() => handleclick(profession.title.toLowerCase())}>
                                 <CardCover>
                                     <img
                                         src={profession.src}

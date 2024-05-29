@@ -44,7 +44,7 @@ export default function DateValidationDisablePast() {
   return (
     <>
     <Navbar />
-    <UserCard />
+    {/* <UserCard /> */}
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <DateCalendar />
     </LocalizationProvider>
@@ -70,19 +70,6 @@ export default function DateValidationDisablePast() {
         <DemoItem label="EndTime">
           <TimePicker defaultValue={todayStartOfTheDay} disablePast />
         </DemoItem>
-        {/* <DemoItem label="DateTimePicker">
-          <DateTimePicker
-            defaultValue={yesterday}
-            disablePast
-            views={['year', 'month', 'day', 'hours', 'minutes']}
-          />
-        </DemoItem> */}
-        {/* <DemoItem label="Choose your Dates :" component="DateRangePicker">
-          <DateRangePicker defaultValue={[yesterday, today]} disablePast />
-        </DemoItem> */}
-        {/* <DemoItem label="DateTimeRangePicker" component="DateTimeRangePicker">
-          <DateTimeRangePicker defaultValue={[yesterday, today]} disablePast />
-        </DemoItem> */}
       </DemoContainer>
     </LocalizationProvider>
     <Autocomplete
@@ -133,7 +120,7 @@ export default function DateValidationDisablePast() {
     variant="filled"
     sx={{ width: '100%' }}
   >
-    Request successfully Sent !
+    Request successfully Sent to the worker !
   </Alert>
 </Snackbar>
     </Stack>
