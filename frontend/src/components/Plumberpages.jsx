@@ -7,11 +7,12 @@ import CardContent from '@mui/joy/CardContent';
 import Typography from '@mui/joy/Typography';
 import Navbar from './Navbar';
 import { useNavigate,useParams } from 'react-router-dom';
+import axios from 'axios';
 
 export default function Plumberpages() {
   const navigate = useNavigate();
   const {profession}=useParams();
-
+  
   const handleCardClick = () => {
     // Navigate to the desired route when the card is clicked
     navigate('/request');
@@ -25,8 +26,8 @@ export default function Plumberpages() {
         sx={{ display: 'flex', gap: 2, flexWrap: 'wrap', p: 0, m: 0 }}
       >
         {/* Wrap the Card component with a clickable element */}
-        <div onClick={handleCardClick} style={{ cursor: 'pointer' }}>
-          <Card component="li" sx={{ minWidth: 300, flexGrow: 1 }}>
+        <div>
+          <Card component="li" sx={{ minWidth: 300, flexGrow: 1 }} onClick={handleCardClick} >
             <CardCover>
               <img
                 src="https://th.bing.com/th/id/OIP.IU0j4FNdFRCCSi1gbsIy0gHaE8?w=89&h=90&c=1&rs=1&qlt=90&r=0&pid=InlineBlock"
@@ -48,8 +49,8 @@ export default function Plumberpages() {
           </Card>
         </div>
       </Box>
-      <UserCard />
-      <UserCard />
+      <UserCard profession={profession}/>
+      <UserCard profession={profession}/>
     </>
   );
 }

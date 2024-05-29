@@ -7,8 +7,9 @@ import CardContent from '@mui/joy/CardContent';
 import Typography from '@mui/joy/Typography';
 import Sheet from '@mui/joy/Sheet';
 import { useNavigate } from 'react-router-dom';
+import Plumberpages from './Plumberpages';
 
-export default function UserCard() {
+export default function UserCard({profession}) {
   const navigate = useNavigate();
 
   const handleRequestClick = () => {
@@ -82,7 +83,7 @@ export default function UserCard() {
             Ramlal
           </Typography>
           <Typography level="body-sm" fontWeight="lg" textColor="text.tertiary">
-            Plumber
+            {profession}
           </Typography>
           <Sheet
             sx={{

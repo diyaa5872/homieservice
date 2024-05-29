@@ -13,6 +13,7 @@ import FormControl from '@mui/joy/FormControl';
 import Autocomplete, { createFilterOptions } from '@mui/joy/Autocomplete';
 import {useNavigate}  from  'react-router-dom';
 import {useParams} from 'react-router-dom';
+import axios from 'axios';
 
 const professions = [
     { title: 'Plumber', src:'https://i.pinimg.com/236x/6b/d4/b0/6bd4b0add6ef695e958f156a2601749f.jpg' },
@@ -39,13 +40,24 @@ const filterOptions = createFilterOptions({
 });
 
 const Mainuser = () => {
-    const { profession }=useParams();
+    
     const navigate=useNavigate();
+    const { profession } = useParams();
+    const [workers, setWorkers] = React.useState([]);
 
-    const handleCardClick = (route) => {
-        // Navigate to the desired route when the card is clicked
-        navigate(route);
-      };
+    const handleCardClick =async (route) => {
+        try {
+            // Fetch workers data for the selected profession
+            const response = await axios.get(`http://localhost:8000/api/v1/workers/working?occupation=${profession}`);
+            console.log(Response.data);
+            setWorkers(response.data);
+
+            // Navigate to '/request'
+            navigate(`/categories/${profession.title.toLowerCase()}`);
+        } catch (error) {
+            console.error('Error fetching workers:', error);
+        }
+    };
 
     return (
         <div>
@@ -84,7 +96,7 @@ const Mainuser = () => {
                 <Grid container spacing={2}>
                     {professions.map((profession, index) => (
                         <Grid item xs={12} sm={6} md={4} key={index}>
-                            <Card sx={{ minHeight: '300px', width: '100%',cursor: 'pointer' }} onClick={() => handleCardClick(`/categories/${profession.title.toLowerCase()}`)}>
+                            <Card sx={{ minHeight: '300px', width: '100%',cursor: 'pointer' }} onClick={handleCardClick}>
                                 <CardCover>
                                     <img
                                         src={profession.src}

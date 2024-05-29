@@ -33,6 +33,7 @@ import BaseModalDialog from './components/BaseModalDialog';
 import Unavailablepage from './components/Unavailablepage'
 import Sidebarworker from './components/Sidebarworker';
 import Otpuser from './components/Otpuser';
+import WorkersByProfession from './components/WorkerByProfession';
 
 function App(){
   return (

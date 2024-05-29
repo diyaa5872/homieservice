@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { registerWorker, loginWorker , logoutWorker , changeCurrentPassword , getCurrentUser , updateAccountDetails , updateUserCoverImage , updateUserShopPictures, deleteShopPictures } from '../controllers/worker.controller.js';
+import {getAllWorkers, registerWorker, loginWorker , logoutWorker , changeCurrentPassword , getCurrentUser , updateAccountDetails , updateUserCoverImage , updateUserShopPictures, deleteShopPictures } from '../controllers/worker.controller.js';
 import { upload } from '../middlewares/multer.middleware.js';
 import {verifyJWT} from '../middlewares/auth.middleware.js';
 import { refreshAccessToken } from '../controllers/worker.controller.js';
@@ -33,5 +33,10 @@ router.route("/shop-pictures").patch(verifyJWT, upload.single("shopPictures"), u
 router.route("/cover-image").patch(verifyJWT, upload.single("coverImage"), updateUserCoverImage)
 
 router.delete("/shop-pictures", verifyJWT, deleteShopPictures);
+
+router.route("/working").get(
+    getAllWorkers
+);
+
 
 export default router;

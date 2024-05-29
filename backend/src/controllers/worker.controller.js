@@ -379,6 +379,16 @@ const deleteShopPictures = asyncHandler(async (req, res) => {
         .json(new ApiResponse(200, user, "All shop images deleted successfully"));
 });
 
+const getAllWorkers=asyncHandler(async (req,res)=>{
+        try {
+            const { profession } = req.query; // Change to req.query to get query parameters
+            const workers = await Worker.find({ occupation: profession });
+            res.json(workers);
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
+    });
+
 
 export {
     registerWorker,
@@ -390,5 +400,6 @@ export {
     updateAccountDetails,
     updateUserCoverImage,
     updateUserShopPictures,
-    deleteShopPictures
+    deleteShopPictures,
+    getAllWorkers
 };

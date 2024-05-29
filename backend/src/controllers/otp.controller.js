@@ -16,7 +16,7 @@ const transporter = nodemailer.createTransport({
 });
 
 const userOtp = asyncHandler(async (req, res) => {
-    const { email } = req.body;
+    const {email} = req.body;
     console.log("Received email:", email);
  
     if (!email) {
@@ -87,7 +87,7 @@ const userOtp = asyncHandler(async (req, res) => {
 });
 
 const verifyOTP = asyncHandler(async (req, res) => {
-    const { email, otp } = req.body;
+    const { otp,email } = req.body;
     console.log(email);
     console.log(otp);
 
