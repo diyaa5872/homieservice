@@ -12,6 +12,8 @@ import axios from 'axios';
 export default function Plumberpages() {
   const navigate = useNavigate();
   const {profession}=useParams();
+
+  
   
   const handleCardClick = () => {
     // Navigate to the desired route when the card is clicked

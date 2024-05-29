@@ -43,21 +43,10 @@ const Mainuser = () => {
     
     const navigate=useNavigate();
     const { profession } = useParams();
-    const [workers, setWorkers] = React.useState([]);
 
-    const handleCardClick =async (route) => {
-        try {
-            // Fetch workers data for the selected profession
-            const response = await axios.get(`http://localhost:8000/api/v1/workers/working?occupation=${profession}`);
-            console.log(Response.data);
-            setWorkers(response.data);
-
-            // Navigate to '/request'
-            navigate(`/categories/${profession.title.toLowerCase()}`);
-        } catch (error) {
-            console.error('Error fetching workers:', error);
-        }
-    };
+    const handleclick=()=>{
+        navigate('/categories/:profession');
+    }
 
     return (
         <div>
@@ -96,7 +85,7 @@ const Mainuser = () => {
                 <Grid container spacing={2}>
                     {professions.map((profession, index) => (
                         <Grid item xs={12} sm={6} md={4} key={index}>
-                            <Card sx={{ minHeight: '300px', width: '100%',cursor: 'pointer' }} onClick={handleCardClick}>
+                            <Card sx={{ minHeight: '300px', width: '100%',cursor: 'pointer' }} onClick={handleclick}>
                                 <CardCover>
                                     <img
                                         src={profession.src}
@@ -130,5 +119,4 @@ const Mainuser = () => {
 };
 
 export default Mainuser;
-
 
