@@ -39,7 +39,7 @@ function stringToColor(string) {
     };
   }
 
-export default function UserCard() {
+export default function UserCard({data}) {
   const navigate=useNavigate();
 
   const viewHandler=()=>{
@@ -127,7 +127,7 @@ export default function UserCard() {
               <Typography level="body-xs" fontWeight="lg">
                 Customer Name:
               </Typography>
-              <Typography fontWeight="lg">Diya Dhankhar</Typography>
+              <Typography fontWeight="lg">{data.fullName}</Typography>
             </div>
           </Sheet>
           <Box sx={{ display: 'flex', gap: 1.5, '& > button': { flex: 1 } }}>

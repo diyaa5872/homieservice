@@ -339,6 +339,19 @@ const updateUserCoverImage=asyncHandler(async(req,res)=>{
     .json(new ApiResponse(200, user, "Cover image updated successfully"));
 })
 
+const getThatUser=asyncHandler(async (req,res)=>{
+    try {
+        const { id } = req.query; // Change to req.query to get query parameters
+        const user = await User.findOne({ _id: id });
+        if (!user) {
+            return res.status(404).json({ message: "user not found" });
+        }
+        res.json(user);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
 export {
     registerUser,
     loginUser,
@@ -348,5 +361,6 @@ export {
     updateAccountDetails,
     addAddress,
     updateUserCoverImage,
-    changeCurrentPassword
+    changeCurrentPassword,
+    getThatUser
 }

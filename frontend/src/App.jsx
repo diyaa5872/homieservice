@@ -49,7 +49,7 @@ function App(){
         <Route path='/mainpage' element={<Mainuser />} />
         <Route path='/categories/:profession' element={<Plumberpages />} />
         <Route path='/request/:id' element={<Perperson />} />
-        <Route path='/requesting' element={<Bookingcomponents />} />
+        <Route path='/requesting/:id' element={<Bookingcomponents />} />
         <Route path='/unavailable' element={<Unavailablepage />} />
         <Route path='/profileuser' element={<Account />} />
         <Route path='/updateuserprofile' element={<Updatepage />} />

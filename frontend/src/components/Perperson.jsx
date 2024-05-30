@@ -5,22 +5,19 @@ import { useTheme } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
+ import Grid from '@mui/material/Grid';
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Typography from '@mui/material/Typography';
-import Zoom from '@mui/material/Zoom';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import Stack from '@mui/material/Stack';
-import { purple } from '@mui/material/colors';
 import Button from '@mui/material/Button';
-import Snackbar from '@mui/material/Snackbar';
-import Alert from '@mui/material/Alert';
 import { styled } from '@mui/material/styles';
-import Grid from '@mui/material/Grid';
+import Snackbar from '@mui/material/Snackbar';
 import Paper from '@mui/material/Paper';
-import { green } from '@mui/material/colors';
+import Alert from '@mui/material/Alert';
 import Box from '@mui/material/Box';
 import UserCard from './Card';
 import Navbar from './Navbar';
@@ -58,20 +55,6 @@ function a11yProps(index) {
   };
 }
 
-const fabStyle = {
-  position: 'absolute',
-  bottom: 16,
-  right: 16,
-};
-
-const fabGreenStyle = {
-  color: 'common.white',
-  bgcolor: green[500],
-  '&:hover': {
-    bgcolor: green[600],
-  },
-};
-
 export default function FloatingActionButtonZoom() {
   const theme = useTheme();
   const [value, setValue] = React.useState(0);
@@ -80,12 +63,13 @@ export default function FloatingActionButtonZoom() {
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
   const { id } = useParams();
-  
+
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get(`http://localhost:8000/api/v1/workers/work?id=${id}`);
         console.log(response.data);
+        console.log(response.data._id);
         setData(response.data);
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -99,7 +83,7 @@ export default function FloatingActionButtonZoom() {
 
   const handleClick = () => {
     setOpen(true);
-    navigate('/requesting');
+    navigate(`/requesting/${data._id}`);
   };
 
   const handleClose = (event, reason) => {
@@ -125,94 +109,94 @@ export default function FloatingActionButtonZoom() {
         <Typography>Loading...</Typography>
       ) : (
         <>
-         <UserCard key={data._id} profession={data.profession} data={data} />
-        <Box
-          sx={{
-            bgcolor: 'background.paper',
-            width: '100%',
-            position: 'relative',
-            minHeight: 400,
-          }}
-        >
-          <AppBar position="static" color="default">
-            <Tabs
-              value={value}
-              onChange={handleChange}
-              indicatorColor="primary"
-              textColor="primary"
-              variant="fullWidth"
-              aria-label="action tabs example"
-            >
-              <Tab label="About worker" {...a11yProps(0)} />
-              <Tab label="Reviews" {...a11yProps(1)} />
-              <Tab label="Photos" {...a11yProps(2)} />
-            </Tabs>
-          </AppBar>
-          <SwipeableViews
-            axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
-            index={value}
-            onChangeIndex={handleChangeIndex}
+          <UserCard key={data._id} profession={data.profession} data={data} />
+          <Box
+            sx={{
+              bgcolor: 'background.paper',
+              width: '100%',
+              position: 'relative',
+              minHeight: 400,
+            }}
           >
-            <TabPanel value={value} index={0} dir={theme.direction}>
-              <b>Experience: </b><span>{data.experienceYears} years</span>
-              <h3>Description: </h3>
-              <span>{data.description}</span>
-            </TabPanel>
-            <TabPanel value={value} index={1} dir={theme.direction}>
-              <Paper
-                sx={{
-                  p: 2,
-                  margin: 'auto',
-                  maxWidth: 500,
-                  flexGrow: 1,
-                  backgroundColor: (theme) =>
-                    theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-                }}
+            <AppBar position="static" color="default">
+              <Tabs
+                value={value}
+                onChange={handleChange}
+                indicatorColor="primary"
+                textColor="primary"
+                variant="fullWidth"
+                aria-label="action tabs example"
               >
-                <Grid container spacing={2}>
-                  <Grid item xs={12} sm container>
-                    <Grid item xs container direction="column" spacing={2}>
-                      <Grid item xs>
-                        <Typography gutterBottom variant="subtitle1" component="div">
-                          Name
-                        </Typography>
-                        <Typography variant="body2" gutterBottom>
-                          I am really happy with his work
-                        </Typography>
+                <Tab label="About worker" {...a11yProps(0)} />
+                <Tab label="Reviews" {...a11yProps(1)} />
+                <Tab label="Photos" {...a11yProps(2)} />
+              </Tabs>
+            </AppBar>
+            <SwipeableViews
+              axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
+              index={value}
+              onChangeIndex={handleChangeIndex}
+            >
+              <TabPanel value={value} index={0} dir={theme.direction}>
+                <b>Experience: </b><span>{data.experienceYears} years</span>
+                <h3>Description: </h3>
+                <span>{data.description}</span>
+              </TabPanel>
+              <TabPanel value={value} index={1} dir={theme.direction}>
+                <Paper
+                  sx={{
+                    p: 2,
+                    margin: 'auto',
+                    maxWidth: 500,
+                    flexGrow: 1,
+                    backgroundColor: (theme) =>
+                      theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+                  }}
+                >
+                  <Grid container spacing={2}>
+                    <Grid item xs={12} sm container>
+                      <Grid item xs container direction="column" spacing={2}>
+                        <Grid item xs>
+                          <Typography gutterBottom variant="subtitle1" component="div">
+                            Name
+                          </Typography>
+                          <Typography variant="body2" gutterBottom>
+                            I am really happy with his work
+                          </Typography>
+                        </Grid>
+                        <Grid item>
+                          <Typography sx={{ cursor: 'pointer' }} variant="body2">
+                            5 rating
+                          </Typography>
+                        </Grid>
                       </Grid>
                       <Grid item>
-                        <Typography sx={{ cursor: 'pointer' }} variant="body2">
-                          5 rating
-                        </Typography>
+                        <Tooltip title="Delete">
+                          <IconButton>
+                            <DeleteIcon />
+                          </IconButton>
+                        </Tooltip>
                       </Grid>
                     </Grid>
-                    <Grid item>
-                      <Tooltip title="Delete">
-                        <IconButton>
-                          <DeleteIcon />
-                        </IconButton>
-                      </Tooltip>
-                    </Grid>
                   </Grid>
-                </Grid>
-              </Paper>
-            </TabPanel>
-            <TabPanel value={value} index={2} dir={theme.direction}>
-              <ImageList sx={{ width: '100%', height: 450 }} cols={3} rowHeight={164}>
-                {itemData.map((item) => (
-                  <ImageListItem key={item.img}>
-                    <img
-                      srcSet={`${item.img}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
-                      src={`${item.img}?w=164&h=164&fit=crop&auto=format`}
-                      alt={item.title}
-                      loading="lazy"
-                    />
-                  </ImageListItem>
-                ))}
-              </ImageList>
-            </TabPanel>
-          </SwipeableViews>
-        </Box>
+                </Paper>
+              </TabPanel>
+              <TabPanel value={value} index={2} dir={theme.direction}>
+                <ImageList sx={{ width: '100%', height: 450 }} cols={3} rowHeight={164}>
+                  {itemData.map((item) => (
+                    <ImageListItem key={item.img}>
+                      <img
+                        srcSet={`${item.img}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
+                        src={`${item.img}?w=164&h=164&fit=crop&auto=format`}
+                        alt={item.title}
+                        loading="lazy"
+                      />
+                    </ImageListItem>
+                  ))}
+                </ImageList>
+              </TabPanel>
+            </SwipeableViews>
+          </Box>
         </>
       )}
       <Stack
@@ -267,7 +251,7 @@ const itemData = [
   {
     img: 'https://images.unsplash.com/photo-1558642452-9d2a7deb7f62',
     title: 'Honey',
-  }
+  },
 ];
 
 const ColorButton = styled(Button)(({ theme }) => ({
@@ -277,6 +261,7 @@ const ColorButton = styled(Button)(({ theme }) => ({
     backgroundColor: purple[700],
   },
 }));
+
 
 
 // import * as React from 'react';

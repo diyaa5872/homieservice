@@ -6,18 +6,18 @@ import { Request } from '../models/workrequest.models.js'; // Adjust the path ac
 import { ApiResponse } from "../utils/ApiResponse.js";
 
 const combinedHandler = asyncHandler(async (req, res) => {
-    const { user_id, worker_id } = req.params;
-    const { date, start, end,appointment_notes,address_user } = req.body;
+    const { userId, workerId } = req.query;
+    const { date, start, end,notes,address } = req.body;
 
-    if (!date || !start || !end || !user_id || !worker_id) {
+    if (!date || !start || !end || !userId || !workerId) {
         throw new ApiError(400, "Missing required fields");
     }
 
     try {
         // Create a new instance of the Request model
         const newRequest = await Request.create({
-            user_id,
-            worker_id
+            userId,
+            workerId
             // Since workStatus and accepted are not provided, they will take their default values from the schema
         });
 
@@ -26,12 +26,12 @@ const combinedHandler = asyncHandler(async (req, res) => {
         // Create the booking using the Booking model
 
         const book = await Booking.create({
-            user_id,
+            userId,
             date: isoDate,
             timeSlot: { start: start, end: end },
-            address_user: "", // Assuming address_user is an array
-            appointment_notes: appointment_notes || "not given",
-            worker_id
+            address_user: [address], // Assuming address_user is an array
+            appointment_notes: notes || "not given",
+            workerId
         })
 
         await book.save()

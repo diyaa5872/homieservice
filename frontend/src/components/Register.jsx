@@ -13,6 +13,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
+const { localStorage } = window;
 import axios from 'axios';
 
 function Copyright(props) {
@@ -55,6 +56,7 @@ export default function SignUp() {
 
       const userId = response.data.data._id;
       console.log(userId)
+      localStorage.setItem('userId', userId);
       
       navigate('/otpuser');
     } catch (error) {
