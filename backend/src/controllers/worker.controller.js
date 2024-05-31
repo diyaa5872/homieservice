@@ -25,10 +25,10 @@ const generateAccessAndRefereshTokens = async(userId) =>{
 }
 
 const registerWorker = asyncHandler(async (req, res) => {
-        const { fullName, email, username, password, street, city, state, country, postalCode, user_id, occupation, age, experienceYears, homeVisitFee, otp_code, contact_no, description } = req.body;
+        const { fullName, email, username, password,occupation} = req.body;
 
         // Check if any required field is empty
-        if (![fullName, email, username, password, street, city, state, country, postalCode, user_id, occupation, age, experienceYears, homeVisitFee, otp_code, contact_no, description].every(field => field && field.trim() !== "")) {
+        if (![fullName, email, username, password,occupation].every(field => field && field.trim() !== "")) {
             throw new ApiError(400, "All fields are required");
         }
 
@@ -38,47 +38,47 @@ const registerWorker = asyncHandler(async (req, res) => {
             throw new ApiError(409, "User with email or username already exists");
         }
 
-    // Upload cover image to Cloudinary if provided
-    const coverImageLocalPath = req.files?.coverImage[0]?.path;
+    // // Upload cover image to Cloudinary if provided
+    // const coverImageLocalPath = req.files?.coverImage[0]?.path;
 
-    if (!coverImageLocalPath) {
-        throw new ApiError(400, "cover image file is required")
-    }
+    // if (!coverImageLocalPath) {
+    //     throw new ApiError(400, "cover image file is required")
+    // }
 
-    const coverImage= await uploadOnCloudinary(coverImageLocalPath)//issue
+    // const coverImage= await uploadOnCloudinary(coverImageLocalPath)//issue
 
-    const shopPictureUrls = [];
-    if (req.files && Array.isArray(req.files.shopPictures)) {
-        for (const shopPicture of req.files.shopPictures) {
-            const shopPictureLocalPath = shopPicture.path;
-            const shopPictureResult = await uploadOnCloudinary(shopPictureLocalPath);
-            shopPictureUrls.push(shopPictureResult.url);
-        }
-    }
+    // const shopPictureUrls = [];
+    // if (req.files && Array.isArray(req.files.shopPictures)) {
+    //     for (const shopPicture of req.files.shopPictures) {
+    //         const shopPictureLocalPath = shopPicture.path;
+    //         const shopPictureResult = await uploadOnCloudinary(shopPictureLocalPath);
+    //         shopPictureUrls.push(shopPictureResult.url);
+    //     }
+    // }
 
         // Create new worker
         const worker = await Worker.create({
             fullName,
             email,
             username: username.toLowerCase(),
-            password,
-            age,
-            experienceYears,
-            homeVisitFee,
-            contact_no,
-            description,
-            occupation,
-            address_worker: {
-                street: street || "",
-                city: city || "",
-                state: state || "",
-                country: country || "",
-                postalCode: postalCode || ""
-            },
-            otp_code: otp_code || "",
-            user_id: user_id || "",
-            coverImage: coverImage?.url || "",
-            shopPictures: shopPictureUrls || ""
+            password
+            // age,
+            // experienceYears,
+            // homeVisitFee,
+            // contact_no,
+            // description,
+            // occupation,
+            // address_worker: {
+            //     street: street || "",
+            //     city: city || "",
+            //     state: state || "",
+            //     country: country || "",
+            //     postalCode: postalCode || ""
+            // },
+            // otp_code: otp_code || "",
+            // user_id: user_id || "",
+            // coverImage: coverImage?.url || "",
+            // shopPictures: shopPictureUrls || ""
         });
 
         const createdUser = await Worker.findById(worker._id).select(
@@ -402,6 +402,21 @@ const getThatWorker=asyncHandler(async (req,res)=>{
         }
 });
 
+const requestsforWorker=asyncHandler(async (req,res)=>{
+        try {
+            const { workerno } = req.query; // Change to req.query to get query parameters
+            const {accepted}=req.query;
+
+            const workers = await Request.find({ _id: workerno , accepted: 'false' });
+            if (!workers) {
+                return res.status(404).json({ message: "Worker not found" });
+            }
+            res.json(workers);
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
+});
+
 
 export {
     registerWorker,
@@ -415,5 +430,6 @@ export {
     updateUserShopPictures,
     deleteShopPictures,
     getAllWorkers,
-    getThatWorker
+    getThatWorker,
+    requestsforWorker
 };

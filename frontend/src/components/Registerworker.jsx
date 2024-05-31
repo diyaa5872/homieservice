@@ -17,6 +17,9 @@ import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+
+const { localStorage } = window;
 
 function Copyright(props) {
   return (
@@ -36,18 +39,31 @@ const defaultTheme = createTheme();
 export default function SignUpWorker() {
   const navigate = useNavigate();
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
+    const user = {
       fullName: data.get('fullName'),
       email: data.get('email'),
       password: data.get('password'),
-      profession: data.get('profession'),
-    });
+      username: data.get('username'),
+      occupation: data.get('occupation') // Changed to match the form field name
+    };
+    console.log(user.fullName, user.email, user.username, user.password, user.occupation); // Included occupation in console.log
 
-    // Navigate to OTP page after form submission
-    navigate('/otpworker');
+    try {
+      // Send a POST request to the backend
+      const response = await axios.post('http://localhost:8000/api/v1/workers/register', user);
+      console.log('Registration successful', response.data);
+
+      const workerno = response.data.data._id;
+      console.log(workerno);
+      localStorage.setItem('workerno', workerno);
+
+      navigate('/otpworker');
+    } catch (error) {
+      console.error('There was an error registering the user!', error);
+    }
   };
 
   return (
@@ -83,6 +99,17 @@ export default function SignUpWorker() {
               </Grid>
               <Grid item xs={12}>
                 <TextField
+                  autoComplete="given-name"
+                  name="username"
+                  required
+                  fullWidth
+                  id="username"
+                  label="Username"
+                  autoFocus
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
                   required
                   fullWidth
                   id="email"
@@ -104,11 +131,11 @@ export default function SignUpWorker() {
               </Grid>
               <Grid item xs={12}>
                 <FormControl fullWidth required>
-                  <InputLabel id="profession-label">Select your profession</InputLabel>
+                  <InputLabel id="occupation-label">Select your profession</InputLabel>
                   <Select
-                    labelId="profession-label"
-                    id="profession"
-                    name="profession"
+                    labelId="occupation-label"
+                    id="occupation"
+                    name="occupation"
                     label="Select your profession"
                     defaultValue=""
                   >

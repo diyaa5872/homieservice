@@ -2,6 +2,7 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiError } from "../utils/ApiError.js";
 import nodemailer from 'nodemailer';
 import { User } from '../models/user.models.js';
+import { Worker } from '../models/worker.models.js';
 import { Otp } from '../models/otp.models.js';
 
 // Email configuration
@@ -24,7 +25,7 @@ const userOtp = asyncHandler(async (req, res) => {
     }
     
     try {
-        const preUser = await User.findOne({ email: email });
+        const preUser = await User.findOne({ email: email }) || await Worker.findOne({ email:email });
 
         if (preUser) {
             const OTP = Math.floor(10000 + Math.random() * 900000);

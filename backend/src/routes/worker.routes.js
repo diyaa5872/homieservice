@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import {getThatWorker,getAllWorkers, registerWorker, loginWorker , logoutWorker , changeCurrentPassword , getCurrentUser , updateAccountDetails , updateUserCoverImage , updateUserShopPictures, deleteShopPictures } from '../controllers/worker.controller.js';
+import {requestsforWorker,getThatWorker,getAllWorkers, registerWorker, loginWorker , logoutWorker , changeCurrentPassword , getCurrentUser , updateAccountDetails , updateUserCoverImage , updateUserShopPictures, deleteShopPictures } from '../controllers/worker.controller.js';
 import { upload } from '../middlewares/multer.middleware.js';
 import {verifyJWT} from '../middlewares/auth.middleware.js';
 import { refreshAccessToken } from '../controllers/worker.controller.js';
@@ -7,10 +7,10 @@ import { refreshAccessToken } from '../controllers/worker.controller.js';
 const router = Router()
 
 router.route('/register').post(
-    upload.single('coverImage'), //now can send image
-    upload.fields([
-        { name: 'shopPictures', maxCount: 5 }
-    ]),
+    // upload.single('coverImage'), //now can send image
+    // upload.fields([
+    //     { name: 'shopPictures', maxCount: 5 }
+    // ]),
     registerWorker
 );
 
@@ -40,6 +40,8 @@ router.route("/working").get(
 router.route("/work").get(
     getThatWorker
 );
-
+router.route("/requestforworker").get(
+    requestsforWorker
+);
 
 export default router;

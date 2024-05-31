@@ -29,8 +29,8 @@ const combinedHandler = asyncHandler(async (req, res) => {
             userId,
             date: isoDate,
             timeSlot: { start: start, end: end },
-            address_user: [address], // Assuming address_user is an array
-            appointment_notes: notes || "not given",
+            address: address, // Assuming address_user is an array
+            notes: notes || "not given",
             workerId
         })
 
