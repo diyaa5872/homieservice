@@ -51,8 +51,8 @@ const workerSchema=new mongoose.Schema({
         type: String, //cloudinary url
     },
     occupation: {
-        type: [String],
-        enum: ['plumber', 'carpenter', 'home maker', 'contractor','painter','wall putty'],
+        type: String,
+        enum: ['plumber','electrician', 'carpenter', 'home maker', 'contractor','painter','wall putty'],
     },
     address_worker: [addressSchema],
     age: {

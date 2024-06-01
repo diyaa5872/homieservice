@@ -32,12 +32,13 @@ function Copyright(props) {
 
 const defaultTheme = createTheme();
 
-export default function SignIn() {
+export default function SignInworker() {
   const navigate = useNavigate();
 
   const handleSignUpClick = () => {
-    navigate('/Registeruser');
+    navigate('/registerworker');
   };
+  
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -48,22 +49,22 @@ export default function SignIn() {
     console.log(email,password);
   
     try {
-      const response = await axios.post('http://localhost:8000/api/v1/users/login', {
+      const response = await axios.post('http://localhost:8000/api/v1/workers/login', {
         email,
         password
       });
-  
-      console.log(response.data); // Handle the response data as needed
-      const userId=response.data.data.user._id;
-      const setUserno = (userId) => {
-        localStorage.setItem('userId', userId);
-      };
-      
-      // Call setWorkerno with the obtained _id value
-      setUserno(userId);
-      console.log(userId);
 
-      navigate('/mainpage')
+      console.log(response.data); // Handle the response data as needed
+
+      const workerId = response.data.data.user._id;
+      const setWorkerno = (workerId) => {
+        localStorage.setItem('workerno', workerId);
+      };
+      setWorkerno(workerId);
+
+      console.log(workerId);
+
+      navigate('/mainworkerpage');
     } catch (error) {
       console.error('Error signing in:', error);
     }

@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import {requestsforWorker,getThatWorker,getAllWorkers, registerWorker, loginWorker , logoutWorker , changeCurrentPassword , getCurrentUser , updateAccountDetails , updateUserCoverImage , updateUserShopPictures, deleteShopPictures } from '../controllers/worker.controller.js';
+import {bookingdetails, requeststrueforWorker,requestsforWorker,getThatWorker,getAllWorkers, registerWorker, loginWorker , logoutWorker , changeCurrentPassword , getCurrentUser , updateAccountDetails , updateUserCoverImage , updateUserShopPictures, deleteShopPictures } from '../controllers/worker.controller.js';
 import { upload } from '../middlewares/multer.middleware.js';
 import {verifyJWT} from '../middlewares/auth.middleware.js';
 import { refreshAccessToken } from '../controllers/worker.controller.js';
@@ -37,11 +37,20 @@ router.delete("/shop-pictures", verifyJWT, deleteShopPictures);
 router.route("/working").get(
     getAllWorkers
 );
+
 router.route("/work").get(
     getThatWorker
 );
+
 router.route("/requestforworker").get(
     requestsforWorker
+);
+router.route("/requesttrueforworker").get(
+    requeststrueforWorker
+);
+
+router.route("/bookingdetails").get(
+    bookingdetails
 );
 
 export default router;

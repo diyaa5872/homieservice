@@ -56,7 +56,12 @@ export default function SignUp() {
 
       const userId = response.data.data._id;
       console.log(userId)
-      localStorage.setItem('userId', userId);
+      const setUserno = (userId) => {
+        localStorage.setItem('userId', userId);
+      };
+      
+      // Call setWorkerno with the obtained _id value
+      setUserno(userId);
       
       navigate('/otpuser');
     } catch (error) {

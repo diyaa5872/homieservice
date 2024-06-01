@@ -39,6 +39,10 @@ const defaultTheme = createTheme();
 export default function SignUpWorker() {
   const navigate = useNavigate();
 
+  const loginhandle=()=>{
+    navigate('/loginworker');
+  }
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -57,8 +61,13 @@ export default function SignUpWorker() {
       console.log('Registration successful', response.data);
 
       const workerno = response.data.data._id;
+      const setWorkerno = (workerno) => {
+        localStorage.setItem('workerno', workerno);
+      };
+      setWorkerno(workerno);
+
       console.log(workerno);
-      localStorage.setItem('workerno', workerno);
+
 
       navigate('/otpworker');
     } catch (error) {
@@ -139,10 +148,10 @@ export default function SignUpWorker() {
                     label="Select your profession"
                     defaultValue=""
                   >
-                    <MenuItem value="Plumber">Plumber</MenuItem>
-                    <MenuItem value="Electrician">Electrician</MenuItem>
-                    <MenuItem value="Contractor">Contractor</MenuItem>
-                    <MenuItem value="Painter">Painter</MenuItem>
+                    <MenuItem value="plumber">plumber</MenuItem>
+                    <MenuItem value="electrician">electrician</MenuItem>
+                    <MenuItem value="contractor">contractor</MenuItem>
+                    <MenuItem value="painter">painter</MenuItem>
                   </Select>
                 </FormControl>
               </Grid>
@@ -163,7 +172,7 @@ export default function SignUpWorker() {
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <Link href="#" variant="body2">
+                <Link href="#" variant="body2" onClick={loginhandle}>
                   Already have an account? Sign in
                 </Link>
               </Grid>

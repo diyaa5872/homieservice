@@ -1,6 +1,9 @@
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiError } from "../utils/ApiError.js";
 import { Worker } from "../models/worker.models.js";
+import { User } from "../models/user.models.js";
+import {Request} from "../models/workrequest.models.js";
+import {Booking} from "../models/booking.models.js";
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import jwt from "jsonwebtoken";
@@ -61,7 +64,8 @@ const registerWorker = asyncHandler(async (req, res) => {
             fullName,
             email,
             username: username.toLowerCase(),
-            password
+            password,
+            occupation
             // age,
             // experienceYears,
             // homeVisitFee,
@@ -102,11 +106,11 @@ const loginWorker = asyncHandler(async (req, res) =>{
     //access and referesh token
     //send cookie
 
-    const {email, username, password} = req.body
+    const {email, password} = req.body
     console.log(email);
 
-    if (!username && !email) {
-        throw new ApiError(400, "username or email is required")
+    if (!email) {
+        throw new ApiError(400, "email is required")
     }
     
     // Here is an alternative of above code based on logic discussed in video:
@@ -115,9 +119,8 @@ const loginWorker = asyncHandler(async (req, res) =>{
         
     // }
 
-    const user = await Worker.findOne({
-        $or: [{username}, {email}]
-    })
+    const user = await Worker.findOne({ email: email });
+
 
     if (!user) {
         throw new ApiError(404, "Worker does not exist")
@@ -392,9 +395,9 @@ const getAllWorkers=asyncHandler(async (req,res)=>{
 const getThatWorker=asyncHandler(async (req,res)=>{
         try {
             const { id } = req.query; // Change to req.query to get query parameters
-            const workers = await Worker.findOne({ _id: id });
+            const workers = await Worker.findOne({ _id: id }) || await User.findOne({_id: id});
             if (!workers) {
-                return res.status(404).json({ message: "Worker not found" });
+                return res.status(404).json({ message: "Worker or user not found" });
             }
             res.json(workers);
         } catch (error) {
@@ -404,19 +407,54 @@ const getThatWorker=asyncHandler(async (req,res)=>{
 
 const requestsforWorker=asyncHandler(async (req,res)=>{
         try {
-            const { workerno } = req.query; // Change to req.query to get query parameters
-            const {accepted}=req.query;
-
-            const workers = await Request.find({ _id: workerno , accepted: 'false' });
-            if (!workers) {
+            const { workerno,accepted} = req.query; // Change to req.query to get query parameters
+            const requests = await Request.find({ workerId : workerno,accepted :accepted });
+            if (!requests || requests.length === 0) {
+                return res.status(404).json({ message: "No requests found for this worker" });
+              }
+            if (!requests) {
                 return res.status(404).json({ message: "Worker not found" });
             }
-            res.json(workers);
+            res.json(requests);
         } catch (error) {
+            console.error('Internal server error:', error);
             res.status(500).json({ error: error.message });
         }
 });
 
+const requeststrueforWorker=asyncHandler(async (req,res)=>{
+        try {
+            const { workerno,accepted} = req.query; // Change to req.query to get query parameters
+            const requests = await Request.find({ workerId : workerno,accepted :accepted });
+            if (!requests || requests.length === 0) {
+                return res.status(404).json({ message: "No requests found for this worker" });
+              }
+            if (!requests) {
+                return res.status(404).json({ message: "Worker not found" });
+            }
+            res.json(requests);
+        } catch (error) {
+            console.error('Internal server error:', error);
+            res.status(500).json({ error: error.message });
+        }
+});
+
+const bookingdetails=asyncHandler(async (req,res)=>{
+    try {
+        const { workerId,userId,isCompleted} = req.query; // Change to req.query to get query parameters
+        const bookings = await Booking.find({ userId: userId , workerId:workerId , isCompleted: isCompleted});
+        if (!bookings || bookings.length === 0) {
+            return res.status(404).json({ message: "No booking details found for this user" });
+          }
+        if (!bookings) {
+            return res.status(404).json({ message: "worker not found" });
+        }
+        res.json(bookings);
+    } catch (error) {
+        console.error('Internal server error:', error);
+        res.status(500).json({ error: error.message });
+    }
+});
 
 export {
     registerWorker,
@@ -431,5 +469,7 @@ export {
     deleteShopPictures,
     getAllWorkers,
     getThatWorker,
-    requestsforWorker
+    requestsforWorker,
+    requeststrueforWorker,
+    bookingdetails
 };

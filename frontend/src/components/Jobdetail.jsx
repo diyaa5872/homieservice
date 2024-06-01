@@ -11,6 +11,9 @@ import JobCard from './CardForJobDetail';  // Update this import to match your f
 import Alert from '@mui/material/Alert';
 import Button from '@mui/material/Button';
 import Navbarworker from './Navbarworker';
+import {useState,useEffect} from 'react';
+import axios from 'axios';
+import { useParams } from 'react-router-dom';
 
 const initialSteps = [
   {
@@ -31,6 +34,28 @@ export default function VerticalLinearStepper() {
   const [activeStep, setActiveStep] = React.useState(0);
   const [steps, setSteps] = React.useState(initialSteps);
   const [buttonText, setButtonText] = React.useState("Accept Job");
+  const [jobData,setJobData]=useState([]);
+  const {id}=useParams();
+
+  const workerno = localStorage.getItem('workerno');
+  console.log(workerno);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const workerno = localStorage.getItem('workerno');
+      console.log(workerno);
+      try {
+        const response = await axios.get(`http://localhost:8000/api/v1/workers/bookingdetails?workerId=${workerno}&userId=${id}&isCompleted=false`);
+        console.log(response.data);
+        // Assuming your API returns an object with job data
+        setJobData(response.data);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+  }, []); // Empty dependency array to run effect only once on component mount
 
   const handleAcceptJob = () => {
     setSteps((prevSteps) =>
@@ -58,6 +83,7 @@ export default function VerticalLinearStepper() {
     <>
     <Navbarworker />
       <JobCard 
+      data={jobData}
         onAcceptJob={handleAcceptJob} 
         onGoToJob={handleGoToJob} 
         onCompletionOfJob={handleCompletionOfJob} 

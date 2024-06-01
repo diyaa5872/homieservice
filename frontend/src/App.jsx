@@ -5,6 +5,7 @@ import Login from './components/Login';
 import Frontpage from './components/Frontpage';
 import SignUp from "./components/Register"
 import SignUpWorker from './components/Registerworker';
+import SignInworker from './components/Loginworker';
 import Navbar from "./components/Navbar"
 import Sidebar from "./components/Sidebar"
 import Mainuser from './components/Mainuser';
@@ -17,7 +18,7 @@ import Updatepage from './components/Profilepage';
 import Account from './components/Accountdetails';
 import Updatedetails from './components/Updatedetails';
 import Workerrequested from './components/Workerrequested';
-import WorkerCard from './components/UserCard';
+import uservalaCard from './components/UserCard';
 import Otp from './components/Otp';
 import JobCard from './components/CardForJobDetail';
 import Jobdetail from './components/Jobdetail';
@@ -34,6 +35,7 @@ import Unavailablepage from './components/Unavailablepage'
 import Sidebarworker from './components/Sidebarworker';
 import Otpuser from './components/Otpuser';
 import WorkersByProfession from './components/WorkerByProfession';
+import Workercard from './components/Workercard';
 
 function App(){
   return (
@@ -46,6 +48,7 @@ function App(){
         <Route path='/addressuser/:userId' element={<Addressworker />} />
         <Route path='/otpuser' element={<Otpuser />} />
         <Route path='/registerworker' element={<SignUpWorker />} />
+        <Route path='/loginworker' element={<SignInworker />} />
         <Route path='/mainpage' element={<Mainuser />} />
         <Route path='/categories/:profession' element={<Plumberpages />} />
         <Route path='/request/:id' element={<Perperson />} />
@@ -58,7 +61,7 @@ function App(){
         <Route path='/otpworker' element={<Otp />} />
         <Route path='/otherdetails' element={<Otherdetailsworker />} />
         <Route path='/mainworkerpage' element={<Workerrequested />} />
-        <Route path='/viewingrequest' element={<Jobdetail />} />
+        <Route path='/viewingrequest/:id' element={<Jobdetail />} />
         <Route path='/workerprofile' element={<Profileworker />} />
         <Route path='/updateworkerprofile' element={<Workerdetailsupdate />} />
       </Routes>

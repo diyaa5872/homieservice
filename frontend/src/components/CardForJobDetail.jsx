@@ -39,7 +39,7 @@ function stringAvatar(name) {
   };
 }
 
-export default function JobCard({ onAcceptJob, onGoToJob, onCompletionOfJob, buttonText }) {
+export default function JobCard({ onAcceptJob, onGoToJob, onCompletionOfJob, buttonText, data }) {
   const [jobAccepted, setJobAccepted] = React.useState(false);
 
   const handleButtonClick = () => {
@@ -52,6 +52,9 @@ export default function JobCard({ onAcceptJob, onGoToJob, onCompletionOfJob, but
       onCompletionOfJob();
     }
   };
+
+  // Destructure nested properties from the data object
+  const { address, currentstatus, date, isCompleted, notes, timeSlot, userId, workerId } = data;
 
   return (
     <Box
@@ -71,7 +74,6 @@ export default function JobCard({ onAcceptJob, onGoToJob, onCompletionOfJob, but
             minWidth:
               'clamp(0px, (calc(var(--stack-point) - 2 * var(--Card-padding) - 2 * var(--variant-borderWidth, 0px)) + 1px - 100%) * 999, 100%)',
           },
-          // make the card resizable for demo
           overflow: 'auto',
           resize: 'horizontal',
         }}
@@ -82,14 +84,6 @@ export default function JobCard({ onAcceptJob, onGoToJob, onCompletionOfJob, but
           </Stack>
         </AspectRatio>
         <CardContent>
-          <Grid>
-            <Typography fontSize="xl" fontWeight="lg">
-              Diya Dhankhar
-            </Typography>
-          </Grid>
-          <Typography level="body-sm" fontWeight="lg" textColor="text.tertiary">
-            Plumber
-          </Typography>
           <Sheet
             sx={{
               bgcolor: 'background.level1',
@@ -105,13 +99,13 @@ export default function JobCard({ onAcceptJob, onGoToJob, onCompletionOfJob, but
               <Typography level="body-xs" fontWeight="lg">
                 Date
               </Typography>
-              <Typography fontWeight="lg">2024-05-20</Typography>
+              <Typography fontWeight="lg">{date}</Typography>
             </div>
             <div>
               <Typography level="body-s" fontWeight="lg">
                 Timings:
               </Typography>
-              <Typography fontWeight="lg">10-3</Typography>
+              <Typography fontWeight="lg">-{timeSlot}</Typography>
             </div>
           </Sheet>
           <Sheet
@@ -129,7 +123,7 @@ export default function JobCard({ onAcceptJob, onGoToJob, onCompletionOfJob, but
               <Typography level="body-s" fontWeight="lg">
                 Address:
               </Typography>
-              <Typography fontWeight="lg">c lane,tilak nagar,rohtak,haryana,india</Typography>
+              <Typography fontWeight="lg">{address}</Typography>
             </div>
           </Sheet>
           <Box sx={{ display: 'flex', gap: 1.5, '& > button': { flex: 1 } }}>
