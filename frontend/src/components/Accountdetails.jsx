@@ -19,6 +19,9 @@ import TextField from '@mui/material/TextField';
 import { green } from '@mui/material/colors';
 import Box from '@mui/material/Box';
 import {useNavigate} from 'react-router-dom'
+import {useEffect} from 'react';
+import axios from 'axios';
+import { response } from 'express';
 
 const bull = (
     <Box
@@ -138,6 +141,24 @@ export default function Accountdetails() {
   const theme = useTheme();
   const [value, setValue] = React.useState(0);
   const navigate=useNavigate();
+  const [accountData, setAccountData] = React.useState(null); // State to hold account data
+
+  const id=localStorage.getItem('userId');
+  console.log(id);
+
+  React.useEffect(() => {
+    const fetchAccountData = async () => {
+      try {
+        const response = await axios.get(`http://localhost:8000/api/v1/workers/work?id=${id}`); // Replace with your API endpoint
+        setAccountData(response.data);
+        console.log(response.data);
+      } catch (error) {
+        console.error("There was an error fetching the account details!", error);
+      }
+    };
+
+    fetchAccountData();
+  }, [id]);
 
   const handleEditDetails = () => {
     navigate('/updateuserprofile');
@@ -215,7 +236,7 @@ export default function Accountdetails() {
         <TextField
           id="outlined-read-only-input"
           label="Full Name"
-          defaultValue="Diya Dhankhar"
+          defaultValue={response.data.fullName}
           InputProps={{
             readOnly: true,
           }}

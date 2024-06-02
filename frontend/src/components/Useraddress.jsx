@@ -1,4 +1,3 @@
-
 import * as React from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
@@ -11,15 +10,15 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import axios from  'axios';
-import {useNavigate} from 'react-router-dom';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 
 function Copyright(props) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
       {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">  
+      <Link color="inherit" href="https://mui.com/">
         Your Website
       </Link>{' '}
       {new Date().getFullYear()}
@@ -32,33 +31,35 @@ function Copyright(props) {
 
 const defaultTheme = createTheme();
 
-export default function Addressworker() {
+export default function Useraddress() {
   
-  const navigate=useNavigate();
+  const navigate = useNavigate();
 
-  const handleSubmit =async (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    const address=({
-      street:data.get('street') || "",
+    const address_user = {
+      street: data.get('street') || "",
       city: data.get('city') || "",
       state: data.get('state') || "",
       country: data.get('country') || "",
-      postalCode: data.get('postalCode')  || ""
-    });
+      postalCode: data.get('postalCode') || ""
+    };
 
-    console.log(address);
+    console.log(address_user);
 
-    const workerId = localStorage.getItem('workerno');
-    console.log('Worker ID:', workerId);
+    const userId = localStorage.getItem('userId');
+    console.log(userId);
 
     try {
-      const response = await axios.put(`http://localhost:8000/api/v1/workers/addaddress?workerId=${workerId}`,{ ...address});
-      console.log('Address added successfully', response.data);
+      const response = await axios.put(`http://localhost:8000/api/v1/users/addaddress?userId=${userId}`, {
+        ...address_user
+      });
 
-      navigate('/extradetailsform');
+      console.log(response.data);
+      navigate('/mainpage'); // Navigate to the next page after successful submission
     } catch (error) {
-      console.error('There was an error adding the address!', error);
+      console.error('There was an error submitting the form!', error);
     }
   };
 
@@ -89,7 +90,7 @@ export default function Addressworker() {
                   required
                   fullWidth
                   id="street"
-                  label="enter your local address"
+                  label="Enter your local address"
                   autoFocus
                 />
               </Grid>
@@ -108,7 +109,7 @@ export default function Addressworker() {
                   required
                   fullWidth
                   name="state"
-                  label="state"
+                  label="State"
                   id="state"
                   autoComplete="state"
                 />
@@ -121,7 +122,6 @@ export default function Addressworker() {
                   label="Enter your Country"
                   id="country"
                   autoComplete="country"
-                  default="India"
                 />
               </Grid>
               <Grid item xs={12}>
@@ -130,9 +130,8 @@ export default function Addressworker() {
                   fullWidth
                   name="postalCode"
                   label="Postal Code"
-                  id="postalCode"
-                  autoComplete="postalCode"
-                  default="India"
+                  id="postalcode"
+                  autoComplete="postalcode"
                 />
               </Grid>
             </Grid>
@@ -142,7 +141,7 @@ export default function Addressworker() {
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-            Next
+              Next
             </Button>
           </Box>
         </Box>

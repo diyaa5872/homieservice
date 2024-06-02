@@ -3,8 +3,6 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
@@ -12,12 +10,14 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import axios from 'axios';
+import {useNavigate} from 'react-router-dom';
 
 function Copyright(props) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
       {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">  
+      <Link color="inherit" href="https://mui.com/">
         Your Website
       </Link>{' '}
       {new Date().getFullYear()}
@@ -26,21 +26,35 @@ function Copyright(props) {
   );
 }
 
-// TODO remove, this demo shouldn't need to reset the theme.
-
 const defaultTheme = createTheme();
 
 export default function Extradetailsform() {
-  const handleSubmit = (event) => {
+  const navigate = useNavigate();
+
+  const handleSubmit =async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      contact:data.get('contact'),
+    const address=({
+      contact_no: data.get('contact_no'),
       experienceYears: data.get('experienceYears'),
       age: data.get('age'),
       homeVisitFee: data.get('homeVisitFee'),
-      description: data.get('description'),
+      description: data.get('description')
     });
+
+    console.log(address);
+
+    const workerId = localStorage.getItem('workerno');
+    console.log('Worker ID:', workerId);
+
+    try {
+      const response = await axios.put(`http://localhost:8000/api/v1/workers/addextradetails?workerId=${workerId}`,{ ...address});
+      console.log('Other details added successfully', response.data);
+
+      navigate('/uploadworkerfiles');
+    } catch (error) {
+      console.error('There was an error adding the address!', error);
+    }
   };
 
   return (
@@ -66,11 +80,11 @@ export default function Extradetailsform() {
               <Grid item xs={12}>
                 <TextField
                   autoComplete="given-name"
-                  name="contact"
+                  name="contact_no"
                   required
                   fullWidth
-                  id="contact"
-                  type="Number"
+                  id="contact_no"
+                  type="number"
                   label="Contact Number"
                   autoFocus
                 />
@@ -82,7 +96,7 @@ export default function Extradetailsform() {
                   id="experienceYears"
                   label="No. of Years of Experience"
                   name="experienceYears"
-                  type="Number"
+                  type="number"
                   autoComplete="experienceYears"
                 />
               </Grid>
@@ -92,7 +106,7 @@ export default function Extradetailsform() {
                   fullWidth
                   name="age"
                   label="Enter Your Age"
-                  type="Number"
+                  type="number"
                   id="age"
                   autoComplete="age"
                 />
@@ -103,7 +117,7 @@ export default function Extradetailsform() {
                   fullWidth
                   name="homeVisitFee"
                   label="Enter your required fee for the home visit"
-                  type="Number"
+                  type="number"
                   id="homeVisitFee"
                   autoComplete="homeVisitFee"
                 />
@@ -120,13 +134,12 @@ export default function Extradetailsform() {
               </Grid>
             </Grid>
             <Button
-            onSubmit={handleSubmit}
               type="submit"
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-            Next
+              Next
             </Button>
           </Box>
         </Box>

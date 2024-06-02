@@ -242,6 +242,7 @@ const changeCurrentPassword = asyncHandler(async (req, res) => {
         .status(200)
         .json(new ApiResponse(200, {}, "Password changed successfully"));
 });
+
 const getCurrentUser = asyncHandler(async(req, res) => {
     return res
     .status(200)
@@ -456,6 +457,89 @@ const bookingdetails=asyncHandler(async (req,res)=>{
     }
 });
 
+const addotherdetails = asyncHandler(async (req, res) => {
+    const {workerId}=req.query;
+    const { street ,city,state,country,postalCode} = req.body;
+
+    if (!street || !city || !state || !country || !postalCode ) {
+        throw new ApiError(400, "All the fields are required");
+    }
+
+    const user = await Worker.findByIdAndUpdate(
+        workerId,
+        {
+            $push: {
+                address_worker: {
+                    street,
+                    city,
+                    state,
+                    country,
+                    postalCode
+                }
+            }
+        },
+        { new: true }
+    ).select("-password");
+
+    return res.status(200).json(new ApiResponse(200, user, "Address added successfully"));
+});
+
+const addextradetails = asyncHandler(async (req, res) => {
+    const {workerId}=req.query;
+    const { contact_no,age,description,homeVisitFee,experienceYears} = req.body;
+
+    if (!contact_no || !description || !age || !homeVisitFee || !experienceYears) {
+        throw new ApiError(400, "All the fields are required");
+    }
+
+    const user = await Worker.findByIdAndUpdate(
+        workerId,
+        {
+            $set: {
+                contact_no: contact_no,
+                age: age,
+                homeVisitFee: homeVisitFee,
+                description: description,
+                experienceYears: experienceYears
+            }
+        },
+        { new: true }
+    ).select("-password");
+
+    return res.status(200).json(new ApiResponse(200, user, "Other details added successfully"));
+});
+
+const addimages = asyncHandler(async (req, res) => {
+    const {workerId}=req.query;
+    const { coverImage} = req.body;
+
+    if (!coverImage ) {
+        throw new ApiError(400, "All images fields are required");
+    }
+
+        // Upload cover image to Cloudinary if provided
+        const coverImageLocalPath = req.files?.coverImage?.path;
+        console.log(coverImageLocalPath);
+
+        if (!coverImageLocalPath) {
+            throw new ApiError(400, "cover image file is required")
+        }
+    
+        const coverImageUrl= await uploadOnCloudinary(coverImageLocalPath);
+
+    const user = await Worker.findByIdAndUpdate(
+        workerId,
+        {
+            $set: {
+            coverImage: coverImageUrl
+            }
+        },
+        { new: true }
+    ).select("-password");
+
+    return res.status(200).json(new ApiResponse(200, user, "images details added successfully"));
+});
+
 export {
     registerWorker,
     loginWorker,
@@ -471,5 +555,8 @@ export {
     getThatWorker,
     requestsforWorker,
     requeststrueforWorker,
-    bookingdetails
+    bookingdetails,
+    addotherdetails,
+    addextradetails,
+    addimages
 };

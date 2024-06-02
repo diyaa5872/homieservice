@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import {bookingdetails, requeststrueforWorker,requestsforWorker,getThatWorker,getAllWorkers, registerWorker, loginWorker , logoutWorker , changeCurrentPassword , getCurrentUser , updateAccountDetails , updateUserCoverImage , updateUserShopPictures, deleteShopPictures } from '../controllers/worker.controller.js';
+import {addimages,addextradetails,addotherdetails,bookingdetails, requeststrueforWorker,requestsforWorker,getThatWorker,getAllWorkers, registerWorker, loginWorker , logoutWorker , changeCurrentPassword , getCurrentUser , updateAccountDetails , updateUserCoverImage , updateUserShopPictures, deleteShopPictures } from '../controllers/worker.controller.js';
 import { upload } from '../middlewares/multer.middleware.js';
 import {verifyJWT} from '../middlewares/auth.middleware.js';
 import { refreshAccessToken } from '../controllers/worker.controller.js';
@@ -51,6 +51,19 @@ router.route("/requesttrueforworker").get(
 
 router.route("/bookingdetails").get(
     bookingdetails
+);
+
+router.route("/addaddress").put(
+    addotherdetails
+);
+
+router.route("/addextradetails").put(
+    addextradetails
+);
+
+router.route("/addimages").put(
+    upload.single('coverImage'), //now can send image
+    addimages
 );
 
 export default router;

@@ -51,7 +51,7 @@ const userSchema=new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref:  "Otp"
     },
-    worker_id:[{
+    workerId:[{
         type: mongoose.Schema.Types.ObjectId,
         ref: "Worker"
     }],

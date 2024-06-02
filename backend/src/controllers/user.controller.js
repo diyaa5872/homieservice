@@ -281,6 +281,7 @@ const updateAccountDetails=asyncHandler(async(req,res)=>{//this is for the updat
 })
 
 const addAddress = asyncHandler(async (req, res) => {
+    const {userId}=req.query;
     const { street, city, state, country, postalCode } = req.body;
 
     if (!street || !city || !state || !country || !postalCode) {
@@ -288,7 +289,7 @@ const addAddress = asyncHandler(async (req, res) => {
     }
 
     const user = await User.findByIdAndUpdate(
-        req.user?._id,
+        userId,
         {
             $push: {
                 address_user: {

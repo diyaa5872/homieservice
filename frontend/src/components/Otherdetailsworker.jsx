@@ -1,3 +1,5 @@
+
+
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import Stepper from '@mui/material/Stepper';
@@ -10,8 +12,10 @@ import Typography from '@mui/material/Typography';
 import Navbarworker from './Navbarworker';
 import Addressworker from './Addressworker';
 import Uploadfilesworker from './Uploadfilesworker';
-import Extradetailsform from './Extradetailsform'; // Make sure to update this import path
-import {useNavigate}  from 'react-router-dom';
+import Extradetailsform from './Extradetailsform';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios'; // Import axios
+import { data } from 'jquery';
 
 const steps = [
   {
@@ -33,11 +37,7 @@ const steps = [
 
 export default function VerticalLinearStepper() {
   const [activeStep, setActiveStep] = React.useState(0);
-  const navigate=useNavigate();
-
-  const submitHandle=()=>{
-    navigate('/mainworkerpage');
-  }
+  const navigate = useNavigate();
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -49,6 +49,54 @@ export default function VerticalLinearStepper() {
 
   const handleReset = () => {
     setActiveStep(0);
+  };
+
+  const submitHandle = async (event) => {
+    try {
+      event.preventDefault();
+      const data = new FormData(event.currentTarget);
+      const address_user = {
+        street: data.get('street') || "",
+        city: data.get('city') || "",
+        state: data.get('state') || "",
+        country: data.get('country') || "",
+        postalCode: data.get('postalCode') || ""
+      };
+      console.log(address_user);
+
+      const extradetails={
+        contact_no: data.get('contact_no') || "",
+        experienceYears: data.get('experienceYears') || "",
+        age: data.get('age') || "",
+        homeVisitFee: data.get('homeVisitFee') ||  "",
+        description:  data.get('description') || ""
+      }
+
+      console.log(extradetails);
+
+      const images={
+        coverImage: data.get('coverImage') || "",
+        shopPictures: data.get('shopPictures') || ""
+      }
+      console.log(images);
+  
+      const workerId= localStorage.getItem('workerno');
+      console.log(workerId);
+      // Axios request to fetch data from the backend
+      const response = await axios.put(`http://localhost:8000/api/v1/workers/addotherdetails?workerId=${workerId}`,{
+        ...address_user,
+        ...images,
+        ...extradetails
+      });
+      
+      // Log the response data
+      console.log(response.data);
+      
+      // Navigate to the main worker page after successful registration
+      navigate('/mainworkerpage');
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
   };
 
   return (

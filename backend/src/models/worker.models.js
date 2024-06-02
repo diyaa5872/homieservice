@@ -84,7 +84,7 @@ const workerSchema=new mongoose.Schema({
     description: {
         type: String
     },
-    user_id: [{
+    userId: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: "User"
     }],

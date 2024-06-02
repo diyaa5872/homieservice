@@ -36,6 +36,7 @@ import Sidebarworker from './components/Sidebarworker';
 import Otpuser from './components/Otpuser';
 import WorkersByProfession from './components/WorkerByProfession';
 import Workercard from './components/Workercard';
+import Useraddress from './components/Useraddress';
 
 function App(){
   return (
@@ -56,6 +57,8 @@ function App(){
         <Route path='/unavailable' element={<Unavailablepage />} />
         <Route path='/profileuser' element={<Account />} />
         <Route path='/updateuserprofile' element={<Updatepage />} />
+        <Route path='/Useraddress' element={<Useraddress />} />
+        <Route path='/extradetailsform' element={<Extradetailsform />} />
 
         {/* worker routes */}
         <Route path='/otpworker' element={<Otp />} />
@@ -64,6 +67,8 @@ function App(){
         <Route path='/viewingrequest/:id' element={<Jobdetail />} />
         <Route path='/workerprofile' element={<Profileworker />} />
         <Route path='/updateworkerprofile' element={<Workerdetailsupdate />} />
+        <Route path='/addressworker' element={<Addressworker />} />
+        <Route path='/uploadworkerfiles' element={<Uploadfilesworker />} />
       </Routes>
     </div>
   )

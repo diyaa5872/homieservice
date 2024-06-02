@@ -21,6 +21,9 @@ router.route('/login').post(//changed post to get
 router.route('/updateAccountDetails').post(
     updateAccountDetails
 )
+router.route('/addaddress').put(
+    addAddress
+)
 
 router.route("/change-password").post(verifyJWT, changeCurrentPassword)
 

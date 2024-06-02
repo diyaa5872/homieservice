@@ -12,6 +12,8 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import {useNavigate} from 'react-router-dom';
+import axios  from 'axios';
 
 function Copyright(props) {
   return (
@@ -29,16 +31,29 @@ function Copyright(props) {
 const defaultTheme = createTheme();
 
 export default function Uploadfilesworker() {
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    const file1 = data.get('file1');
-    const file2 = data.getAll('file2');
-    console.log({
-      file1,
-      file2,
-    });
-  };
+const navigate = useNavigate();
+
+const handleSubmit =async (event) => {
+  event.preventDefault();
+  const data = new FormData(event.currentTarget);
+  const address=({
+    coverImage: data.get('coverImage')
+  });
+
+  console.log(address);
+
+  const workerId = localStorage.getItem('workerno');
+  console.log('Worker ID:', workerId);
+
+  try {
+    const response = await axios.put(`http://localhost:8000/api/v1/workers/addimages?workerId=${workerId}`,{ ...address});
+    console.log('Other details added successfully', response.data);
+
+    navigate('/mainworkerpage');
+  } catch (error) {
+    console.error('There was an error adding the address!', error);
+  }
+};
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -63,34 +78,19 @@ export default function Uploadfilesworker() {
               <Grid item xs={12}>
                 <input
                   accept="image/*"
-                  id="file1"
+                  id="coverImage"
                   type="file"
-                  name="file1"
+                  name="coverImage"
                   multiple={false}
                 />
-                <label htmlFor="file1">
+                <label htmlFor="coverImage">
                   <Button variant="contained" component="span">
                     Upload your image
                   </Button>
                 </label>
               </Grid>
-              <Grid item xs={12}>
-                <input
-                  accept="image/*"
-                  id="file2"
-                  type="file"
-                  name="file2"
-                  multiple
-                />
-                <label htmlFor="file2">
-                  <Button variant="contained" component="span">
-                    Upload Your shop images 
-                  </Button>
-                </label>
-              </Grid>
             </Grid>
             <Button
-            onSubmit={handleSubmit}
               type="submit"
               fullWidth
               variant="contained"

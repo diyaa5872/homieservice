@@ -6,47 +6,16 @@ import { ApiResponse } from "../utils/ApiResponse.js";
 import {Worker} from "../models/worker.models.js"
 import { User } from "../models/user.models.js";
 
-// const request = asyncHandler(async (req, res) => {
-//     const { workStatus, accepted } = req.body
-//     const {user_id}=req.params
-//     const {worker_id}=req.params
-//     console.log(workStatus);
-//     console.log(accepted);
-
-//     if (!workStatus || !accepted) {
-//         throw new ApiError(400, "workStatus or accepted field is required to be filled");
-//     }
-
-//     try {
-//         // Create a new instance of the Request model
-//         const newRequest = await Request.create({
-//             user_id,
-//             worker_id,
-//             accepted
-//         });
-
-//         await newRequest.save();
-
-//         return res.status(201).json(
-//             new ApiResponse(201, newRequest, "Request sent successfully")     
-//         );
-//     } catch (error) {
-//         // Handle any errors that occur during the process
-//         console.error("Error:", error);
-//         res.status(400).json({ error: "Invalid details", message: error.message || "An unexpected error occurred" });
-//     }
-// });
-
 const acceptRequest = asyncHandler(async (req, res) => {
-    const { worker_id } = req.query;
-    const { user_id } = req.query;
+    const { workerId } = req.query;
+    const { userId } = req.query;
 
-    if(!user_id || !worker_id){
+    if(!userId || !workerId){
         throw new ApiError(400,"pass user_id and worker_id")
     }
 
     try {
-        const request = await Request.findOne({ user_id, worker_id, accepted: false }).exec();
+        const request = await Request.findOne({ userId, workerId, accepted: false }).exec();
         
         if (request) {
             await Request.findByIdAndUpdate(request._id, {
@@ -56,7 +25,7 @@ const acceptRequest = asyncHandler(async (req, res) => {
                 }
             });
 
-        const booking = await Booking.findOne({user_id,worker_id,currentstatus:'pending'}).exec();
+        const booking = await Booking.findOne({userId,workerId,currentstatus:'pending'}).exec();
         if(booking){
             await Booking.findByIdAndUpdate(booking._id,{
                 $set:{
@@ -77,11 +46,11 @@ const acceptRequest = asyncHandler(async (req, res) => {
 );
 
 const cancelRequest = asyncHandler(async (req, res) => {
-    const { worker_id, user_id } = req.query;
+    const { workerId, userId } = req.query;
 
     try {
-        const request = await Request.findOne({ user_id, worker_id, workStatus: "pending" }).exec();
-        const booking = await Booking.findOne({ user_id, worker_id, currentstatus: "pending" }).exec();
+        const request = await Request.findOne({ userId, workerId, workStatus: "pending" }).exec();
+        const booking = await Booking.findOne({ userId, workerId, currentstatus: "pending" }).exec();
 
         if (request || booking) { // Check if either request or booking exists
             if (request) {
@@ -101,15 +70,15 @@ const cancelRequest = asyncHandler(async (req, res) => {
 });
 
 const completedRequest = asyncHandler(async (req, res) => {
-    const { worker_id } = req.query
-    const { user_id } = req.query
+    const { workerId } = req.query
+    const { userId } = req.query
 
-    if(!user_id || !worker_id){
+    if(!userId || !workerId){
         throw new ApiError(400,"pass user_id and worker_id")
     }
 
     try {
-        const booking = await Booking.findOne({user_id,worker_id,currentstatus:'accepted',isCompleted:'false' }).exec()
+        const booking = await Booking.findOne({userId,workerId,currentstatus:'accepted',isCompleted:'false' }).exec()
 
         if(booking){
             await Booking.findByIdAndUpdate(booking._id,{
@@ -118,20 +87,20 @@ const completedRequest = asyncHandler(async (req, res) => {
                 }
         })
 
-            const user=await User.findOne({user_id}).exec()
+            const user=await User.findOne({userId}).exec()
             if(user){
                 await User.findByIdAndUpdate(user._id,{
                     $push:{
-                        worker_id: worker_id
+                        workerId: workerId
                     }
                 })
             }
 
-            const worker=await Worker.findOne({worker_id}).exec()
+            const worker=await Worker.findOne({workerId}).exec()
             if(worker){
                 await User.findByIdAndUpdate(user._id,{
                     $push:{
-                        user_id: user_id
+                        userId: userId
                     }
                 })
             }
