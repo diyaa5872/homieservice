@@ -56,7 +56,7 @@ function App(){
         <Route path='/requesting/:id' element={<Bookingcomponents />} />
         <Route path='/unavailable' element={<Unavailablepage />} />
         <Route path='/profileuser' element={<Account />} />
-        <Route path='/updateuserprofile' element={<Updatepage />} />
+        <Route path='/updatedetails' element={<Updatedetails />} />
         <Route path='/Useraddress' element={<Useraddress />} />
         <Route path='/extradetailsform' element={<Extradetailsform />} />
 

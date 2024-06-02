@@ -25,6 +25,9 @@ import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import axios from 'axios';
+import { useEffect,useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 
 function Copyright(props) {
@@ -89,7 +92,25 @@ const fabGreenStyle = {
 
 export default function FloatingActionButtonZoom() {
   const theme = useTheme();
+  const navigate=useNavigate();
   const [value, setValue] = React.useState(0);
+  const [userData, setUserData] = useState({});
+
+  const id=localStorage.getItem('userId');
+  console.log(id);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`http://localhost:8000/api/v1/workers/work?id=${id}`);
+        console.log(response.data);
+        setUserData(response.data);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      } 
+    };
+    fetchData();
+  }, [id]);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -104,21 +125,48 @@ export default function FloatingActionButtonZoom() {
     exit: theme.transitions.duration.leavingScreen,
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmitUserDetails = async (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
+    const data = new FormData(event.target);
+    const details= {
       email: data.get('email'),
-      password: data.get('password'),
-      street: data.get('street'),
-      city: data.get('city'),
-      state: data.get('state'),
-      country: data.get('country'),
-      oldPassword: data.get('oldPassword'),
-      newPassword: data.get('newPassword'),
-      oldNumber:data.get('oldNumber'),
-      newNumber: data.get('newNumber')
-    });
+      fullName: data.get('fullName'),
+    }
+      console.log(details);
+
+    // try {
+    //   const response = await axios.put(`http://localhost:8000/api/v1/users/updateemail`, {
+    //     details
+    //   });
+      navigate('/mainpage');
+
+    // } catch (error) {
+    //   console.error('Error updating user details:', error);
+    // }
+  };
+  
+  const handleSubmitAddress = async (event) => {
+    event.preventDefault();
+    const formdata = new FormData(event.target);
+    const address={
+      street: formdata.get('street'),
+      city: formdata.get('city'),
+      state: formdata.get('state'),
+      country: formdata.get('country'),
+      postalCode: formdata.get('postalCode'),
+    }
+
+    try {
+      const response = await axios.put(`http://localhost:8000/api/v1/users/addanotheraddress`, {
+        address
+        // Add other fields as needed
+      });
+      console.log(response.data);
+      // Handle success response
+    } catch (error) {
+      console.error('Error adding address:', error);
+      // Handle error
+    }
   };
 
   return (
@@ -142,9 +190,7 @@ export default function FloatingActionButtonZoom() {
           aria-label="action tabs example"
         >
           <Tab label="Update User Details" {...a11yProps(0)} />
-          <Tab label="Contact Details" {...a11yProps(1)} />
-          <Tab label="Add address" {...a11yProps(2)} />
-          <Tab label="Change password" {...a11yProps(2)} />
+          <Tab label="Add address" {...a11yProps(1)} />
         </Tabs>
       </AppBar>
       <SwipeableViews
@@ -170,7 +216,7 @@ export default function FloatingActionButtonZoom() {
           <Typography component="h1" variant="h5">
             User Details
           </Typography>
-          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+          <Box component="form" noValidate sx={{ mt: 1 }}>
             <TextField
               margin="normal"
               required
@@ -180,6 +226,8 @@ export default function FloatingActionButtonZoom() {
               name="email"
               autoComplete="email"
               autoFocus
+              value={userData.email || ''}
+              onChange={(e) => setUserData({ ...userData, email: e.target.value })}
             />
             <TextField
               margin="normal"
@@ -190,14 +238,17 @@ export default function FloatingActionButtonZoom() {
               type="fullName"
               id="fullName"
               autoComplete="fullName"
+              value={userData.fullName || ''}
+              onChange={(e) => setUserData({ ...userData, fullName: e.target.value })}
             />
             <Button
+            onClick={handleSubmitUserDetails}
               type="submit"
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-              Update
+              Update  user details
             </Button>
           </Box>
         </Box>
@@ -221,62 +272,9 @@ export default function FloatingActionButtonZoom() {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Contact number
-          </Typography>
-          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="oldNumber"
-              label="oldNumber"
-              name="oldNumber"
-              autoComplete="oldNumber"
-              autoFocus
-            />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="newNumber"
-              label="newNumber"
-              type="newNumber"
-              id="newNumber"
-              autoComplete="newNumber"
-            />
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-            >
-              Update
-            </Button>
-          </Box>
-        </Box>
-        <Copyright sx={{ mt: 8, mb: 4 }} />
-      </Container>
-    </ThemeProvider>
-        </TabPanel>
-        <TabPanel value={value} index={2} dir={theme.direction}>
-        <ThemeProvider theme={defaultTheme}>
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
-        <Box
-          sx={{
-            marginTop: 8,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-          }}
-        >
-          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5">
             Add Address
           </Typography>
-          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+          <Box component="form" noValidate sx={{ mt: 1 }}>
             <TextField
               margin="normal"
               required
@@ -295,6 +293,7 @@ export default function FloatingActionButtonZoom() {
               label="city"
               id="city"
               autoComplete="city"
+              
             />
             <TextField
               margin="normal"
@@ -314,66 +313,23 @@ export default function FloatingActionButtonZoom() {
               id="country"
               autoComplete="country"
             />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              name="postalCode"
+              label="postalCode"
+              id="postalCode"
+              autoComplete="postalCode"
+            />
             <Button
               type="submit"
+              onClick={handleSubmitAddress}
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
               ADD Address
-            </Button>
-          </Box>
-        </Box>
-        <Copyright sx={{ mt: 8, mb: 4 }} />
-      </Container>
-    </ThemeProvider>
-        </TabPanel>
-        <TabPanel value={value} index={3} dir={theme.direction}>
-        <ThemeProvider theme={defaultTheme}>
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
-        <Box
-          sx={{
-            marginTop: 8,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-          }}
-        >
-          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            Change password
-          </Typography>
-          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="oldPassword"
-              label="oldPassword"
-              name="oldPassword"
-              autoComplete="oldPassword"
-              autoFocus
-            />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="newPassword"
-              label="newPassword"
-              type="newPassword"
-              id="newPassword"
-              autoComplete="newPassword"
-            />
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-            >
-              Update
             </Button>
           </Box>
         </Box>

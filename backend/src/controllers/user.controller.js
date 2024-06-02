@@ -353,6 +353,53 @@ const getThatUser=asyncHandler(async (req,res)=>{
     }
 });
 
+const updateemailandfullname=asyncHandler(async (req,res)=>{
+    try {
+        const { id } = req.query; // Change to req.query to get query parameters
+        const {fullName,email}=req.body;
+        const user = await User.findOneAndUpdate({ _id: id },{
+            $set:{
+                email: email,
+                fullName: fullName
+            }
+        });
+        if (!user) {
+            return res.status(404).json({ message: "user not found" });
+        }
+        
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+const addanotheraddress=asyncHandler(async (req,res)=>{
+    try {
+        const { id } = req.query; // Change to req.query to get query parameters
+        const {street,state,city,country,postalCode}=req.body;
+
+        if (!street || !city || !state || !country || !postalCode) {
+            return res.status(404).json({ message: "enter all the details for the address" });
+        }
+        const user = await User.findOneAndUpdate({ _id: id },{
+            $push:{
+                address_user: {
+                    street,
+                    city,
+                    state,
+                    country,
+                    postalCode
+                }
+            }
+        });
+        if (!user) {
+            return res.status(404).json({ message: "user not found" });
+        }
+        
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
 export {
     registerUser,
     loginUser,
@@ -363,5 +410,7 @@ export {
     addAddress,
     updateUserCoverImage,
     changeCurrentPassword,
-    getThatUser
+    getThatUser,
+    updateemailandfullname,
+    addanotheraddress
 }
