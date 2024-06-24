@@ -37,13 +37,13 @@ export default function DrawerMobileNavigation() {
 
   const handleLogout = async () => {
     try {
-      const response = await axios.post('http://localhost:8000/api/v1/users/logout'); // Adjust the URL as necessary
-      console.log('Logout response:', response.data);
+      // const response = await axios.post('http://localhost:8000/api/v1/users/logout'); // Adjust the URL as necessary
+      // console.log('Logout response:', response.data);
       
       // Delay the navigation by 2 seconds (2000 milliseconds)
       setTimeout(() => {
         navigate('/');
-      }, 2000);
+      }, 1000);
 
       setOpen(false); // Close the modal after initiating logout
     } catch (error) {

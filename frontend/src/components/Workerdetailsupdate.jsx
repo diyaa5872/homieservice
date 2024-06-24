@@ -25,20 +25,11 @@ import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import axios from 'axios';
+import {useEffect,useState} from "react";
 
 
-function Copyright(props) {
-    return (
-      <Typography variant="body2" color="text.secondary" align="center" {...props}>
-        {'Copyright © '}
-        <Link color="inherit" href="https://mui.com/">
-          Your Website
-        </Link>{' '}
-        {new Date().getFullYear()}
-        {'.'}
-      </Typography>
-    );
-  }
+
 
 const defaultTheme = createTheme();
 
@@ -88,8 +79,24 @@ const fabGreenStyle = {
 };
 
 export default function Workerdetailsupdate() {
+  const [date, setData] = useState(null);
   const theme = useTheme();
   const [value, setValue] = React.useState(0);
+  const id=localStorage.getItem("workerno");
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`http://localhost:8000/api/v1/workers/work?id=${id}`);
+        console.log(response);
+        setData(response.data); // Assuming response.data contains the fetched data
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+  }, [id]); 
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -128,13 +135,13 @@ export default function Workerdetailsupdate() {
     <Navbar />
     <Box
       sx={{
-        bgcolor: 'background.paper',
+        bgcolor: '#FFF2D8',
         width: '100%',
         position: 'relative',
-        minHeight: 200,
+        minHeight: 837,
       }}
     >
-      <AppBar position="static" color="default">
+      <AppBar position="static" sx={{bgcolor: "#BCA37F"}}>
         <Tabs
           value={value}
           onChange={handleChange}
@@ -182,14 +189,14 @@ export default function Workerdetailsupdate() {
               label="Email Address"
               name="email"
               autoComplete="email"
-              defaultValue='dhankhardiya.8@gmail.com'
+              value={date? date.email : ""}
               autoFocus
             />
             <TextField
               margin="normal"
               required
               fullWidth
-              defaultValue='Diya Dhankhar'
+              value={date? date.fullName : ""}
               name="fullName"
               label="fullName"
               id="fullName"
@@ -199,7 +206,7 @@ export default function Workerdetailsupdate() {
               margin="normal"
               required
               fullWidth
-              defaultValue='7492749293'
+              value={date? date.contact_no : "xxxxx"}
               name="contactnumber"
               label="contactNumber"
               type="Number"
@@ -210,7 +217,7 @@ export default function Workerdetailsupdate() {
               margin="normal"
               required
               fullWidth
-              defaultValue='230'
+              value={date? date.homeVisitFee : "0"}
               name="homeVisitFee"
               label="homeVisitFee"
               type="Number"
@@ -221,7 +228,7 @@ export default function Workerdetailsupdate() {
               margin="normal"
               required
               fullWidth
-              defaultValue='worked at 20 homes till now'
+              value={date? date.description : "not described"}
               name="description"
               label="description"
               id="description"
@@ -231,13 +238,12 @@ export default function Workerdetailsupdate() {
               type="submit"
               fullWidth
               variant="contained"
-              sx={{ mt: 3, mb: 2 }}
+              sx={{ mt: 3, mb: 2 ,bgcolor:"#113946"}}
             >
               Update
             </Button>
           </Box>
         </Box>
-        <Copyright sx={{ mt: 8, mb: 4 }} />
       </Container>
     </ThemeProvider>
         </TabPanel>
@@ -268,7 +274,6 @@ export default function Workerdetailsupdate() {
               label="street"
               name="street"
               autoComplete="street"
-              defaultValue='c lane'
               autoFocus
             />
             <TextField
@@ -279,13 +284,11 @@ export default function Workerdetailsupdate() {
               label="city"
               id="city"
               autoComplete="city"
-              defaultValue='rohtak'
             />
             <TextField
               margin="normal"
               required
               fullWidth
-              defaultValue='haryana'
               name="state"
               label="state"
               id="state"
@@ -301,17 +304,24 @@ export default function Workerdetailsupdate() {
               defaultValue='india'
               autoComplete="country"
             />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              name="postal code"
+              label="postal code"
+              id="postalCode"
+            />
             <Button
               type="submit"
               fullWidth
               variant="contained"
-              sx={{ mt: 3, mb: 2 }}
+              sx={{ mt: 3, mb: 2,bgcolor:"#113946" }}
             >
               ADD Address
             </Button>
           </Box>
         </Box>
-        <Copyright sx={{ mt: 8, mb: 4 }} />
       </Container>
     </ThemeProvider>
         </TabPanel>
@@ -359,13 +369,12 @@ export default function Workerdetailsupdate() {
               type="submit"
               fullWidth
               variant="contained"
-              sx={{ mt: 3, mb: 2 }}
+              sx={{ mt: 3, mb: 2,bgcolor:"#113946" }}
             >
               Update
             </Button>
           </Box>
         </Box>
-        <Copyright sx={{ mt: 8, mb: 4 }} />
       </Container>
     </ThemeProvider>
         </TabPanel>
@@ -397,24 +406,23 @@ export default function Workerdetailsupdate() {
                 name="file1"
                 multiple={false}
               />
-              <label htmlFor="file1">
+              {/* <label htmlFor="file1">
                 <Button variant="contained" component="span">
                   Select image
                 </Button>
-              </label>
+              </label> */}
             </Grid>
           </Grid>
           <Button
             type="submit"
             fullWidth
             variant="contained"
-            sx={{ mt: 3, mb: 2 }}
+            sx={{ mt: 3, mb: 2,bgcolor:"#113946" }}
           >
             Update Profile Image
           </Button>
         </Box>
       </Box>
-      <Copyright sx={{ mt: 8, mb: 4 }} />
     </Container>
   </ThemeProvider>
 </TabPanel>
@@ -446,24 +454,18 @@ export default function Workerdetailsupdate() {
                 name="file2"
                 multiple={true}
               />
-              <label htmlFor="file1">
-                <Button variant="contained" component="span">
-                  Select image
-                </Button>
-              </label>
             </Grid>
           </Grid>
           <Button
             type="submit"
             fullWidth
             variant="contained"
-            sx={{ mt: 3, mb: 2 }}
+            sx={{ mt: 3, mb: 2 ,bgcolor:"#113946"}}
           >
             Add Shop images
           </Button>
         </Box>
       </Box>
-      <Copyright sx={{ mt: 8, mb: 4 }} />
     </Container>
   </ThemeProvider>
 </TabPanel>

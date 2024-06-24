@@ -9,7 +9,7 @@ import Typography from '@mui/joy/Typography';
 import Sheet from '@mui/joy/Sheet';
 import Avatar from '@mui/material/Avatar';
 import Stack from '@mui/material/Stack';
-import {useNavigate} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 function stringToColor(string) {
   let hash = 0;
@@ -29,21 +29,43 @@ function stringToColor(string) {
 }
 
 function stringAvatar(name) {
+  if (!name) return { children: '?' };
+  const nameParts = name.split(' ');
+  const initials = nameParts.length > 1 ? `${nameParts[0][0]}${nameParts[1][0]}` : name[0];
   return {
     sx: {
       bgcolor: stringToColor(name),
+      borderColor: '#EAD7BB',
+      borderWidth: 2,
+      borderStyle: 'solid',
     },
-    children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`,
+    children: initials,
   };
 }
 
 export default function JobCard({ onAcceptJob, onGoToJob, onCompletionOfJob, buttonText, data }) {
   const [jobAccepted, setJobAccepted] = React.useState(false);
-  const navigate=useNavigate();
+  const [userData, setUserData] = React.useState({});
+  const navigate = useNavigate();
+
+  React.useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const response = await axios.get(`http://localhost:8000/api/v1/users/getThatUser?id=${data.userId}`);
+        console.log(response);
+        console.log(response.data.fullName)
+        setUserData(response.data);
+      } catch (error) {
+        console.error('Error fetching user data:', error);
+      }
+    };
+
+    fetchUserData();
+  }, [data.userId]);
 
   const handleAcceptJob = async () => {
     try {
-      const accepteddata=await axios.put(`http://localhost:8000/api/v1/requests/accept?workerId=${data.workerId}&userId=${data.userId}&accepted=false&currentstatus='pending'`);
+      const accepteddata = await axios.put(`http://localhost:8000/api/v1/requests/accept?workerId=${data.workerId}&userId=${data.userId}&accepted=false&currentstatus='pending'`);
       console.log(accepteddata);
       setJobAccepted(true);
       onAcceptJob();
@@ -54,7 +76,7 @@ export default function JobCard({ onAcceptJob, onGoToJob, onCompletionOfJob, but
 
   const handleCancelJob = async () => {
     try {
-      const cancelled=await axios.delete(`http://localhost:8000/api/v1/requests/cancel?userId=${data.userId}&workerId=${data.workerId}&currentstatus='pending'&workStatus='pending'`);
+      const cancelled = await axios.delete(`http://localhost:8000/api/v1/requests/cancel?userId=${data.userId}&workerId=${data.workerId}&currentstatus='pending'&workStatus='pending'`);
       console.log(cancelled.data);
       setJobAccepted(false);
       navigate('/mainworkerpage');
@@ -65,13 +87,19 @@ export default function JobCard({ onAcceptJob, onGoToJob, onCompletionOfJob, but
 
   const handleFinishJob = async () => {
     try {
-      const finished=await axios.put(`http://localhost:8000/api/v1/requests/completed?userId=${data.userId}&workerId=${data.workerId}&currentstatus='accepted'&isCompleted=false`);
+      const finished = await axios.put(`http://localhost:8000/api/v1/requests/completed?userId=${data.userId}&workerId=${data.workerId}&currentstatus='accepted'&isCompleted=false`);
       console.log(finished.data);
       onCompletionOfJob();
     } catch (error) {
       console.error('Error finishing job:', error);
     }
   };
+  // const handleFinishJob = () => {
+  //   setActiveStep(3);
+  //   setTimeout(() => {
+  //     navigate('/mainworkerpage');
+  //   }, 1000);
+  // };
 
   const handleButtonClick = () => {
     if (buttonText === "Accept Job") {
@@ -106,14 +134,14 @@ export default function JobCard({ onAcceptJob, onGoToJob, onCompletionOfJob, but
         }}
       >
         <AspectRatio flex ratio="1" maxHeight={182} sx={{ minWidth: 182 }}>
-          <Stack direction="row" spacing={2}>
-            {/* <Avatar {...stringAvatar(data.userId)} /> */}
+          <Stack direction="row" spacing={2} sx={{ bgcolor: "#BCA37F" }}>
+            <Avatar {...stringAvatar(userData.fullName)} />
           </Stack>
         </AspectRatio>
         <CardContent>
           <Sheet
             sx={{
-              bgcolor: 'background.level1',
+              bgcolor: '#EAD7BB',
               borderRadius: 'sm',
               p: 1.5,
               my: 1.5,
@@ -137,7 +165,7 @@ export default function JobCard({ onAcceptJob, onGoToJob, onCompletionOfJob, but
           </Sheet>
           <Sheet
             sx={{
-              bgcolor: 'background.level1',
+              bgcolor: '#EAD7BB',
               borderRadius: 'sm',
               p: 1.5,
               my: 1.5,
@@ -161,15 +189,15 @@ export default function JobCard({ onAcceptJob, onGoToJob, onCompletionOfJob, but
           </Sheet>
           <Box sx={{ display: 'flex', gap: 1.5, '& > button': { flex: 1 } }}>
             {jobAccepted ? (
-              <Button variant="solid" color="primary" onClick={handleButtonClick}>
+              <Button variant="solid" sx={{ backgroundColor: '#113946', color: '#fff' }} onClick={handleButtonClick}>
                 {buttonText}
               </Button>
             ) : (
               <>
-                <Button variant="outlined" color="neutral" onClick={handleCancelJob}>
+                <Button variant="outlined" sx={{ backgroundColor: '#113946', color: '#fff' }} onClick={handleCancelJob}>
                   Cancel Job
                 </Button>
-                <Button variant="solid" color="primary" onClick={handleButtonClick}>
+                <Button variant="solid" sx={{ backgroundColor: '#BCA37F', color: '#fff' }} onClick={handleButtonClick}>
                   Accept Job
                 </Button>
               </>
@@ -182,7 +210,9 @@ export default function JobCard({ onAcceptJob, onGoToJob, onCompletionOfJob, but
 }
 
 
+
 // import * as React from 'react';
+// import axios from 'axios';
 // import AspectRatio from '@mui/joy/AspectRatio';
 // import Box from '@mui/joy/Box';
 // import Button from '@mui/joy/Button';
@@ -190,26 +220,23 @@ export default function JobCard({ onAcceptJob, onGoToJob, onCompletionOfJob, but
 // import CardContent from '@mui/joy/CardContent';
 // import Typography from '@mui/joy/Typography';
 // import Sheet from '@mui/joy/Sheet';
-// import { Grid } from '@mui/material';
 // import Avatar from '@mui/material/Avatar';
 // import Stack from '@mui/material/Stack';
+// import {useNavigate} from 'react-router-dom';
 
 // function stringToColor(string) {
 //   let hash = 0;
 //   let i;
 
-//   /* eslint-disable no-bitwise */
 //   for (i = 0; i < string.length; i += 1) {
 //     hash = string.charCodeAt(i) + ((hash << 5) - hash);
 //   }
 
 //   let color = '#';
-
 //   for (i = 0; i < 3; i += 1) {
 //     const value = (hash >> (i * 8)) & 0xff;
 //     color += `00${value.toString(16)}`.slice(-2);
 //   }
-//   /* eslint-enable no-bitwise */
 
 //   return color;
 // }
@@ -223,33 +250,51 @@ export default function JobCard({ onAcceptJob, onGoToJob, onCompletionOfJob, but
 //   };
 // }
 
-// export default function JobCard({ onAcceptJob, onGoToJob, onCompletionOfJob, buttonText}) {
+// export default function JobCard({ onAcceptJob, onGoToJob, onCompletionOfJob, buttonText, data }) {
 //   const [jobAccepted, setJobAccepted] = React.useState(false);
-
-//   const workerno = localStorage.getItem('workerno');
-//   console.log(workerno);
+//   const navigate=useNavigate();
 
 //   const handleAcceptJob = async () => {
 //     try {
-//       await axios.put(`http://localhost:8000/api/v1/requests/accept?workerid=${workerno}&userId=${userId}&accepted=false`);
+//       const accepteddata=await axios.put(`http://localhost:8000/api/v1/requests/accept?workerId=${data.workerId}&userId=${data.userId}&accepted=false&currentstatus='pending'`);
+//       console.log(accepteddata);
 //       setJobAccepted(true);
 //       onAcceptJob();
 //     } catch (error) {
 //       console.error('Error accepting job:', error);
 //     }
 //   };
-  
-//   const handleButtonClick = () => {
-//     if (buttonText === "Accept Job") {
-//       onAcceptJob();
-//       setJobAccepted(true);
-//     } else if (buttonText === "Go to Job") {
-//       onGoToJob();
-//     } else if (buttonText === "Completion of Job") {
-//       onCompletionOfJob();
+
+//   const handleCancelJob = async () => {
+//     try {
+//       const cancelled=await axios.delete(`http://localhost:8000/api/v1/requests/cancel?userId=${data.userId}&workerId=${data.workerId}&currentstatus='pending'&workStatus='pending'`);
+//       console.log(cancelled.data);
+//       setJobAccepted(false);
+//       navigate('/mainworkerpage');
+//     } catch (error) {
+//       console.error('Error canceling job:', error);
 //     }
 //   };
 
+//   const handleFinishJob = async () => {
+//     try {
+//       const finished=await axios.put(`http://localhost:8000/api/v1/requests/completed?userId=${data.userId}&workerId=${data.workerId}&currentstatus='accepted'&isCompleted=false`);
+//       console.log(finished.data);
+//       onCompletionOfJob();
+//     } catch (error) {
+//       console.error('Error finishing job:', error);
+//     }
+//   };
+
+//   const handleButtonClick = () => {
+//     if (buttonText === "Accept Job") {
+//       handleAcceptJob();
+//     } else if (buttonText === "Go to Job") {
+//       onGoToJob();
+//     } else if (buttonText === "Completion of Job") {
+//       handleFinishJob();
+//     }
+//   };
 
 //   return (
 //     <Box
@@ -275,7 +320,7 @@ export default function JobCard({ onAcceptJob, onGoToJob, onCompletionOfJob, but
 //       >
 //         <AspectRatio flex ratio="1" maxHeight={182} sx={{ minWidth: 182 }}>
 //           <Stack direction="row" spacing={2}>
-//             <Avatar {...stringAvatar('Kent Dodds')} />
+//             {/* <Avatar {...stringAvatar(data.userId)} /> */}
 //           </Stack>
 //         </AspectRatio>
 //         <CardContent>
@@ -294,13 +339,13 @@ export default function JobCard({ onAcceptJob, onGoToJob, onCompletionOfJob, but
 //               <Typography level="body-xs" fontWeight="lg">
 //                 Date
 //               </Typography>
-//               <Typography fontWeight="lg">date</Typography>
+//               <Typography fontWeight="lg">{new Date(data.date).toLocaleDateString()}</Typography>
 //             </div>
 //             <div>
 //               <Typography level="body-s" fontWeight="lg">
 //                 Timings:
 //               </Typography>
-//               <Typography fontWeight="lg">timings</Typography>
+//               <Typography fontWeight="lg">{data.timeSlot.start} - {data.timeSlot.end}</Typography>
 //             </div>
 //           </Sheet>
 //           <Sheet
@@ -318,13 +363,13 @@ export default function JobCard({ onAcceptJob, onGoToJob, onCompletionOfJob, but
 //               <Typography level="body-s" fontWeight="lg">
 //                 Address:
 //               </Typography>
-//               <Typography fontWeight="lg">address</Typography>
+//               <Typography fontWeight="lg">{data.address}</Typography>
 //             </div>
 //             <div>
 //               <Typography level="body-s" fontWeight="lg">
 //                 Appointment Notes:
 //               </Typography>
-//               <Typography fontWeight="lg">notes</Typography>
+//               <Typography fontWeight="lg">{data.notes}</Typography>
 //             </div>
 //           </Sheet>
 //           <Box sx={{ display: 'flex', gap: 1.5, '& > button': { flex: 1 } }}>
@@ -334,7 +379,7 @@ export default function JobCard({ onAcceptJob, onGoToJob, onCompletionOfJob, but
 //               </Button>
 //             ) : (
 //               <>
-//                 <Button variant="outlined" color="neutral">
+//                 <Button variant="outlined" color="neutral" onClick={handleCancelJob}>
 //                   Cancel Job
 //                 </Button>
 //                 <Button variant="solid" color="primary" onClick={handleButtonClick}>

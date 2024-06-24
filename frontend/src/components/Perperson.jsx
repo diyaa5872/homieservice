@@ -158,7 +158,7 @@ export default function FloatingActionButtonZoom() {
                       <Grid item xs container direction="column" spacing={2}>
                         <Grid item xs>
                           <Typography gutterBottom variant="subtitle1" component="div">
-                            Name
+                            Review
                           </Typography>
                           <Typography variant="body2" gutterBottom>
                             I am really happy with his work
@@ -225,42 +225,37 @@ export default function FloatingActionButtonZoom() {
 
 const itemData = [
   {
-    img: 'https://images.unsplash.com/photo-1551963831-b3b1ca40c98e',
+    img: 'https://i.pinimg.com/236x/3a/20/30/3a2030b683e063a894bc4708913a6e07.jpg',
     title: 'Breakfast',
   },
   {
-    img: 'https://images.unsplash.com/photo-1551782450-a2132b4ba21d',
+    img: 'https://i.pinimg.com/236x/f8/7e/e4/f87ee4bd6e2dc1cb9b1d70f1a29eef04.jpg',
     title: 'Burger',
   },
   {
-    img: 'https://images.unsplash.com/photo-1522770179533-24471fcdba45',
+    img: 'https://i.pinimg.com/236x/79/61/8e/79618ed27fa922113226ed225bf1342b.jpg',
     title: 'Camera',
   },
   {
-    img: 'https://images.unsplash.com/photo-1444418776041-9c7e33cc5a9c',
+    img: 'https://i.pinimg.com/236x/e8/90/b1/e890b1a1a2d1e21bf477f76a0f24ab9d.jpg',
     title: 'Coffee',
   },
   {
-    img: 'https://images.unsplash.com/photo-1533827432537-70133748f5c8',
-    title: 'Hats',
+    img: 'https://i.pinimg.com/236x/07/aa/55/07aa55eb16cb364c5adf79f62cb55105.jpg',
+    title: 'mugger',
   },
   {
-    img: 'https://images.unsplash.com/photo-1558642452-9d2a7deb7f62',
-    title: 'Honey',
+    img: 'https://i.pinimg.com/236x/8d/08/46/8d0846b194ce86e6af86bbe3b6d8957a.jpg',
+    title: 'carpenter',
   },
   {
-    img: 'https://images.unsplash.com/photo-1558642452-9d2a7deb7f62',
-    title: 'Honey',
-  },
+    img: 'https://i.pinimg.com/236x/23/60/bf/2360bf11968bf683370eecb56412381a.jpg',
+    title: 'plumber',
+  }
 ];
 
-const ColorButton = styled(Button)(({ theme }) => ({
-  color: theme.palette.getContrastText(purple[500]),
-  backgroundColor: purple[500],
-  '&:hover': {
-    backgroundColor: purple[700],
-  },
-}));
+
+
 
 
 

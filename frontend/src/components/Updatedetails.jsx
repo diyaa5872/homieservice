@@ -171,10 +171,10 @@ export default function FloatingActionButtonZoom() {
     <Navbar />
     <Box
       sx={{
-        bgcolor: 'background.paper',
+        bgcolor: '#FFF2D8',
         width: '100%',
         position: 'relative',
-        minHeight: 200,
+        minHeight: 840,
       }}
     >
       <AppBar position="static" color="default">
@@ -243,7 +243,7 @@ export default function FloatingActionButtonZoom() {
               type="submit"
               fullWidth
               variant="contained"
-              sx={{ mt: 3, mb: 2 }}
+              sx={{ mt: 3, mb: 2,bgcolor:'#113946' }}
             >
               Update  user details
             </Button>
@@ -324,7 +324,7 @@ export default function FloatingActionButtonZoom() {
               onClick={handleSubmitAddress}
               fullWidth
               variant="contained"
-              sx={{ mt: 3, mb: 2 }}
+              sx={{ mt: 3, mb: 2 ,bgcolor:'#113946'}}
             >
               ADD Address
             </Button>

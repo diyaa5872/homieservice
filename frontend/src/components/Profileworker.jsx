@@ -17,49 +17,11 @@ import InputAdornment from '@mui/material/InputAdornment';
 import FormControl from '@mui/material/FormControl';
 import TextField from '@mui/material/TextField';
 import {useNavigate} from 'react-router-dom';
-
 import { green } from '@mui/material/colors';
+import axios from 'axios';
 import Box from '@mui/material/Box';
+import {useEffect,useState} from "react";
 
-const bull = (
-    <Box
-      component="span"
-      sx={{ display: 'inline-block', mx: '2px', transform: 'scale(0.8)' }}
-    >
-      •
-    </Box>
-  );
-  
-  const card = (
-    <React.Fragment>
-      <CardContent>
-        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-          Word of the Day
-        </Typography>
-        <Typography variant="h5" component="div">
-          Privacy and Data
-        </Typography>
-        <Typography sx={{ mb: 1.5 }} color="text.secondary">
-          Privacy
-        </Typography>
-        <Typography variant="body2">
-          Privacy center
-          <br />
-          {'Take control of your privacy and learn how we protect it.'}
-        </Typography>
-      </CardContent>
-      <CardActions>
-        <Typography variant="h5" component="div">
-            Third-party apps with account access
-        </Typography>
-      </CardActions>
-      <CardActions>
-        <Typography variant="xs" component="div">
-            <i>{'Once you allow to third party apps ,you will see them here.<h6>Learn more</h6>'}</i>
-        </Typography>
-      </CardActions>
-    </React.Fragment>
-  );
 
 function stringToColor(string) {
     let hash = 0;
@@ -137,8 +99,25 @@ const fabGreenStyle = {
 export default function Accountworker() {
   const theme = useTheme();
   const [value, setValue] = React.useState(0);
+  const [date, setData] = useState(null);
   const navigate=useNavigate();
+  const id=localStorage.getItem("workerno");
+  console.log(id);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`http://localhost:8000/api/v1/workers/work?id=${id}`);
+        console.log(response);
+        setData(response.data); // Assuming response.data contains the fetched data
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+  }, [id]); 
+  
   const editHandler=()=>{
     navigate('/updateworkerprofile')
   }
@@ -170,13 +149,14 @@ export default function Accountworker() {
     <Navbar />
     <Box
       sx={{
-        bgcolor: 'background.paper',
+        bgcolor: '#FFF2D8',
         width: '100%',
         position: 'relative',
-        minHeight: 200,
+        minHeight: 835,
+        height: '100%'
       }}
     >
-      <AppBar position="static" color="default">
+      <AppBar position="static" sx={{bgcolor: "#BCA37F"}}>
         <Tabs
           value={value}
           onChange={handleChange}
@@ -212,9 +192,9 @@ export default function Accountworker() {
       <div>
         
         <TextField
-          id="outlined-read-only-input"
-          label="Full Name"
-          defaultValue="Diya Dhankhar"
+          id="filled-read-only-input"
+          label="full name"
+          value={date ? date.fullName : 'fullName'}
           InputProps={{
             readOnly: true,
           }}
@@ -222,9 +202,9 @@ export default function Accountworker() {
       </div>
       <div>
         <TextField
-          id="filled-read-only-input"
-          label="email"
-          defaultValue="dhankhardiya.8@gmail.com"
+           id="filled-read-only-input"
+           label="full name"
+          value={date? date.email : "email"}
           InputProps={{
             readOnly: true,
           }}
@@ -234,7 +214,7 @@ export default function Accountworker() {
       <TextField
           id="filled-read-only-input"
           label="username"
-          defaultValue="ddiya"
+          value={date? date.username : "username"}
           InputProps={{
             readOnly: true,
           }}
@@ -244,7 +224,7 @@ export default function Accountworker() {
       <TextField
           id="filled-read-only-input"
           label="password"
-          defaultValue="1537135173"
+          value={date? date.password : "password"}
           InputProps={{
             readOnly: true,
           }}
@@ -254,7 +234,7 @@ export default function Accountworker() {
       <TextField
           id="filled-read-only-input"
           label="experienceYears"
-          defaultValue="0"
+          value={date? date.experienceYears : "0"}
           InputProps={{
             readOnly: true,
           }}
@@ -264,7 +244,7 @@ export default function Accountworker() {
       <TextField
           id="filled-read-only-input"
           label="Contact number"
-          defaultValue="xxx"
+          value={date? date.contact_no : "xxxxxx"}
           InputProps={{
             readOnly: true,
           }}
@@ -274,7 +254,7 @@ export default function Accountworker() {
       <TextField
           id="filled-read-only-input"
           label="Age"
-          defaultValue="0"
+          value={date? date.age : "not given"}
           InputProps={{
             readOnly: true,
           }}
@@ -286,10 +266,16 @@ export default function Accountworker() {
     </Box>
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
-          
+          Not Given
         </TabPanel>
         <TabPanel value={value} index={2} dir={theme.direction}>
-    
+          Not Given
+        </TabPanel>
+        <TabPanel value={value} index={3} dir={theme.direction}>
+          Not Given
+        </TabPanel>
+        <TabPanel value={value} index={4} dir={theme.direction}>
+          Not Given
         </TabPanel>
       </SwipeableViews>
       {/* {fabs.map((fab, index) => (

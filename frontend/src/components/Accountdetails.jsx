@@ -17,6 +17,7 @@ import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import {useEffect,useState} from "react";
 
 const bull = (
   <Box component="span" sx={{ display: 'inline-block', mx: '2px', transform: 'scale(0.8)' }}>
@@ -111,27 +112,26 @@ function a11yProps(index) {
 export default function AccountDetails() {
   const theme = useTheme();
   const [value, setValue] = React.useState(0);
-  const [userData, setUserData] = React.useState({
-    fullName: '',
-    email: '',
-    username: '',
-    contactNumber: '',
-  });
+  const [date, setData] = useState(null);
   const navigate = useNavigate();
 
   const userId = localStorage.getItem("userId");
 
-  React.useEffect(() => {
-    axios.get(`http://localhost:8000/api/v1/workers/work?id=${userId}`)
-      .then(response => {
-        setUserData(response.data);
-      })
-      .catch(error => {
-        console.error('Error fetching user data:', error);
-      });
-  }, [userId]);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`http://localhost:8000/api/v1/workers/work?id=${userId}`);
+        console.log(response);
+        setData(response.data); // Assuming response.data contains the fetched data
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
 
-  const handleEditDetails = () => {
+    fetchData();
+  }, [userId]); 
+
+    const handleEditDetails = () => {
     navigate('/updatedetails');
   };
 
@@ -148,10 +148,10 @@ export default function AccountDetails() {
       <Navbar />
       <Box
         sx={{
-          bgcolor: 'background.paper',
+          bgcolor: '#FFF2D8',
           width: '100%',
           position: 'relative',
-          minHeight: 200,
+          minHeight: 830,
         }}
       >
         <AppBar position="static" color="default">
@@ -171,7 +171,7 @@ export default function AccountDetails() {
         <SwipeableViews axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'} index={value} onChangeIndex={handleChangeIndex}>
           <TabPanel value={value} index={0} dir={theme.direction}>
             <div>
-              <Typography variant="h1">Account Info</Typography>
+              <Typography variant="h5">Account Info</Typography>
             </div>
             <Stack direction="row" spacing={2}>
               {/* <Avatar {...stringAvatar(userData.fullName)} sx={{ width: 56, height: 56 }} /> */}
@@ -181,7 +181,7 @@ export default function AccountDetails() {
                 <TextField
                   id="outlined-read-only-input"
                   label="Full Name"
-                  value={userData.fullName}
+                  value={date? date.fullName : ""}
                   InputProps={{
                     readOnly: true,
                   }}
@@ -191,7 +191,7 @@ export default function AccountDetails() {
                 <TextField
                   id="filled-read-only-input"
                   label="Email"
-                  value={userData.email}
+                  value={date? date.email : ""}
                   InputProps={{
                     readOnly: true,
                   }}
@@ -201,7 +201,7 @@ export default function AccountDetails() {
                 <TextField
                   id="filled-read-only-input"
                   label="Username"
-                  value={userData.username}
+                  value={date? date.username : ""}
                   InputProps={{
                     readOnly: true,
                   }}
@@ -213,15 +213,15 @@ export default function AccountDetails() {
             </Box>
           </TabPanel>
           <TabPanel value={value} index={1} dir={theme.direction}>
-            <div><Typography variant="h1">Security</Typography></div>
-            <div><Typography variant="h3">Logging in to HomeyService:</Typography></div>
+            <div><Typography variant="h5">Security:</Typography></div>
+            <div><Typography variant="h6">Logging in to HomeyService:</Typography></div>
             <div>
               <Box component="section" sx={{ p: 2, border: '1px dashed grey' }}>
                 Passkeys:
                 <TextField
   type="password"
   label="Password"
-  value={userData.password}
+  value={date? date.password : "xxxx"}
   id="outlined-start-adornment"
   sx={{ m: 1, width: '25ch' }}
   InputProps={{

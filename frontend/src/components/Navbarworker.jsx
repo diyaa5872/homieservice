@@ -5,7 +5,7 @@ import Sidebarworker from "./Sidebarworker"
 const Navbar = () => {
   return (
     <div>
-      <AppBar position="static">
+      <AppBar position="static" sx={{ backgroundColor: '#113946' }}>
         <Toolbar>
           <IconButton size="large" edge="start" color="inherit" aria-label="logo">
             <CatchingPokemonIcon />

@@ -101,10 +101,11 @@ const Workercard = ({ data, fullName ,id}) => {
           },
           overflow: 'auto',
           resize: 'horizontal',
+          bgcolor: '#FFF2D8',
         }}
       >
-        <AspectRatio flex ratio="1" maxHeight={182} sx={{ minWidth: 182 }}>
-          <Stack direction="row" spacing={2}>
+        <AspectRatio flex ratio="1" maxHeight={182} sx={{ minWidth: 182,bgcolor:"#BCA37F" }}>
+          <Stack direction="row" spacing={2} sx={{ bgcolor: "#EAD7BB", padding: 2, borderRadius: 1 }} >
             <Avatar {...stringAvatar(fullName)} />
           </Stack>
         </AspectRatio>
@@ -128,8 +129,8 @@ const Workercard = ({ data, fullName ,id}) => {
             </div>
           </Sheet>
           <Box sx={{ display: 'flex', gap: 1.5, '& > button': { flex: 1 } }}>
-            <Button variant="solid" color="primary" onClick={viewHandler}>
-              View Order
+            <Button variant="solid" color="primary"  sx={{bgcolor:"#BCA37F"}} onClick={viewHandler}>
+              View Request
             </Button>
           </Box>
         </CardContent>
