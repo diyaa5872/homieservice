@@ -11,18 +11,18 @@ import CardContent from '@mui/joy/CardContent';
 import Typography from '@mui/joy/Typography';
 import FormControl from '@mui/joy/FormControl';
 import Autocomplete, { createFilterOptions } from '@mui/joy/Autocomplete';
-import {useNavigate}  from  'react-router-dom';
-import {useParams} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import axios from 'axios';
 
 const professions = [
-    { title: 'Plumber', src:'https://i.pinimg.com/236x/6b/d4/b0/6bd4b0add6ef695e958f156a2601749f.jpg' },
-    { title: 'Carpenter',src:'https://i.pinimg.com/236x/dc/05/f0/dc05f08a847bf23bf58d7bccaa20b2ba.jpg' },
-    { title: 'Painter',src:'https://i.pinimg.com/236x/15/34/50/153450821fe99a39b4280b7e5528b491.jpg' },
-    { title: 'Contractor',src:'https://i.pinimg.com/236x/2f/56/0e/2f560e502cfde55734f4dc8465ea376b.jpg' },
-    {title: 'Electrician',src:'https://i.pinimg.com/236x/7b/19/e6/7b19e6c0b293a5e99d7d4f7bf7516250.jpg'},
-    {title:'Home helper',src:'https://i.pinimg.com/236x/d5/83/53/d583531dbe3383834e3d0e9e23653adc.jpg'},
-    {title: 'labours',src:'https://i.pinimg.com/236x/bc/f3/46/bcf346bd20854f1e65c45d8cdd461b56.jpg'}
+    { title: 'Plumber', src: 'https://i.pinimg.com/236x/6b/d4/b0/6bd4b0add6ef695e958f156a2601749f.jpg' },
+    { title: 'Carpenter', src: 'https://i.pinimg.com/236x/dc/05/f0/dc05f08a847bf23bf58d7bccaa20b2ba.jpg' },
+    { title: 'Painter', src: 'https://i.pinimg.com/236x/15/34/50/153450821fe99a39b4280b7e5528b491.jpg' },
+    { title: 'Contractor', src: 'https://i.pinimg.com/236x/2f/56/0e/2f560e502cfde55734f4dc8465ea376b.jpg' },
+    { title: 'Electrician', src: 'https://i.pinimg.com/236x/7b/19/e6/7b19e6c0b293a5e99d7d4f7bf7516250.jpg' },
+    { title: 'Home helper', src: 'https://i.pinimg.com/236x/d5/83/53/d583531dbe3383834e3d0e9e23653adc.jpg' },
+    { title: 'Labours', src: 'https://i.pinimg.com/236x/bc/f3/46/bcf346bd20854f1e65c45d8cdd461b56.jpg' },
 ];
 
 const Item = styled(Sheet)(({ theme }) => ({
@@ -40,25 +40,30 @@ const filterOptions = createFilterOptions({
 });
 
 const Mainuser = () => {
-    
-    const navigate=useNavigate();
+
+    const navigate = useNavigate();
     const { profession } = useParams();
 
     const handleclick = (profession) => {
-        navigate(`/categories/${profession}`);
+        const selectedProfession = professions.find((item) => item.title.toLowerCase() === profession);
+        if (selectedProfession) {
+            navigate(`/categories/${profession}`, { state: { imageSrc: selectedProfession.src } });
+        } else {
+            // Handle case when profession is not found
+        }
     };
 
     return (
         <div>
             <Navbar />
             <Box sx={{
-                backgroundColor: 'primary.main',
+                backgroundColor: '#BCA37F',
                 color: "white",
                 height: "200px",
                 width: "100%",
                 padding: "16px",
                 '&:hover': {
-                    backgroundColor: "primary.light",
+                    backgroundColor: "#BCA37F",
                 },
             }}>
                 <h2>How can we help</h2>
@@ -85,19 +90,18 @@ const Mainuser = () => {
                 <Grid container spacing={2}>
                     {professions.map((profession, index) => (
                         <Grid item xs={12} sm={6} md={4} key={index}>
-                            <Card sx={{ minHeight: '300px', width: '100%',cursor: 'pointer' }} onClick={() => handleclick(profession.title.toLowerCase())}>
-                                <CardCover>
+                            <Card sx={{ minHeight: '300px', width: '100%', cursor: 'pointer' }} onClick={() => handleclick(profession.title.toLowerCase())}>
+                                <CardCover
+                                    sx={{
+                                        background: '#EBF4F6',
+                                    }}
+                                >
                                     <img
                                         src={profession.src}
                                         loading="lazy"
                                         alt={profession.title}
                                     />
                                 </CardCover>
-                                <CardCover
-                                    sx={{
-                                        background: 'linear-gradient(to top, rgba(0,0,0,0.4), rgba(0,0,0,0) 200px), linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0) 300px)',
-                                    }}
-                                />
                                 <CardContent sx={{ justifyContent: 'flex-end' }}>
                                     <Typography level="title-lg" textColor="#fff">
                                         {profession.title}
@@ -106,7 +110,7 @@ const Mainuser = () => {
                                         startDecorator={<LocationOnRoundedIcon />}
                                         textColor="neutral.300"
                                     >
-                                       Our experienced {profession.title.toLowerCase()}
+                                        Our experienced {profession.title.toLowerCase()}
                                     </Typography>
                                 </CardContent>
                             </Card>
@@ -119,4 +123,3 @@ const Mainuser = () => {
 };
 
 export default Mainuser;
-

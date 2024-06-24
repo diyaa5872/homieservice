@@ -7,78 +7,77 @@ import CardCover from '@mui/joy/CardCover';
 import CardContent from '@mui/joy/CardContent';
 import Typography from '@mui/joy/Typography';
 import Navbar from './Navbar';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import axios from 'axios';
 
-export default function Plumberpages() {
-  const navigate = useNavigate();
-  const { profession } = useParams();
-  const [data, setData] = useState(null);
-  const [loading, setLoading] = useState(true);
+const Plumberpages = () => {
+    const navigate = useNavigate();
+    const { profession } = useParams();
+    const { state } = useLocation();
+    const [data, setData] = useState(null);
+    const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(`http://localhost:8000/api/v1/workers/working?profession=${profession}`);
-        console.log(response);
-        setData(response.data);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      } finally {
-        setLoading(false);
-      }
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await axios.get(`http://localhost:8000/api/v1/workers/working?profession=${profession}`);
+                setData(response.data);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchData();
+    }, [profession]);
+
+    const handleCardClick = () => {
+        navigate('/request');
     };
 
-    fetchData();
-  }, [profession]);
+    return (
+        <>
+            <Navbar />
+            <Box sx={{ width: '100%', overflow: 'hidden' }}>
+                <Card sx={{ width: '100%', margin: 0 }} component="li">
+                    <CardCover>
+                        <img
+                            src={state?.imageSrc || 'https://th.bing.com/th/id/OIP.IU0j4FNdFRCCSi1gbsIy0gHaE8?w=1920&h=400&c=1&rs=1&qlt=90&r=0&pid=InlineBlock'}
+                            loading="lazy"
+                            alt={profession}
+                            style={{ width: '100%', objectFit: 'cover' }}
+                        />
+                    </CardCover>
+                    <CardContent>
+                        <Typography
+                            level="body-lg"
+                            fontWeight="lg"
+                            textColor="#fff"
+                            mt={{ xs: 12, sm: 18 }}
+                        >
+                            {profession}
+                        </Typography>
+                    </CardContent>
+                </Card>
+            </Box>
+            {loading ? (
+                <Typography>Loading...</Typography>
+            ) : (
+                data && (
+                    <>
+                        {data.map((worker) => (
+                            <UserCard key={worker._id} profession={profession} data={worker} />
+                        ))}
+                    </>
+                )
+            )}
+        </>
+    );
+};
 
-  const handleCardClick = () => {
-    navigate('/request');
-  };
+export default Plumberpages;
 
-  return (
-    <>
-      <Navbar />
-      <Box
-        component="ul"
-        sx={{ display: 'flex', gap: 2, flexWrap: 'wrap', p: 0, m: 0 }}
-      >
-        <div>
-          <Card component="li" sx={{ minWidth: 300, flexGrow: 1 }} onClick={handleCardClick}>
-            <CardCover>
-              <img
-                src="https://th.bing.com/th/id/OIP.IU0j4FNdFRCCSi1gbsIy0gHaE8?w=89&h=90&c=1&rs=1&qlt=90&r=0&pid=InlineBlock"
-                loading="lazy"
-                alt={profession}
-              />
-            </CardCover>
-            <CardContent>
-              <Typography
-                level="body-lg"
-                fontWeight="lg"
-                textColor="#fff"
-                mt={{ xs: 12, sm: 18 }}
-              >
-                {profession}
-              </Typography>
-            </CardContent>
-          </Card>
-        </div>
-      </Box>
-      {loading ? (
-        <Typography>Loading...</Typography>
-      ) : (
-        data && (
-          <>
-            {data.map((worker) => (
-              <UserCard key={worker._id} profession={profession} data={worker} />
-            ))}
-          </>
-        )
-      )}
-    </>
-  );
-}
 
 
 // import * as React from 'react';

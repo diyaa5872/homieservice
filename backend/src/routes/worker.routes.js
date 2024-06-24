@@ -57,13 +57,13 @@ router.route("/addaddress").put(
     addotherdetails
 );
 
-router.route("/addextradetails").put(
-    addextradetails
-);
+// router.route("/addextradetails").put(
+//     addextradetails
+// );
 
-router.route("/addimages").put(
-    upload.single('coverImage'), //now can send image
-    addimages
-);
+// router.route("/addimages").put(
+//     upload.single('coverImage'), //now can send image
+//     addimages
+// );
 
 export default router;

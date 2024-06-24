@@ -459,29 +459,34 @@ const bookingdetails=asyncHandler(async (req,res)=>{
 
 const addotherdetails = asyncHandler(async (req, res) => {
     const {workerId}=req.query;
-    const { street ,city,state,country,postalCode} = req.body;
+    const { street ,city,state,country,postalCode,contact_no,age,homeVisitFee,description,experienceYears} = req.body;
 
-    if (!street || !city || !state || !country || !postalCode ) {
+    if (!street || !city || !state || !country || !postalCode || !contact_no || !age || !homeVisitFee || !description || !experienceYears) {
         throw new ApiError(400, "All the fields are required");
     }
 
     const user = await Worker.findByIdAndUpdate(
         workerId,
         {
-            $push: {
+            $set: {
                 address_worker: {
                     street,
                     city,
                     state,
                     country,
                     postalCode
-                }
+                },
+                contact_no: contact_no,
+                age: age,
+                homeVisitFee: homeVisitFee,
+                description: description,
+                experienceYears: experienceYears
             }
         },
         { new: true }
     ).select("-password");
 
-    return res.status(200).json(new ApiResponse(200, user, "Address added successfully"));
+    return res.status(200).json(new ApiResponse(200, user, "details added successfully"));
 });
 
 const addextradetails = asyncHandler(async (req, res) => {

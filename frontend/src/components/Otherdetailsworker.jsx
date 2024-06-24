@@ -1,153 +1,218 @@
-
-
 import * as React from 'react';
-import Box from '@mui/material/Box';
-import Stepper from '@mui/material/Stepper';
-import Step from '@mui/material/Step';
-import StepLabel from '@mui/material/StepLabel';
-import StepContent from '@mui/material/StepContent';
+import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
-import Paper from '@mui/material/Paper';
+import CssBaseline from '@mui/material/CssBaseline';
+import TextField from '@mui/material/TextField';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
+import Link from '@mui/material/Link';
+import Grid from '@mui/material/Grid';
+import Box from '@mui/material/Box';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
-import Navbarworker from './Navbarworker';
-import Addressworker from './Addressworker';
-import Uploadfilesworker from './Uploadfilesworker';
-import Extradetailsform from './Extradetailsform';
+import Container from '@mui/material/Container';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios'; // Import axios
-import { data } from 'jquery';
+import axios from 'axios';
 
-const steps = [
-  {
-    label: 'Extra details',
-    description: '',
-    formComponent: <Extradetailsform />
-  },
-  {
-    label: 'Add your Address',
-    description: '',
-    formComponent: <Addressworker />
-  },
-  {
-    label: 'Upload Files',
-    description: '',
-    formComponent: <Uploadfilesworker />
-  },
-];
+function Copyright(props) {
+  return (
+    <Typography variant="body2" color="text.secondary" align="center" {...props}>
+      {'Copyright © '}
+      <Link color="inherit" href="https://mui.com/">
+        Your Website
+      </Link>{' '}
+      {new Date().getFullYear()}
+      {'.'}
+    </Typography>
+  );
+}
+
+// TODO remove, this demo shouldn't need to reset the theme.
+
+const defaultTheme = createTheme();
 
 export default function VerticalLinearStepper() {
-  const [activeStep, setActiveStep] = React.useState(0);
   const navigate = useNavigate();
 
-  const handleNext = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+  const workerId=localStorage.getItem('workerno')
+
+  const handleSignUpClick = () => {
+    navigate('/Registeruser');
   };
 
-  const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
-  };
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    const street = formData.get('street');
+    const city = formData.get('city');
+    const state = formData.get('state');
+    const country = formData.get('country');
+    const postalCode = formData.get('country');
+    const contact_no = formData.get('contact_no');
+    const age = formData.get('age');
+    const experienceYears = formData.get('experienceYears');
+    const homeVisitFee = formData.get('homeVisitFee');
+    const description = formData.get('description');
 
-  const handleReset = () => {
-    setActiveStep(0);
-  };
-
-  const submitHandle = async (event) => {
-    try {
-      event.preventDefault();
-      const data = new FormData(event.currentTarget);
-      const address_user = {
-        street: data.get('street') || "",
-        city: data.get('city') || "",
-        state: data.get('state') || "",
-        country: data.get('country') || "",
-        postalCode: data.get('postalCode') || ""
-      };
-      console.log(address_user);
-
-      const extradetails={
-        contact_no: data.get('contact_no') || "",
-        experienceYears: data.get('experienceYears') || "",
-        age: data.get('age') || "",
-        homeVisitFee: data.get('homeVisitFee') ||  "",
-        description:  data.get('description') || ""
-      }
-
-      console.log(extradetails);
-
-      const images={
-        coverImage: data.get('coverImage') || "",
-        shopPictures: data.get('shopPictures') || ""
-      }
-      console.log(images);
+    console.log(street,city,state,country,postalCode,contact_no,age,experienceYears,homeVisitFee,description);
   
-      const workerId= localStorage.getItem('workerno');
-      console.log(workerId);
-      // Axios request to fetch data from the backend
-      const response = await axios.put(`http://localhost:8000/api/v1/workers/addotherdetails?workerId=${workerId}`,{
-        ...address_user,
-        ...images,
-        ...extradetails
+    try {
+      const response = await axios.put(`http://localhost:8000/api/v1/workers/addaddress?workerId=${workerId}`, {
+        street,
+        city,
+        state,
+        country,
+        postalCode,
+        contact_no,
+        experienceYears,
+        age,
+        homeVisitFee,
+        description
       });
-      
-      // Log the response data
-      console.log(response.data);
-      
-      // Navigate to the main worker page after successful registration
+
       navigate('/mainworkerpage');
     } catch (error) {
-      console.error('Error fetching data:', error);
+      console.error('Error signing in:', error);
     }
   };
+  
 
   return (
-    <>
-      <Navbarworker />
-      <Box sx={{ maxWidth: 400 }}>
-        <Stepper activeStep={activeStep} orientation="vertical">
-          {steps.map((step, index) => (
-            <Step key={step.label}>
-              <StepLabel
-                optional={
-                  index === steps.length - 1 ? (
-                    <Typography variant="caption">Last step</Typography>
-                  ) : null
-                }
-              >
-                {step.label}
-              </StepLabel>
-              <StepContent>
-                {step.formComponent}
-                <Box sx={{ mb: 2 }}>
-                  <div>
-                    <Button
-                      variant="contained"
-                      onClick={handleNext}
-                      sx={{ mt: 1, mr: 1 }}
-                    >
-                      {index === steps.length - 1 ? 'Finish' : 'Continue'}
-                    </Button>
-                    <Button
-                      disabled={index === 0}
-                      onClick={handleBack}
-                      sx={{ mt: 1, mr: 1 }}
-                    >
-                      Back
-                    </Button>
-                  </div>
-                </Box>
-              </StepContent>
-            </Step>
-          ))}
-        </Stepper>
-        {activeStep === steps.length && (
-          <Paper square elevation={0} sx={{ p: 3 }}>
-            <Typography>All steps completed - you&apos;re finished</Typography>
-            <Button onClick={submitHandle} sx={{ mt: 1, mr: 1 }}>
-              Completed Registration
+    <ThemeProvider theme={defaultTheme}>
+      <Container component="main" maxWidth="xs">
+        <CssBaseline />
+        <Box
+          sx={{
+            marginTop: 8,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+          }}
+        >
+          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+            <LockOutlinedIcon />
+          </Avatar>
+          <Typography component="h1" variant="h5">
+            Details :
+          </Typography>
+          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+            <h2>Address Details</h2>
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              id="street"
+              label="enter your local address"
+              name="street"
+              autoComplete="street"
+              autoFocus
+            />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              name="city"
+              label="enter your city"
+              id="city"
+              autoComplete="city"
+              autoFocus
+            />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              id="state"
+              label="current state"
+              name="state"
+              autoComplete="state"
+              autoFocus
+            />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              name="country"
+              label="country"
+              type="country"
+              id="country"
+            />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              id="postalCode"
+              label="postalCode"
+              name="postalCode"
+              autoComplete="postalCode"
+              autoFocus
+            />
+            <h2>General details</h2>
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              name="contact_no"
+              label="Contact No"
+              id="contact_no"
+              autoComplete="contact_no"
+              autoFocus
+            />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              id="experienceYears"
+              label="no of years of experience"
+              name="experienceYears"
+              autoComplete="experienceYears"
+              autoFocus
+            />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              id="age"
+              label="age"
+              name="age"
+              autoComplete="age"
+              autoFocus
+            />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              id="homeVisitFee"
+              name="homeVisitFee"
+              label="Fee for Visiting Home"
+              autoFocus
+            />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              id="description"
+              label="description"
+              name="description"
+              autoComplete="description"
+              autoFocus
+            />
+            <FormControlLabel
+              control={<Checkbox value="remember" color="primary" />}
+              label="Remember me"
+            />
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              sx={{ mt: 3, mb: 2 }}
+            >
+              Submit
             </Button>
-          </Paper>
-        )}
-      </Box>
-    </>
+          </Box>
+        </Box>
+        <Copyright sx={{ mt: 8, mb: 4 }} />
+      </Container>
+    </ThemeProvider>
   );
 }

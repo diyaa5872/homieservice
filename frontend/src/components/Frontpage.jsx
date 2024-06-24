@@ -30,7 +30,7 @@ const Frontpage = () => {
             <span className="gradient-text">Your Trusted Partner</span> for Home Services
           </h1>
           <p className="paragraph">
-            Choose ___ for reliable, efficient, and high-quality home services. Our experienced professionals are here to provide comprehensive solutions that keep your home in top condition. We are dedicated to exceeding your expectations and delivering peace of mind.
+            Choose HandyHive for reliable, efficient, and high-quality home services. Our experienced professionals are here to provide comprehensive solutions that keep your home in top condition. We are dedicated to exceeding your expectations and delivering peace of mind.
           </p>
           <form id="form" autoComplete="off">
             <button onClick={handleUserClick} className="btn" aria-label="user">
@@ -91,17 +91,11 @@ const Frontpage = () => {
         <div className="slider">
           <div className="card" data-tilt>
             <div className="content">
-              <img src="https://github.com/ecemgo/mini-samples-great-tricks/assets/13468728/10088b1a-c0aa-42a9-8dff-1a692eb597d6" alt="" />
+              <img src="https://i.pinimg.com/236x/30/ce/aa/30ceaa495a034bca77ca7f5c171013ed.jpg" alt="" />
               <h1>Personalized Guidance</h1>
               <p>
-                Whether you are pursuing a career change, entrepreneurship, or
-                personal development, a mentor offers substantial advice and
-                support to navigate your unique path.
+              “Empowering communities by connecting those in need with opportunities, our home service app is a beacon of hope for those seeking to uplift their lives through meaningful work.”
               </p>
-              <button className="btn btn-grad">
-                <span>Learn More</span>
-                <ion-icon name="arrow-forward-outline"></ion-icon>
-              </button>
             </div>
           </div>
           {/* Repeat the card structure for other cards */}

@@ -3,44 +3,55 @@ import AspectRatio from '@mui/joy/AspectRatio';
 import Avatar from '@mui/material/Avatar';
 import Stack from '@mui/material/Stack';
 import Box from '@mui/joy/Box';
-import Button from '@mui/joy/Button';
 import Card from '@mui/joy/Card';
 import CardContent from '@mui/joy/CardContent';
 import Typography from '@mui/joy/Typography';
 import Sheet from '@mui/joy/Sheet';
-import {useNavigate} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 function stringToColor(string) {
-    let hash = 0;
-    let i;
-  
-    /* eslint-disable no-bitwise */
-    for (i = 0; i < string.length; i += 1) {
-      hash = string.charCodeAt(i) + ((hash << 5) - hash);
-    }
-  
-    let color = '#';
-  
-    for (i = 0; i < 3; i += 1) {
-      const value = (hash >> (i * 8)) & 0xff;
-      color += `00${value.toString(16)}`.slice(-2);
-    }
-    /* eslint-enable no-bitwise */
-  
-    return color;
+  let hash = 0;
+  let i;
+
+  /* eslint-disable no-bitwise */
+  for (i = 0; i < string.length; i += 1) {
+    hash = string.charCodeAt(i) + ((hash << 5) - hash);
   }
-  
-  function stringAvatar(name) {
+
+  let color = '#';
+
+  for (i = 0; i < 3; i += 1) {
+    const value = (hash >> (i * 8)) & 0xff;
+    color += `00${value.toString(16)}`.slice(-2);
+  }
+  /* eslint-enable no-bitwise */
+
+  return color;
+}
+
+function stringAvatar(name) {
+  if (!name) {
+    // Handle case where name is undefined or null
     return {
       sx: {
-        bgcolor: stringToColor(name),
+        bgcolor: '#BCA37F', // Fallback background color for Avatar
+        color: '#fff', // Fallback text color for Avatar
       },
-      children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`,
+      children: '',
     };
   }
 
-export default function UserCard({data}) {
-  const navigate=useNavigate();
+  return {
+    sx: {
+      bgcolor: '#BCA37F', // Background color for Avatar
+      color: '#fff', // Text color for Avatar
+    },
+    children: `${name.split(' ')[0][0]}${name.split(' ')[1] ? name.split(' ')[1][0] : ''}`,
+  };
+}
+
+export default function UserCard({ data }) {
+  const navigate = useNavigate();
 
   return (
     <Box
@@ -94,12 +105,13 @@ export default function UserCard({data}) {
           // make the card resizable for demo
           overflow: 'auto',
           resize: 'horizontal',
+          bgcolor: '#FFF2D8', // Background color for the card
         }}
       >
         <AspectRatio flex ratio="1" maxHeight={182} sx={{ minWidth: 182 }}>
-        <Stack direction="row" spacing={2}>
-      <Avatar {...stringAvatar('Kent Dodds')} />
-    </Stack>
+          <Stack direction="row" spacing={2} sx={{ bgcolor: '#113946', p: 2 }}>
+            <Avatar {...stringAvatar(data.fullName)} />
+          </Stack>
         </AspectRatio>
         <CardContent>
           <Sheet
@@ -110,20 +122,20 @@ export default function UserCard({data}) {
               my: 1.5,
               display: 'flex',
               gap: 2,
-              '& > div': { flex: 1 },
+              '& > div': { flex: 1, bgcolor: '#EAD7BB', p: 1 }, // Reduced padding to 1
             }}
           >
-            {/* <div>
-              <Typography level="body-xs" fontWeight="lg">
-                Articles
-              </Typography>
-              <Typography fontWeight="lg">34</Typography>
-            </div> */}
             <div>
-              <Typography level="body-xs" fontWeight="lg">
-                Customer Name:
+              <Typography
+                level="body-xs"
+                fontWeight="lg"
+                sx={{ color: '#000', p: '10px' }} // Adjusted padding for the customer name
+              >
+                <h2>Customer Name:</h2>
               </Typography>
-              <Typography fontWeight="lg">{data.fullName}</Typography>
+              <Typography fontWeight="lg" sx={{ color: '#000', p: '10px' }}>
+                {data.fullName}
+              </Typography>
             </div>
           </Sheet>
         </CardContent>

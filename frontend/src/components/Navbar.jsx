@@ -5,13 +5,13 @@ import Sidebar from "./Sidebar"
 const Navbar = () => {
   return (
     <div>
-      <AppBar position="static">
+      <AppBar position="static" sx={{ backgroundColor: '#113946' }}>
         <Toolbar>
           <IconButton size="large" edge="start" color="inherit" aria-label="logo">
             <CatchingPokemonIcon />
           </IconButton>
           <Typography variant="h6" component='div' sx={{flexGrow: 1}}>
-            Home Service
+            HandyHive
           </Typography>
           <Stack direction='row' spacing={2}>
             <Button color="inherit"><Sidebar /></Button>

@@ -34,7 +34,7 @@ export default function Otp() {
     await axios.post('http://localhost:8000/api/v1/otps/verifyingotp', { otp, email })
       .then(response => {
         console.log("OTP verification response:", response.data);
-        navigate('/addressworker');
+        navigate('/otherdetails');
       })
       .catch(error => {
         console.error('There was an error verifying the OTP!', error);

@@ -1,6 +1,8 @@
 import express from "express"
 import cors from "cors"
 import cookieParser from "cookie-parser"
+import { Server } from "socket.io";
+import http from "http"; // Import http module
 
 const app = express()
 
@@ -8,6 +10,19 @@ app.use(cors({
     origin: process.env.CORS_ORIGIN,
     credentials: true
 }))
+
+const httpServer = http.createServer(app);
+const io = new Server(httpServer);
+
+io.on("connection", (socket) => {
+    console.log("What is socket",socket.id);
+    console.log("socket is active to be connected");
+
+    socket.on("chat",(payload)=>{
+        console.log("what is payload?",payload);
+        io.emit("chat",payload);
+    })
+});
 
 app.use(express.json({limit: "16kb"}))
 app.use(express.urlencoded({extended: true, limit: "16kb"}))

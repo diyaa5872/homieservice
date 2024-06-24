@@ -37,6 +37,7 @@ import Otpuser from './components/Otpuser';
 import WorkersByProfession from './components/WorkerByProfession';
 import Workercard from './components/Workercard';
 import Useraddress from './components/Useraddress';
+import Chatbox from './components/Chat';
 
 function App(){
   return (
@@ -52,6 +53,7 @@ function App(){
         <Route path='/loginworker' element={<SignInworker />} />
         <Route path='/mainpage' element={<Mainuser />} />
         <Route path='/categories/:profession' element={<Plumberpages />} />
+        <Route path='/chatbox' element={<Chatbox />} />
         <Route path='/request/:id' element={<Perperson />} />
         <Route path='/requesting/:id' element={<Bookingcomponents />} />
         <Route path='/unavailable' element={<Unavailablepage />} />
