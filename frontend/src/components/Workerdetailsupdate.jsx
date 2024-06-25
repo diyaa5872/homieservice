@@ -256,7 +256,7 @@ export default function Workerdetailsupdate() {
               required
               fullWidth
               id="street"
-              label="street"
+              label="Local Street Area"
               name="street"
               autoComplete="street"
               autoFocus

@@ -88,7 +88,6 @@ export default function DateValidationDisablePast() {
         const response = await axios.get(`http://localhost:8000/api/v1/workers/work?id=${id}`);
         console.log(response.data);
         setData(response.data);
-        setAddress(response.data.address_worker);
         localStorage.setItem('workerId', response.data._id);
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -105,6 +104,7 @@ export default function DateValidationDisablePast() {
         const response = await axios.get(`http://localhost:8000/api/v1/users/getThatUser?id=${userId}`);
         console.log(response.data);
         setDatas(response.data);
+        setAddress(response.data.address_user);
       } catch (error) {
         console.error('Error fetching data:', error);
       } finally {

@@ -91,7 +91,7 @@ export default function VerticalLinearStepper() {
               required
               fullWidth
               id="street"
-              label="enter your local address"
+              label="Enter your local address"
               name="street"
               autoComplete="street"
               autoFocus
@@ -101,7 +101,7 @@ export default function VerticalLinearStepper() {
               required
               fullWidth
               name="city"
-              label="enter your city"
+              label="Enter your city"
               id="city"
               autoComplete="city"
               autoFocus
@@ -111,7 +111,7 @@ export default function VerticalLinearStepper() {
               required
               fullWidth
               id="state"
-              label="current state"
+              label="Current state"
               name="state"
               autoComplete="state"
               autoFocus
@@ -121,7 +121,7 @@ export default function VerticalLinearStepper() {
               required
               fullWidth
               name="country"
-              label="country"
+              label="Country"
               id="country"
             />
             <TextField
@@ -129,7 +129,7 @@ export default function VerticalLinearStepper() {
               required
               fullWidth
               id="postalCode"
-              label="postalCode"
+              label="Postal Code"
               name="postalCode"
               autoComplete="postalCode"
               autoFocus
@@ -140,7 +140,7 @@ export default function VerticalLinearStepper() {
               required
               fullWidth
               name="contact_no"
-              label="Contact No"
+              label="Contact No."
               id="contact_no"
               autoComplete="contact_no"
               autoFocus
@@ -150,7 +150,7 @@ export default function VerticalLinearStepper() {
               required
               fullWidth
               id="experienceYears"
-              label="no of years of experience"
+              label="No of years of Experience"
               name="experienceYears"
               autoComplete="experienceYears"
               autoFocus
@@ -160,7 +160,7 @@ export default function VerticalLinearStepper() {
               required
               fullWidth
               id="age"
-              label="age"
+              label="Age"
               name="age"
               autoComplete="age"
               autoFocus
@@ -171,7 +171,7 @@ export default function VerticalLinearStepper() {
               fullWidth
               id="homeVisitFee"
               name="homeVisitFee"
-              label="Fee for Visiting Home"
+              label="Fee for Home Visit"
               autoFocus
             />
             <TextField
@@ -179,7 +179,7 @@ export default function VerticalLinearStepper() {
               required
               fullWidth
               id="description"
-              label="description"
+              label="About your work"
               name="description"
               autoComplete="description"
               autoFocus

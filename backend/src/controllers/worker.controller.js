@@ -41,23 +41,7 @@ const registerWorker = asyncHandler(async (req, res) => {
             throw new ApiError(409, "User with email or username already exists");
         }
 
-    // // Upload cover image to Cloudinary if provided
-    // const coverImageLocalPath = req.files?.coverImage[0]?.path;
 
-    // if (!coverImageLocalPath) {
-    //     throw new ApiError(400, "cover image file is required")
-    // }
-
-    // const coverImage= await uploadOnCloudinary(coverImageLocalPath)//issue
-
-    // const shopPictureUrls = [];
-    // if (req.files && Array.isArray(req.files.shopPictures)) {
-    //     for (const shopPicture of req.files.shopPictures) {
-    //         const shopPictureLocalPath = shopPicture.path;
-    //         const shopPictureResult = await uploadOnCloudinary(shopPictureLocalPath);
-    //         shopPictureUrls.push(shopPictureResult.url);
-    //     }
-    // }
 
         // Create new worker
         const worker = await Worker.create({

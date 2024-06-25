@@ -55,6 +55,8 @@ export default function SignUpWorker() {
       occupation: data.get('occupation') // Changed to match the form field name
     };
 
+    console.log(user);
+
     // Validate required fields
     if (!user.fullName || !user.email || !user.password || !user.username || !user.occupation) {
       setError('Please enter all required fields.');
@@ -125,7 +127,7 @@ export default function SignUpWorker() {
                   required
                   fullWidth
                   id="email"
-                  label="Email Address"
+                  label="Email"
                   name="email"
                   autoComplete="email"
                 />
@@ -143,7 +145,7 @@ export default function SignUpWorker() {
               </Grid>
               <Grid item xs={12}>
                 <FormControl fullWidth required>
-                  <InputLabel id="occupation-label">Select your profession</InputLabel>
+                  <InputLabel id="occupation-label">Select your occupation</InputLabel>
                   <Select
                     labelId="occupation-label"
                     id="occupation"
@@ -155,14 +157,11 @@ export default function SignUpWorker() {
                     <MenuItem value="electrician">electrician</MenuItem>
                     <MenuItem value="contractor">contractor</MenuItem>
                     <MenuItem value="painter">painter</MenuItem>
+                    <MenuItem value="carpenter">carpenter</MenuItem>
+                    <MenuItem value="home helper">home helper</MenuItem>
+                    <MenuItem value="labour">labour</MenuItem>
                   </Select>
                 </FormControl>
-              </Grid>
-              <Grid item xs={12}>
-                <FormControlLabel
-                  control={<Checkbox value="allowExtraEmails" color="primary" />}
-                  label="I want to receive inspiration, marketing promotions and updates via email."
-                />
               </Grid>
             </Grid>
             {error && (
