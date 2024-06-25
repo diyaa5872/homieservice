@@ -4,8 +4,11 @@
   "description": "an home service backend website",
   "type": "module",
   "main": "index.js",
+  "engines":{
+    "node": "14.x"
+  },
   "scripts": {
-    "dev": "nodemon -r dotenv/config --experimental-json-modules src/index.js"
+    "dev": "node -r dotenv/config --experimental-json-modules src/index.js"
   },
   "keywords": [
     "javascript",
