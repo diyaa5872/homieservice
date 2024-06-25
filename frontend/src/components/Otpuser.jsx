@@ -17,6 +17,7 @@ export default function Otpuser() {
   const navigate = useNavigate();
   const [email, setEmail] = React.useState('');
   const [otpSent, setOtpSent] = React.useState(false);
+  const [error, setError] = React.useState('');
 
   const sendOtpHandler = (email) => {
     axios.post('http://localhost:8000/api/v1/otps/generatingotp', { email })
@@ -29,19 +30,20 @@ export default function Otpuser() {
       });
   };
 
-  const verifyOtpHandler =async (otp, email) => {
+  const verifyOtpHandler = async (otp, email) => {
     console.log("Verifying OTP:", { otp, email });
-    await axios.post('http://localhost:8000/api/v1/otps/verifyingotp', { otp, email })
-      .then(response => {
-        console.log("OTP verification response:", response.data);
-        navigate('/Useraddress');
-      })
-      .catch(error => {
-        console.error('There was an error verifying the OTP!', error);
-        if (error.response) {
-          console.error("Error response data:", error.response.data);
-        }
-      });
+    try {
+      const response = await axios.post('http://localhost:8000/api/v1/otps/verifyingotp', { otp, email });
+      console.log("OTP verification response:", response.data);
+      navigate('/Useraddress');
+    } catch (error) {
+      console.error('There was an error verifying the OTP!', error);
+      if (error.response && error.response.status === 400) {
+        setError('Incorrect OTP. Please enter correct OTP.');
+      } else {
+        setError('Error verifying OTP. Please try again.');
+      }
+    }
   };
 
   const handleSendOtp = (event) => {
@@ -108,6 +110,11 @@ export default function Otpuser() {
                 id="otp"
                 autoComplete="otp"
               />
+              {error && (
+                <Typography variant="body2" color="error" align="center" gutterBottom>
+                  {error}
+                </Typography>
+              )}
               <Button
                 type="submit"
                 fullWidth

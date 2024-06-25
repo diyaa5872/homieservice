@@ -8,7 +8,7 @@ const bookingSchema = new mongoose.Schema({
         start: { type: String, required: true }, // Start time of the booking
         end: { type: String, required: true } // End time of the booking
     },
-    address: { type: String }, // Address where the service will be provided
+    address: { type: String,required: true }, // Address where the service will be provided
     notes: { type: String }, // Additional notes or instructions for the appointment
     currentstatus: {
         type: String,

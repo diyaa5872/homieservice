@@ -53,6 +53,9 @@ function stringAvatar(name) {
 export default function UserCard({ data }) {
   const navigate = useNavigate();
 
+  const coverImageUrl = data?.coverImage ? `http://localhost:8000/temp/${data.coverImage}` : "";
+  console.log(coverImageUrl);
+
   return (
     <Box
       sx={{

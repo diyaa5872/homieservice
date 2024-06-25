@@ -18,11 +18,16 @@ export default function UserCard({ profession, data }) {
   const handleChat = () => {
     navigate('/chatbox');
   };
+  console.log(data);
+
+  const coverImageUrl = data?.coverImage ? `http://localhost:8000/temp/${data.coverImage}` : "";
+  console.log(coverImageUrl);
 
   return (
     <Box
       sx={{
         width: '100%',
+        margin: '2px',
         position: 'relative',
         overflow: { xs: 'auto', sm: 'initial' },
       }}
@@ -75,8 +80,8 @@ export default function UserCard({ profession, data }) {
       >
         <AspectRatio flex ratio="1" maxHeight={182} sx={{ minWidth: 182 }}>
           <img
-            src={data.coverImage}
-            srcSet={data.coverImage}
+            src={coverImageUrl}
+            srcSet={coverImageUrl}
             loading="lazy"
             alt=""
           />
@@ -116,7 +121,7 @@ export default function UserCard({ profession, data }) {
             <Button variant="outlined" color="neutral" sx={{ backgroundColor: '#BCA37F', color: 'white' }} onClick={handleChat}>
               Chat
             </Button>
-            <Button variant="solid" color="primary" sx={{ backgroundColor: '#BCA37F', color: 'white' }} onClick={handleRequestClick}>
+            <Button variant="solid" color="primary" sx={{ backgroundColor: '#113946', color: 'white' }} onClick={handleRequestClick}>
               Request
             </Button>
           </Box>

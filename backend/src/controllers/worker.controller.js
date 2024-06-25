@@ -461,9 +461,11 @@ const addotherdetails = asyncHandler(async (req, res) => {
     const {workerId}=req.query;
     const { street ,city,state,country,postalCode,contact_no,age,homeVisitFee,description,experienceYears} = req.body;
 
-    if (!street || !city || !state || !country || !postalCode || !contact_no || !age || !homeVisitFee || !description || !experienceYears) {
+    if (!street || !city || !state || !country || !postalCode || !contact_no || !age || !homeVisitFee || !description || !experienceYears || !req.file) {
         throw new ApiError(400, "All the fields are required");
     }
+
+    const coverImage = req.file.filename;
 
     const user = await Worker.findByIdAndUpdate(
         workerId,
@@ -480,7 +482,8 @@ const addotherdetails = asyncHandler(async (req, res) => {
                 age: age,
                 homeVisitFee: homeVisitFee,
                 description: description,
-                experienceYears: experienceYears
+                experienceYears: experienceYears,
+                coverImage: coverImage
             }
         },
         { new: true }

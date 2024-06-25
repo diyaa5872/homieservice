@@ -16,15 +16,10 @@ import { useNavigate } from 'react-router-dom';
 const { localStorage } = window;
 import axios from 'axios';
 
-function Copyright(props) {
+function ErrorMessage({ message }) {
   return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
+    <Typography variant="body2" color="error" align="center" gutterBottom>
+      {message}
     </Typography>
   );
 }
@@ -33,6 +28,7 @@ const defaultTheme = createTheme();
 
 export default function SignUp() {
   const navigate = useNavigate();
+  const [errorMessage, setErrorMessage] = React.useState('');
 
   const handleSignInClick = () => {
     navigate('/Loginuser');
@@ -47,25 +43,31 @@ export default function SignUp() {
       password: data.get('password'),
       username: data.get('username')
     };
-    console.log(user.fullName,user.email,user.username,user.password);
+
+    if (!user.fullName || !user.email || !user.password || !user.username) {
+      setErrorMessage('Fill all required fields');
+      return;
+    }
 
     try {
-      // Send a POST request to the backend
+      // Send a POST request to register the user
       const response = await axios.post('http://localhost:8000/api/v1/users/register', user);
       console.log('Registration successful', response.data);
 
       const userId = response.data.data._id;
-      console.log(userId)
       const setUserno = (userId) => {
         localStorage.setItem('userId', userId);
       };
-      
-      // Call setWorkerno with the obtained _id value
       setUserno(userId);
-      
+
       navigate('/otpuser');
     } catch (error) {
-      console.error('There was an error registering the user!', error);
+      console.error('Error registering the user:', error);
+      if (error.response && error.response.status === 409) {
+        setErrorMessage('Email already registered. Please login.');
+      } else {
+        setErrorMessage('Error registering the user. Please try again.');
+      }
     }
   };
 
@@ -88,6 +90,7 @@ export default function SignUp() {
             Sign up
           </Typography>
           <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
+            {errorMessage && <ErrorMessage message={errorMessage} />}
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <TextField
@@ -150,13 +153,15 @@ export default function SignUp() {
             <Grid container justifyContent="flex-end">
               <Grid item>
                 <p>
-                  Already have an account? <span onClick={handleSignInClick} style={{ color: 'blue', cursor: 'pointer' }}>Login</span>
+                  Already have an account?{' '}
+                  <span onClick={handleSignInClick} style={{ color: 'blue', cursor: 'pointer' }}>
+                    Login
+                  </span>
                 </p>
               </Grid>
             </Grid>
           </Box>
         </Box>
-        <Copyright sx={{ mt: 5 }} />
       </Container>
     </ThemeProvider>
   );

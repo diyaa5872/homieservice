@@ -54,6 +54,7 @@ router.route("/bookingdetails").get(
 );
 
 router.route("/addaddress").put(
+    upload.single('coverImage'),
     addotherdetails
 );
 

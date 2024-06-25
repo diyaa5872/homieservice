@@ -38,6 +38,7 @@ import WorkersByProfession from './components/WorkerByProfession';
 import Workercard from './components/Workercard';
 import Useraddress from './components/Useraddress';
 import Chatbox from './components/Chat';
+import Requestsuser from './components/Requestsuser';
 
 function App(){
   return (
@@ -61,6 +62,7 @@ function App(){
         <Route path='/updatedetails' element={<Updatedetails />} />
         <Route path='/Useraddress' element={<Useraddress />} />
         <Route path='/extradetailsform' element={<Extradetailsform />} />
+        <Route path='/requestsbyuser' element={<Requestsuser />} />
 
         {/* worker routes */}
         <Route path='/otpworker' element={<Otp />} />

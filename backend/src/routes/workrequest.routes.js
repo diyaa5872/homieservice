@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { acceptRequest,cancelRequest,completedRequest } from '../controllers/workrequest.controller.js';
+import { acceptRequest,cancelRequest,completedRequest,findrequests } from '../controllers/workrequest.controller.js';
 
 const router = Router()
 
@@ -12,6 +12,9 @@ router.route('/cancel').delete(
 )
 router.route('/completed').put(
     completedRequest
+)
+router.route('/requestsuser').get(
+    findrequests
 )
 
 export default router;

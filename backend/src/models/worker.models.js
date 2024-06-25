@@ -49,10 +49,12 @@ const workerSchema=new mongoose.Schema({
     },
     coverImage: {
         type: String, //cloudinary url
+        required: true
     },
     occupation: {
         type: String,
         enum: ['plumber','electrician', 'carpenter', 'home maker', 'contractor','painter','wall putty'],
+        required: true
     },
     address_worker: [addressSchema],
     age: {

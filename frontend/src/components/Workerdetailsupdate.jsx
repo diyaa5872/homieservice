@@ -27,8 +27,7 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import axios from 'axios';
 import {useEffect,useState} from "react";
-
-
+import { useNavigate } from 'react-router-dom';
 
 
 const defaultTheme = createTheme();
@@ -79,6 +78,7 @@ const fabGreenStyle = {
 };
 
 export default function Workerdetailsupdate() {
+  const navigate=useNavigate();
   const [date, setData] = useState(null);
   const theme = useTheme();
   const [value, setValue] = React.useState(0);
@@ -111,23 +111,8 @@ export default function Workerdetailsupdate() {
     exit: theme.transitions.duration.leavingScreen,
   };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-      street: data.get('street'),
-      city: data.get('city'),
-      state: data.get('state'),
-      country: data.get('country'),
-      oldPassword: data.get('oldPassword'),
-      newPassword: data.get('newPassword'),
-      oldNumber:data.get('oldNumber'),
-      newNumber: data.get('newNumber'),
-      file1:data.get('file1'),
-      file2:data.get('file2')
-    });
+  const handleSubmit = () => {
+    navigate('/mainworkerpage');
   };
 
   return (
@@ -180,7 +165,7 @@ export default function Workerdetailsupdate() {
           <Typography component="h1" variant="h5">
             Update General Details
           </Typography>
-          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+          <Box component="form"  noValidate sx={{ mt: 1 }}>
             <TextField
               margin="normal"
               required
@@ -194,7 +179,6 @@ export default function Workerdetailsupdate() {
             />
             <TextField
               margin="normal"
-              required
               fullWidth
               value={date? date.fullName : ""}
               name="fullName"
@@ -239,6 +223,7 @@ export default function Workerdetailsupdate() {
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 ,bgcolor:"#113946"}}
+              onClick={handleSubmit}
             >
               Update
             </Button>
@@ -265,7 +250,7 @@ export default function Workerdetailsupdate() {
           <Typography component="h1" variant="h5">
             Add Address
           </Typography>
-          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+          <Box component="form" noValidate sx={{ mt: 1 }}>
             <TextField
               margin="normal"
               required
@@ -317,6 +302,7 @@ export default function Workerdetailsupdate() {
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2,bgcolor:"#113946" }}
+              onClick={handleSubmit}
             >
               ADD Address
             </Button>
@@ -343,7 +329,7 @@ export default function Workerdetailsupdate() {
           <Typography component="h1" variant="h5">
             Change password
           </Typography>
-          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+          <Box component="form"  noValidate sx={{ mt: 1 }}>
             <TextField
               margin="normal"
               required
@@ -370,6 +356,7 @@ export default function Workerdetailsupdate() {
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2,bgcolor:"#113946" }}
+              onClick={handleSubmit}
             >
               Update
             </Button>
@@ -396,7 +383,7 @@ export default function Workerdetailsupdate() {
         <Typography component="h1" variant="h5">
           Update Profile Image
         </Typography>
-        <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 3 }}>
+        <Box component="form" noValidate sx={{ mt: 3 }}>
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <input
@@ -418,6 +405,7 @@ export default function Workerdetailsupdate() {
             fullWidth
             variant="contained"
             sx={{ mt: 3, mb: 2,bgcolor:"#113946" }}
+            onClick={handleSubmit}
           >
             Update Profile Image
           </Button>
@@ -444,7 +432,7 @@ export default function Workerdetailsupdate() {
         <Typography component="h1" variant="h5">
           Update Shop images
         </Typography>
-        <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 3 }}>
+        <Box component="form" noValidate sx={{ mt: 3 }}>
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <input
@@ -461,6 +449,7 @@ export default function Workerdetailsupdate() {
             fullWidth
             variant="contained"
             sx={{ mt: 3, mb: 2 ,bgcolor:"#113946"}}
+            onClick={handleSubmit}
           >
             Add Shop images
           </Button>

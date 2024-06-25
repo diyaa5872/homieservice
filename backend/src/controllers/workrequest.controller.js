@@ -114,9 +114,28 @@ const completedRequest = asyncHandler(async (req, res) => {
     }
 });
 
+const findrequests = asyncHandler(async (req, res) => {
+    try {
+        const { userId } = req.query;
+        const requests = await Request.find({ userId });
+
+        if (!requests || requests.length === 0) {
+            return res.status(404).json({ error: 'Requests not found' });
+        }
+
+        // Calculate total count of requests
+        const totalCount = requests.length;
+
+        res.json({ requests, totalCount });
+    } catch (error) {
+        console.error('Error fetching requests:', error);
+        res.status(500).json({ error: error.message });
+    }
+});
 
 export {
     acceptRequest,
     cancelRequest,
-    completedRequest
+    completedRequest,
+    findrequests
 }

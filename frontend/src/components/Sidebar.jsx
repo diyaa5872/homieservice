@@ -60,6 +60,10 @@ export default function DrawerMobileNavigation() {
     navigate('/unavailable');
     setOpeni(false); // Close the drawer after navigating
   };
+  const requestsbyuser = () => {
+    navigate('/requestsbyuser');
+    setOpeni(false); // Close the drawer after navigating
+  };
 
   return (
     <>
@@ -134,10 +138,10 @@ export default function DrawerMobileNavigation() {
             <ListItemButton sx={{ fontWeight: 'lg' }} onClick={handleNavigateHome}>Home</ListItemButton>
             <ListItemButton onClick={handleNavigateProfile}>Your Profile</ListItemButton>
             <ListItemButton onClick={handleNavigateUnavailable}>About us</ListItemButton>
-            <ListItemButton onClick={handleNavigateUnavailable}>Your Chats</ListItemButton>
-            <ListItemButton onClick={handleNavigateUnavailable}>About workers</ListItemButton>
+            <ListItemButton onClick={requestsbyuser}>Requests</ListItemButton>
+             <ListItemButton onClick={handleNavigateUnavailable}>Your Chats</ListItemButton>
             <ListItemButton onClick={handleNavigateUnavailable}>Mail us</ListItemButton>
-            <ListItemButton onClick={() => setOpen(true)}>Logout</ListItemButton>
+            <ListItemButton onClick={() => setOpen(true)} sx={{color: "#ff0000"}}>Logout</ListItemButton>
           </List>
         </Drawer>
         <Modal open={open} onClose={() => setOpen(false)}>

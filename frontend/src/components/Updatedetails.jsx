@@ -123,47 +123,7 @@ export default function FloatingActionButtonZoom() {
   };
 
   const handleSubmitUserDetails = async (event) => {
-    event.preventDefault();
-    const data = new FormData(event.target);
-    const details= {
-      email: data.get('email'),
-      fullName: data.get('fullName'),
-    }
-      console.log(details);
-
-    // try {
-    //   const response = await axios.put(`http://localhost:8000/api/v1/users/updateemail`, {
-    //     details
-    //   });
       navigate('/mainpage');
-
-    // } catch (error) {
-    //   console.error('Error updating user details:', error);
-    // }
-  };
-  
-  const handleSubmitAddress = async (event) => {
-    event.preventDefault();
-    const formdata = new FormData(event.target);
-    const address={
-      street: formdata.get('street'),
-      city: formdata.get('city'),
-      state: formdata.get('state'),
-      country: formdata.get('country'),
-      postalCode: formdata.get('postalCode'),
-    }
-
-    try {
-      const response = await axios.put(`http://localhost:8000/api/v1/users/addanotheraddress`, {
-        address
-        // Add other fields as needed
-      });
-      console.log(response.data);
-      // Handle success response
-    } catch (error) {
-      console.error('Error adding address:', error);
-      // Handle error
-    }
   };
 
   return (
@@ -321,7 +281,7 @@ export default function FloatingActionButtonZoom() {
             />
             <Button
               type="submit"
-              onClick={handleSubmitAddress}
+              onClick={handleSubmitUserDetails}
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 ,bgcolor:'#113946'}}

@@ -12,28 +12,12 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { useParams } from 'react-router-dom';
-
-function Copyright(props) {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
-
-// TODO remove, this demo shouldn't need to reset the theme.
 
 const defaultTheme = createTheme();
 
 export default function Useraddress() {
-  
   const navigate = useNavigate();
+  const [error, setError] = React.useState('');
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -45,6 +29,14 @@ export default function Useraddress() {
       country: data.get('country') || "",
       postalCode: data.get('postalCode') || ""
     };
+
+    // Check if any required fields are empty
+    for (const key of Object.keys(address_user)) {
+      if (!address_user[key]) {
+        setError('Please fill all the required fields.');
+        return;
+      }
+    }
 
     console.log(address_user);
 
@@ -81,6 +73,11 @@ export default function Useraddress() {
           <Typography component="h1" variant="h5">
             Add Work Address
           </Typography>
+          {error && (
+            <Typography variant="body2" color="error" align="center" sx={{ mt: 2 }}>
+              {error}
+            </Typography>
+          )}
           <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
               <Grid item xs={12}>
@@ -145,7 +142,6 @@ export default function Useraddress() {
             </Button>
           </Box>
         </Box>
-        <Copyright sx={{ mt: 5 }} />
       </Container>
     </ThemeProvider>
   );

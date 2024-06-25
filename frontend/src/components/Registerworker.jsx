@@ -38,10 +38,11 @@ const defaultTheme = createTheme();
 
 export default function SignUpWorker() {
   const navigate = useNavigate();
+  const [error, setError] = React.useState('');
 
-  const loginhandle=()=>{
+  const loginhandle = () => {
     navigate('/loginworker');
-  }
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -53,25 +54,27 @@ export default function SignUpWorker() {
       username: data.get('username'),
       occupation: data.get('occupation') // Changed to match the form field name
     };
-    console.log(user.fullName, user.email, user.username, user.password, user.occupation); // Included occupation in console.log
+
+    // Validate required fields
+    if (!user.fullName || !user.email || !user.password || !user.username || !user.occupation) {
+      setError('Please enter all required fields.');
+      return;
+    }
 
     try {
-      // Send a POST request to the backend
       const response = await axios.post('http://localhost:8000/api/v1/workers/register', user);
-      console.log('Registration successful', response.data);
 
       const workerno = response.data.data._id;
-      const setWorkerno = (workerno) => {
-        localStorage.setItem('workerno', workerno);
-      };
-      setWorkerno(workerno);
-
-      console.log(workerno);
-
-
+      localStorage.setItem('workerno', workerno);
       navigate('/otpworker');
+
     } catch (error) {
-      console.error('There was an error registering the user!', error);
+      if (error.response && error.response.status === 409 && error.response.data.message === 'Email already exists') {
+        setError('Email already registered. Please login.');
+      } else {
+        setError('Please try again or try to Login if already a user.');
+        console.error('Error registering user:', error);
+      }
     }
   };
 
@@ -162,6 +165,11 @@ export default function SignUpWorker() {
                 />
               </Grid>
             </Grid>
+            {error && (
+              <Typography color="error" align="center" variant="subtitle2" sx={{ mt: 1 }}>
+                {error}
+              </Typography>
+            )}
             <Button
               type="submit"
               fullWidth

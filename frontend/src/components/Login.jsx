@@ -15,25 +15,19 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-function Copyright(props) {
+function ErrorMessage({ message }) {
   return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
+    <Typography variant="body2" color="error" align="center" gutterBottom>
+      {message}
     </Typography>
   );
 }
-
-// TODO remove, this demo shouldn't need to reset the theme.
 
 const defaultTheme = createTheme();
 
 export default function SignIn() {
   const navigate = useNavigate();
+  const [errorMessage, setErrorMessage] = React.useState('');
 
   const handleSignUpClick = () => {
     navigate('/Registeruser');
@@ -45,30 +39,36 @@ export default function SignIn() {
     const email = formData.get('email');
     const password = formData.get('password');
 
-    console.log(email,password);
-  
+    if (!email || !password) {
+      setErrorMessage('Fill all required fields');
+      return;
+    }
+
     try {
       const response = await axios.post('http://localhost:8000/api/v1/users/login', {
         email,
         password
       });
-  
+
       console.log(response.data); // Handle the response data as needed
-      const userId=response.data.data.user._id;
+      const userId = response.data.data.user._id;
       const setUserno = (userId) => {
         localStorage.setItem('userId', userId);
       };
-      
-      // Call setWorkerno with the obtained _id value
+
       setUserno(userId);
       console.log(userId);
 
-      navigate('/mainpage')
+      navigate('/mainpage');
     } catch (error) {
       console.error('Error signing in:', error);
+      if (error.response && error.response.status === 404) {
+        setErrorMessage('Please register');
+      } else {
+        setErrorMessage('Error signing in. Please try again.');
+      }
     }
   };
-  
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -89,7 +89,10 @@ export default function SignIn() {
             Sign in
           </Typography>
           <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+            {errorMessage && <ErrorMessage message={errorMessage} />}
             <TextField
+              error={errorMessage === 'Fill all required fields'}
+              helperText={errorMessage === 'Fill all required fields' ? 'Required' : ''}
               margin="normal"
               required
               fullWidth
@@ -100,6 +103,8 @@ export default function SignIn() {
               autoFocus
             />
             <TextField
+              error={errorMessage === 'Fill all required fields'}
+              helperText={errorMessage === 'Fill all required fields' ? 'Required' : ''}
               margin="normal"
               required
               fullWidth
@@ -129,13 +134,15 @@ export default function SignIn() {
               </Grid>
               <Grid item>
                 <p>
-                Don't have an account? <span onClick={handleSignUpClick} style={{ color: 'blue', cursor: 'pointer' }}>Sign Up</span>
+                  Don't have an account?{' '}
+                  <span onClick={handleSignUpClick} style={{ color: 'blue', cursor: 'pointer' }}>
+                    Sign Up
+                  </span>
                 </p>
               </Grid>
             </Grid>
           </Box>
         </Box>
-        <Copyright sx={{ mt: 8, mb: 4 }} />
       </Container>
     </ThemeProvider>
   );

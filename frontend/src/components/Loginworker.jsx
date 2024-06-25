@@ -28,17 +28,15 @@ function Copyright(props) {
   );
 }
 
-// TODO remove, this demo shouldn't need to reset the theme.
-
 const defaultTheme = createTheme();
 
 export default function SignInworker() {
   const navigate = useNavigate();
+  const [error, setError] = React.useState('');
 
   const handleSignUpClick = () => {
     navigate('/registerworker');
   };
-  
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -46,8 +44,12 @@ export default function SignInworker() {
     const email = formData.get('email');
     const password = formData.get('password');
 
-    console.log(email,password);
-  
+    // Basic validation to check if required fields are filled
+    if (!email || !password) {
+      setError('Please fill in all required fields.');
+      return;
+    }
+
     try {
       const response = await axios.post('http://localhost:8000/api/v1/workers/login', {
         email,
@@ -57,19 +59,17 @@ export default function SignInworker() {
       console.log(response.data); // Handle the response data as needed
 
       const workerId = response.data.data.user._id;
-      const setWorkerno = (workerId) => {
-        localStorage.setItem('workerno', workerId);
-      };
-      setWorkerno(workerId);
-
-      console.log(workerId);
-
+      localStorage.setItem('workerno', workerId);
       navigate('/mainworkerpage');
     } catch (error) {
-      console.error('Error signing in:', error);
+      if (error.response && error.response.status === 404 && error.response.data.message === 'User not found') {
+        setError('Email not registered. Please register.');
+      } else {
+        setError('Error... Please try again later.');
+        console.error('Error signing in:', error);
+      }
     }
   };
-  
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -114,6 +114,11 @@ export default function SignInworker() {
               control={<Checkbox value="remember" color="primary" />}
               label="Remember me"
             />
+            {error && (
+              <Typography color="error" align="center" variant="subtitle2" sx={{ mt: 1 }}>
+                {error}
+              </Typography>
+            )}
             <Button
               type="submit"
               fullWidth
@@ -130,7 +135,10 @@ export default function SignInworker() {
               </Grid>
               <Grid item>
                 <p>
-                Don't have an account? <span onClick={handleSignUpClick} style={{ color: 'blue', cursor: 'pointer' }}>Sign Up</span>
+                  Don't have an account?{' '}
+                  <span onClick={handleSignUpClick} style={{ color: 'blue', cursor: 'pointer' }}>
+                    Sign Up
+                  </span>
                 </p>
               </Grid>
             </Grid>

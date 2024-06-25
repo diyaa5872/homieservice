@@ -31,11 +31,18 @@ export default function DateValidationDisablePast() {
   const [selectedDate, setSelectedDate] = React.useState(today);
   const [startTime, setStartTime] = React.useState(todayStartOfTheDay);
   const [endTime, setEndTime] = React.useState(todayStartOfTheDay);
+  const [addressError, setAddressError] = React.useState(false); // State to track address validation
   const { id } = useParams();
   const userId = localStorage.getItem('userId');
   const navigate = useNavigate(); // Initialize navigate using useNavigate hook
 
   const handleClick = async () => {
+    if (!address || !address.street || !address.city || !address.state || !address.country) {
+      setAddressError(true); // Set address error if any field is empty
+      return;
+    }
+    setAddressError(false); // Reset address error
+
     setOpen(true);
     logUserData();
 
@@ -166,6 +173,8 @@ export default function DateValidationDisablePast() {
                   ...params.inputProps,
                   autoComplete: 'new-password', // disable autocomplete and autofill
                 }}
+                error={addressError} // Display error if address is not filled
+                helperText={addressError ? 'Address is required' : ''}
               />
             )}
             onChange={(event, value) => setAddress(value)}
