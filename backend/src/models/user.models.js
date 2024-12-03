@@ -72,12 +72,12 @@ userSchema.methods.isPasswordCorrect = async function(password){//can add more o
 }
 
 userSchema.methods.generateAccessToken = function(){
-    return jwt.sign(
+    return jwt.sign(//jwt tokens for authenticationa nd authorisation
         {
             _id: this._id,
             email: this.email,
             username: this.username,
-            fullName: this.fullName
+            fullName: this.fullName// nameof the payload is fullName and the key from mongodb is this.fullName
         },
         process.env.ACCESS_TOKEN_SECRET,
         {
