@@ -24,10 +24,10 @@ io.on("connection", (socket) => {
     })
 });
 
-app.use(express.json({limit: "16kb"}))
-app.use(express.urlencoded({extended: true, limit: "16kb"}))
-app.use(express.static("public"))
-app.use(cookieParser())
+app.use(express.json({limit: "16kb"}))//makes the data in json format and makes the parsed data available in req.body.
+app.use(express.urlencoded({extended: true, limit: "16kb"}))//makes the data available in req.body as an object 
+app.use(express.static("public"))//serves static files from public directory
+app.use(cookieParser())//available in req.cookies as an object.
 
 
 //routes import
